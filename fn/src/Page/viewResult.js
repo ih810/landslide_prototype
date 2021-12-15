@@ -19,6 +19,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  Rectangle,
   ResponsiveContainer,
 } from "recharts";
 import { Grid, Paper } from "@mui/material";
@@ -118,19 +119,18 @@ export default function ViewResult() {
           <Grid item xs={5}>
             <Grid container>
               <Grid item xs={6}>
-                <button onClick={getCsv}>fuck</button>
                 <div>
                   <Paper>
                     <p>X Coord</p>
-                    <p>{coord ? coord.click[0].toFixed() : "N/A"}</p>
+                    <p>{coord ? coord.click[0].toFixed() : <br/>}</p>
                     <p>Y Coord</p>
-                    <p>{coord ? coord.click[1].toFixed() : "N/A"}</p>
+                    <p>{coord ? coord.click[1].toFixed() :  <br/>}</p>
                   </Paper>
                 </div>
                 <div>
                   <Paper>
-                    <p>Sus!</p>
-                    <p>{coord ? `${targetCoordSus}%` : "N/A"}</p>
+                    <p>Landslide Susceptibility</p>
+                    <p>{coord ? `${targetCoordSus}%` :  <br/>}</p>
                   </Paper>
                 </div>
               </Grid>
@@ -158,7 +158,7 @@ export default function ViewResult() {
                       <Tooltip />
                       <Legend />
                       <CartesianGrid />
-                      <Bar dataKey="Susceptibility Range" fill="#8884d8" />
+                      <Bar dataKey="Susceptibility Range" barSize={25} fill="#5E9AC7" shape={<Rectangle radius={10} />}/>
                     </BarChart>
                   </ResponsiveContainer>
                 </Paper>

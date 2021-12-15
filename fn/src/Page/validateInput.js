@@ -1,11 +1,14 @@
 import React, { useState }from "react";
 
+//Open layers
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
 
+//MUI assets
 import { Button, Grid, Paper } from "@mui/material";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
+//Component
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
 
@@ -24,6 +27,8 @@ export default function ValidateInput() {
   const [streetMap, setStreetMap] = useState(false);
   const [terrain, setTerrain] = useState(false);
   const [satelite, setSatelite] = useState(false);
+
+  //declare layer source
   const viewLayer = new GeoTIFF({
     sources: [
       {
@@ -139,19 +144,14 @@ export default function ValidateInput() {
 
   const handleClick = (e, item) => {
     if (item === "Landslide Location") {
-      //red
       setLandSlideLocation(!landSlideLocation);
     } else if (item === "Elevation Model") {
-      //orange
       setElevationModel(!elevationModel);
     } else if (item === "Street Map") {
-      //yellow
       setStreetMap(!streetMap);
     } else if (item === "Terrain") {
-      //green
       setTerrain(!terrain);
     } else if (item === "Satelite") {
-      //purple
       setSatelite(!satelite);
     }
   };
@@ -160,7 +160,7 @@ export default function ValidateInput() {
   return (
     <>
       <Grid container sx={{ ml: 9, mr: 9 }}>
-        <StepNavBtn title="Validate Input" next="/viewresults"  noForward={true}/>
+        <StepNavBtn title="Validate Input" next="/viewresults" noForward={true}/>
         <Grid item xs={10} sx={{ ml: 6 }}>
           <Paper
             sx={{

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+//image assets
 import desPic from "../assets/desPic.png";
 import arup from "../assets/Arup_Red_RGB.png";
 import logo from "../assets/real_icon.png";
@@ -19,7 +21,6 @@ export default function Login() {
   return (
     <div className="m-5 pl-5 pr-5">
       <div className="row pb-3">
-        {/* top bar */}
         <div className="col col-sm-8">
           <div className="row">
             <div className="p-2">
@@ -54,7 +55,6 @@ export default function Login() {
         </div>
       </div>
       <div className="row">
-        {/* login box */}
         <div className="col col-sm-4 pr-5">
           <div className="pt-4">
             <p>

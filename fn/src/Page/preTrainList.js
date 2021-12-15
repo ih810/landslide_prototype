@@ -1,7 +1,9 @@
 import React,{ useState } from "react";
 
+//MUI assets
 import { Grid, Paper } from "@mui/material";
 
+//Component
 import StepNavBtn from "../Component/stepNavBtn";
 import VirtualizedList from "../Component/virtualizedList"; 
 import CircleChart from "../Component/circleChrat";
@@ -9,6 +11,8 @@ import CircleChart from "../Component/circleChrat";
 const fillRed={fill:'#76DCD6'}
 const fillBlue={fill:'#9daba9'}
 const fillGreen={fill:'#db74d4'}
+
+//Dummy data
 const modelInfo = [
     {id:1, default:'A',name:'A1', data:[{value:20, name:'dataA', ...fillRed}, {value:30, name:'dataB', ...fillBlue}, {value:50, name:'dataC', ...fillGreen}]},
     {id:2, default:'B',name:'B2', data:[{value:24, name:'dataA', ...fillRed}, {value:30, name:'dataB', ...fillBlue}, {value:50, name:'dataC', ...fillGreen}]},

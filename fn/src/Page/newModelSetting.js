@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
+//MUI assets
 import { Grid, Paper } from "@mui/material";
 
+//Component
 import StepNavBtn from "../Component/stepNavBtn";
 import CircleChart from "../Component/circleChrat";
 

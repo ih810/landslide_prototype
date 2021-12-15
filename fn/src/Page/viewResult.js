@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 
+//assets
 import Prediction_LandslideCoordinates from "../assets/PredictionResults/Prediction_LandslideCoordinates.csv";
 
+//Component
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
-
 import readCSV from "../Component/readCSV";
 import queryTiff from "../Component/queryTiff";
 
+//Open Layers
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
-import {
-  ComposedChart,
-  Bar,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Rectangle,
-  ResponsiveContainer,
-} from "recharts";
+
+//Rechart
+import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle, ResponsiveContainer } from "recharts";
+
+//MUI assets
 import { Grid, Paper, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -70,22 +65,26 @@ const layersGroup = [
     }),
   }),
 ];
+
 export default function ViewResult() {
   const [coord, setCoord] = useState();
   const [susCsv, setSusCsv] = useState();
   const [susFrequencyMap, setSusFrequencyMap] = useState([]);
   const [targetCoordSus, setTargetCoordSus] = useState([]);
 
+  //update sus data when coordinate change
   useEffect(() => {
-    getSusCount();
+    //prevent undefined
+    if (!coord) return 
     getCsv();
+    getSusCount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coord]);
 
   const getSusCount = async () => {
-    if (coord) {
       let susCount = await queryTiff(coord);
       let barChartSusCount = [];
+      //format data for rechart
       for (let item in susCount["countMap"]) {
         if (item !== "len") {
           barChartSusCount.push({
@@ -95,13 +94,12 @@ export default function ViewResult() {
         }
       }
       setSusFrequencyMap(barChartSusCount);
+      //clicked coord sus
       setTargetCoordSus((susCount["pxSus"][0] * 100).toFixed(4));
-    }
   };
 
   const getCsv = async () => {
-    let predictionCsv = await readCSV(Prediction_LandslideCoordinates, coord);
-    setSusCsv(predictionCsv);
+    setSusCsv(await readCSV(Prediction_LandslideCoordinates, coord));
   };
 
   return (
@@ -216,6 +214,7 @@ export default function ViewResult() {
                           type="monotone"
                           dataKey="Susceptibility Range"
                           stroke="#00E6FF"
+                          dot={{r:0}}
                         />
                         <Bar
                           dataKey="Susceptibility Range"

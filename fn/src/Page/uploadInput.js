@@ -1,7 +1,12 @@
 import React, { useRef } from "react";
+
+//MUI assets
 import { Grid, Paper, Icon, Button } from "@mui/material";
+
+//Component
 import StepNavBtn from "../Component/stepNavBtn";
 
+//Dummy data
 const dummyFileName = [
   "HKI_landsileProject_MAY_idkwtimtyping_123.tiff",
   "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
@@ -33,6 +38,7 @@ const dummyFileName2 = [
   "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
   "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
 ];
+
 export default function UploadInput() {
   const hiddenModelInput = useRef();
   const hiddenOptModelInput = useRef();

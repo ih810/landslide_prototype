@@ -7,7 +7,6 @@ const ThemeListItem = withStyles({
         width: 280,
         backgroundColor: "#353a82",
         borderRadius: "10px",
-        color: "white",
         "& .MuiListItemIcon-root": {
           color: "#00d9a6",
         },

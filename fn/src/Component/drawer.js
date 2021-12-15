@@ -15,10 +15,12 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 //custom mui item
 import ThemeListItem from './drawer.ThemeList';
 
+import { useLocation } from "react-router-dom";
+
 export default function TemporaryDrawer() {
   const [drawer, setDrawer] = useState(false);
-
-
+  const location = useLocation();
+  
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -56,12 +58,22 @@ export default function TemporaryDrawer() {
         <Divider sx={{ bgcolor: "#FFFFFF" }} />
         <List>
           {[
-            { text: "Configuration", icon: <SettingsIcon /> },
-            { text: "Upload", icon: <UploadIcon /> },
-            { text: "Validate", icon: <InputIcon /> },
-            { text: "Visualise", icon: <PageviewIcon /> },
+            { text: "Configuration", icon: <SettingsIcon />, pathname:['/trainnewmodel','/pretrainmodel'] , },
+            { text: "Upload", icon: <UploadIcon />, pathname:['/uploadFiles'], },
+            { text: "Validate", icon: <InputIcon />, pathname:['/validateInput'], },
+            { text: "Visualise", icon: <PageviewIcon />, pathname:['/viewResults'], },
           ].map((text, i) => (
             <Box key={i}>
+                {text.pathname.includes(location.pathname)?
+              <ListItem button sx={{ ml:2, backgroundColor: "#353a82", borderRadius: "10px", width: 280}}>
+                  <ListItemIcon sx={{ color: "#00d9a6" }}>
+                    {text.icon}
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: "#00d9a6" }}>
+                    <Typography variant="h6" >{text.text}</Typography>
+                  </ListItemText>
+              </ListItem>
+                :
               <ListItem button sx={{ pt: 2 }}>
                 <ThemeListItem>
                   <ListItemIcon sx={{ color: "#919191" }}>
@@ -72,6 +84,7 @@ export default function TemporaryDrawer() {
                   </ListItemText>
                 </ThemeListItem>
               </ListItem>
+                }
             </Box>
           ))}
         </List>

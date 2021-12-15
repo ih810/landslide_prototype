@@ -18,23 +18,20 @@ export default function readCSV (path, viewPort) {
 }
 
 const processCSV = (str, viewPort, delim=',') => {
-    //seperate header and rows
     const headers = str.slice(0,str.indexOf('\n')).split(delim);
     const rows = str.slice(str.indexOf('\n')+1).split('\n');
-
-    //filter items outside the viewport
-    const newArray = rows.filter( row => {
-        const values = row.split(delim);
-        const eachObject = headers.reduce((obj, header, i) => {
-            obj[header] = values[i];
-            return obj;
-        }, {})
-        let eachObjectX = parseInt(eachObject['x']);
-        let eachObjectY = parseInt(eachObject['y']);
-        return eachObjectX > viewPort.extent[0] && eachObjectY > viewPort.extent[1] && eachObjectX < viewPort.extent[2] && eachObjectY < viewPort.extent[3];
-
-    })
-    console.log('CSVArray',newArray)
-    return newArray
+    if(viewPort!==undefined){
+        const tifArr = rows.map( (row,i) => {
+            const values = row.split(delim);
+            const eachObject = headers.reduce((obj, header, i) => {
+                obj[header] = values[i];
+                return obj;
+            }, {})
+            eachObject['id'] = i
+            return eachObject
+        })
+        
+        return tifArr
+    }
 
 }

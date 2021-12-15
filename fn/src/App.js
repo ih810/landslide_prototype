@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 
 //Fixed component
-import Navbar from "./navBar";
+import Navbar from "./Component/navBar";
 import Login from "./Page/login";
-import Drawer from "./drawer";
+import Drawer from "./Component/drawer";
 
 //Component
 import viewresults from "./Page/viewResult";

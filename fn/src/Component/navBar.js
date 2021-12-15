@@ -1,9 +1,9 @@
 import React from "react";
 
 //logo
-import logo from "./assets/real_icon (2).png";
-import profile from "./assets/dummy.png";
-import arup from "./assets/Arup_Red_RGB.png";
+import logo from "../assets/real_icon (2).png";
+import profile from "../assets/dummy.png";
+import arup from "../assets/Arup_Red_RGB.png";
 
 export default function NavBar(props) {
 

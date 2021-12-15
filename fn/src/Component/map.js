@@ -24,7 +24,7 @@ export default function MapViewTest(props) {
   let coordGroup;
 
   //define resolution
-  let layerRes = [32, 16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
+  let layerRes = [16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
 
   useEffect(() => {
     initiateMap();

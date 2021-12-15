@@ -10,7 +10,6 @@ import queryTiff from "../Component/queryTiff";
 
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
-
 import {
   BarChart,
   Bar,
@@ -23,9 +22,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Grid, Paper } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
 
 require("dotenv").config();
-
+const columns = [
+  { field: 'x', headerName: 'X', width: 100 },
+  { field: 'y', headerName: 'Y', width: 100 },
+  { field: 'sus', headerName: 'sus', width: 170 },
+];
 const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
   folder: "home",
@@ -117,8 +121,8 @@ export default function ViewResult() {
             </Paper>
           </Grid>
           <Grid item xs={5}>
-            <Grid container>
-              <Grid item xs={3}>
+            <Grid container className="d-flex justify-content-between">
+              <Grid item xs={4} className="pl-4 pr-4">
                 <div>
                   <Paper sx={{ borderRadius: "8px", boxShadow: 3 }}>
                     <p>X Coord</p>
@@ -135,10 +139,23 @@ export default function ViewResult() {
                 </div>
               </Grid>
               <Grid item xs={8}>
-                <div>csv</div>
+                <Paper>
+                  <div style={{width:'100%', height:'350px'}}>
+                    {susCsv?
+                    <DataGrid
+                      rows={susCsv}
+                      columns={columns}
+                      pageSize={10}
+                      rowsPerPageOptions={[5]}
+                      checkboxSelection
+                    />:
+                    null
+                    }
+                  </div>
+                </Paper>
               </Grid>
             </Grid>
-            <Grid container>
+            <Grid container sx={{pl:3, pt:3}}>
               <Grid item xs={12}>
                 <Paper sx={{ width: "100%", height: "500px", borderRadius: "8px", boxShadow: 3  }}>
                   <div style={{width: "100%", height: "100%" }}>

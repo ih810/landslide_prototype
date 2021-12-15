@@ -11,8 +11,10 @@ import queryTiff from "../Component/queryTiff";
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
 import {
-  BarChart,
+  ComposedChart,
   Bar,
+  Line,
+  LineChart,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -21,7 +23,7 @@ import {
   Rectangle,
   ResponsiveContainer,
 } from "recharts";
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Button } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 
 require("dotenv").config();
@@ -102,14 +104,29 @@ export default function ViewResult() {
     let predictionCsv = await readCSV(Prediction_LandslideCoordinates, coord);
     setSusCsv(predictionCsv);
   };
-
+  const dataSeries = (d) => {
+    console.log('lmaod')
+    let series = [];
+    console.log(d)
+    // dKeys = Object.keys(d[0]);
+    // for (const dkey of dKeys) {
+    //     const color = cGen.next().value;
+    //     if (dkey !== 'xName') {
+    //         series.push(<Bar dataKey={dkey} stackId="a" opacity='0.8' fill={color}/>);
+    //         series.push(
+    //             <Line type="linear" dataKey={dkey} stroke={color} activeDot={{ r: 8 }} legendType='none' hide={false}/>
+    //          );
+    //     }
+    // }
+    // return series;
+};
   return (
     <>
       <Grid container sx={{ ml: 9, mr: 9 }}>
         <StepNavBtn title={"Review Results"} noForward={true} />
-        <Grid container sx={{ ml: 3 }}>
+        <Grid container sx={{ ml:5 ,mt:4 }}>
           <Grid item xs={7}>
-            <Paper className="p-4 h-100" sx={{ borderRadius: "10px", boxShadow: 3 }}>
+            <Paper className="p-4 h-100" sx={{ borderRadius: "15px", boxShadow: 3 }}>
               <h3 className="p-3" style={{ fontWeight: 650 }}>
                 SUSCEPTIBILITY MAP
               </h3>
@@ -124,30 +141,33 @@ export default function ViewResult() {
             <Grid container className="d-flex justify-content-between">
               <Grid item xs={4} className="pl-4 pr-4">
                 <div>
-                  <Paper sx={{ borderRadius: "8px", boxShadow: 3 }}>
-                    <p>X Coord</p>
-                    <p>{coord ? coord.click[0].toFixed() : <br/>}</p>
-                    <p>Y Coord</p>
-                    <p>{coord ? coord.click[1].toFixed() :  <br/>}</p>
+                  <Paper sx={{ borderRadius: "10px", boxShadow: 3, height:'200px'}}>
+                    <div className="p-4 text-truncate">
+                      <h5> X coordinate</h5>
+                      <h5>{coord ? coord.click[0].toFixed(2) : <br/>}</h5>
+                      <h5> Y coordinate</h5>
+                      <h5>{coord ? coord.click[1].toFixed(2) :  <br/>}</h5>
+                    </div>
                   </Paper>
                 </div>
                 <div>
-                  <Paper sx={{ borderRadius: "8px", boxShadow: 3 }}>
-                    <p>Landslide Susceptibility</p>
-                    <p>{coord ? `${targetCoordSus}%` :  <br/>}</p>
+                  <Paper sx={{ borderRadius: "10px", boxShadow: 3, mt:3}}>
+                    <div className="p-4 text-truncate">
+                      <h5 className="text-truncate">Landslide Susceptibility</h5>
+                      <h5>{coord ? `${targetCoordSus}%` :  <br/>}</h5>
+                    </div>
                   </Paper>
                 </div>
               </Grid>
               <Grid item xs={8}>
-                <Paper>
-                  <div style={{width:'100%', height:'350px'}}>
+                <Paper sx={{ borderRadius: "10px", boxShadow: 3 }}>
+                  <div style={{width:'100%', height:'400px'}}>
                     {susCsv?
                     <DataGrid
                       rows={susCsv}
                       columns={columns}
                       pageSize={10}
-                      rowsPerPageOptions={[5]}
-                      checkboxSelection
+                      rowsPerPageOptions={[10]}
                     />:
                     null
                     }
@@ -157,12 +177,19 @@ export default function ViewResult() {
             </Grid>
             <Grid container sx={{pl:3, pt:3}}>
               <Grid item xs={12}>
-                <Paper sx={{ width: "100%", height: "500px", borderRadius: "8px", boxShadow: 3  }}>
+                <Paper sx={{ width: "100%", height:'400px', borderRadius: "10px", boxShadow: 3  }}>
                   <div style={{width: "100%", height: "100%" }}>
-                    <h3 className="pt-3" style={{ fontWeight: 650 }}>INTERACTIVE STATISTICS</h3>
-                        <p>Landslide Susceptibility</p>
+                    <div className="d-flex justify-content-between">
+                      <div className="pt-4 pl-4">
+                        <h4 style={{ fontWeight: 650 }}>INTERACTIVE STATISTICS</h4>
+                          <p style={{ color:'#A5A5A5' }}>Landslide Susceptibility</p>
+                      </div>
+                      <div className="pr-5 pt-4" >
+                        <Button variant="contained">Download CSV</Button>
+                      </div>
+                    </div>
                       <ResponsiveContainer width="100%" height="80%">
-                        <BarChart
+                        <ComposedChart
                           data={susFrequencyMap}
                           width={500}
                           height={300}
@@ -178,8 +205,10 @@ export default function ViewResult() {
                           <Tooltip />
                           <Legend />
                           <CartesianGrid />
+                          <dataSeries/>
+                          <Line type="monotone" dataKey="Susceptibility Range" stroke="#00E6FF" />
                           <Bar dataKey="Susceptibility Range" barSize={25} fill="#5E9AC7" shape={<Rectangle radius={10} />}/>
-                        </BarChart>
+                        </ComposedChart>
                       </ResponsiveContainer>
                   </div>
                 </Paper>

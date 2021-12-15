@@ -30,7 +30,7 @@ const processCSV = (str, viewPort, delim=',') => {
             eachObject['id'] = i
             return eachObject
         })
-        
+        console.log('?')
         return tifArr
     }
 

@@ -13,15 +13,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* 
-.sidebar {
-  background-color: rgba(153, 165, 177, 0.9);
-  color: #fff;
-  font-family: monospace;
-  z-index: 1;
-  border-radius: 4px;
-} */
-
 
 button{
   background: 'none';
@@ -31,4 +22,8 @@ button{
 	font: 'inherit';
 	cursor: 'pointer';
 	outline: 'inherit';
+}
+
+p, h1, h2, h3, h4, h5, h6{
+  text-overflow: ellipsis;
 }

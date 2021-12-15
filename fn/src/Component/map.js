@@ -61,7 +61,7 @@ export default function MapViewTest(props) {
       }
 
       //handle click event
-      initMap.on("singleclick", function (e) {
+      initMap.on("click", function (e) {
         e.preventDefault();
         if(props.setCoord){
           

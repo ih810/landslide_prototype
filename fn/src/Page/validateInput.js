@@ -159,9 +159,9 @@ export default function ValidateInput() {
 
   return (
     <>
-      <Grid container sx={{ ml: 9, mr: 9 }}>
+      <Grid container className="d-flex justify-content-between" sx={{ ml: 9, mr: 9, mb:4}}>
         <StepNavBtn title="Validate Input" next="/viewresults" noForward={true}/>
-        <Grid item xs={10} sx={{ ml: 6 }}>
+        <Grid item xs={10} sx={{ ml: 4 }}>
           <Paper
             sx={{
               m: 1,
@@ -204,10 +204,12 @@ export default function ValidateInput() {
             </div>
           </Paper>
         </Grid>
+        <Grid item xs={1} className="d-flex justify-content-end align-self-end" >
+          <div>
+            <Button variant="contained" ><p className="pl-4 pr-4 m-0">Run</p></Button>
+          </div>
+        </Grid>
       </Grid>
-      <div className="ml-5">
-        <Button variant="contained">Run Project</Button>
-      </div>
     </>
   );
 }

@@ -40,11 +40,11 @@ export default function HomePage() {
   
   return (
     <>
-      {admin?<Grid container spacing={1} sx={{ ml:15, mt:1, mb:4}}>
+      {admin?<Grid container spacing={1} sx={{ ml:15, mt:1, mb:4, mr:5}}>
         {data.map((d, i)=>{
           return (
-          <Grid key={i} item xs={3}>
-            <Card sx={{ maxWidth: 350, maxHeight:100, boxShadow:3 }}>
+          <Grid key={i} item md={12} lg={3}>
+            <Card sx={{ maxWidth: '100%', maxHeight:100, boxShadow:3 }}>
               <CardContent sx={{padding:0}}>
                 <Grid container>
                   <Grid item xs={3} sx={flexTheme}>
@@ -69,7 +69,7 @@ export default function HomePage() {
           )
         })
         }
-        <Grid item xs={3} sx={flexTheme}>
+        <Grid item md={12} lg={3} sx={flexTheme}>
           <Box>
             <Button variant="contained" sx={{pl:5, pr:5, fontSize:18}} onClick={flip}>Generate Reports</Button>
           </Box>

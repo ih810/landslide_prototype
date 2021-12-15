@@ -25,6 +25,7 @@ export default async function queryTiff(coord) {
       const rasterSus = await tifFile.readRasters({
         bbox: coord.extent,
       });
+      console.log('extent', coord.extent)
       //read clicked px
       const pxSus = await tifFile.readRasters({
         bbox: [clickcorX, clickcorY, clickcorX + 20, clickcorY + 20],

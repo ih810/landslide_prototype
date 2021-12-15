@@ -1,6 +1,6 @@
-export default function readCSV (path) {
+export default function readCSV (path, viewPort) {
     return new Promise ((resolve)=>{
-        console.log('load new csv')
+        console.log('load new csv', path, viewPort)
         var request = new XMLHttpRequest();
             request.open('GET', path, true);
             console.log('load dcsv')
@@ -10,27 +10,29 @@ export default function readCSV (path) {
                 console.log('read dcsv')
                 reader.readAsText(request.response);
                 reader.onload =  function(e){
-                    console.log(e.target.result)
-                    resolve(processCSV(e.target.result))
+                    resolve(processCSV(e.target.result, viewPort))
                 };
             };
         request.send();
     })
 }
 
-const processCSV = (str, delim=',') => {
+const processCSV = (str, viewPort, delim=',') => {
+    //seperate header and rows
     const headers = str.slice(0,str.indexOf('\n')).split(delim);
-    console.log('head', headers)
     const rows = str.slice(str.indexOf('\n')+1).split('\n');
-    console.log('row', rows)
 
-    const newArray = rows.map( row => {
+    //filter items outside the viewport
+    const newArray = rows.filter( row => {
         const values = row.split(delim);
         const eachObject = headers.reduce((obj, header, i) => {
             obj[header] = values[i];
             return obj;
         }, {})
-        return eachObject;
+        let eachObjectX = parseInt(eachObject['x']);
+        let eachObjectY = parseInt(eachObject['y']);
+        return eachObjectX > viewPort.extent[0] && eachObjectY > viewPort.extent[1] && eachObjectX < viewPort.extent[2] && eachObjectY < viewPort.extent[3];
+
     })
     console.log('CSVArray',newArray)
     return newArray

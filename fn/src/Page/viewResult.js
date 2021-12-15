@@ -72,7 +72,7 @@ export default function ViewResult() {
   const [targetCoordSus, setTargetCoordSus] = useState([]);
 
   useEffect(() => {
-    getSusCount(coord);
+    getSusCount();
     getCsv();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coord]);
@@ -95,7 +95,7 @@ export default function ViewResult() {
   };
 
   const getCsv = async () => {
-    let predictionCsv = await readCSV(Prediction_LandslideCoordinates);
+    let predictionCsv = await readCSV(Prediction_LandslideCoordinates, coord);
     setSusCsv(predictionCsv);
   };
 
@@ -105,7 +105,7 @@ export default function ViewResult() {
         <StepNavBtn title={"Review Results"} noForward={true} />
         <Grid container sx={{ ml: 3 }}>
           <Grid item xs={7}>
-            <Paper className="p-4" sx={{ borderRadius: "10px", boxShadow: 3 }}>
+            <Paper className="p-4 h-100" sx={{ borderRadius: "10px", boxShadow: 3 }}>
               <h3 className="p-3" style={{ fontWeight: 650 }}>
                 SUSCEPTIBILITY MAP
               </h3>
@@ -118,9 +118,9 @@ export default function ViewResult() {
           </Grid>
           <Grid item xs={5}>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={3}>
                 <div>
-                  <Paper>
+                  <Paper sx={{ borderRadius: "8px", boxShadow: 3 }}>
                     <p>X Coord</p>
                     <p>{coord ? coord.click[0].toFixed() : <br/>}</p>
                     <p>Y Coord</p>
@@ -128,39 +128,43 @@ export default function ViewResult() {
                   </Paper>
                 </div>
                 <div>
-                  <Paper>
+                  <Paper sx={{ borderRadius: "8px", boxShadow: 3 }}>
                     <p>Landslide Susceptibility</p>
                     <p>{coord ? `${targetCoordSus}%` :  <br/>}</p>
                   </Paper>
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={8}>
                 <div>csv</div>
               </Grid>
             </Grid>
             <Grid container>
               <Grid item xs={12}>
-                <Paper sx={{ width: "100%", height: "400px" }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={susFrequencyMap}
-                      width={500}
-                      height={300}
-                      margin={{
-                        top: 50,
-                        right: 40,
-                        left: 0,
-                        bottom: 20,
-                      }}
-                    >
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <CartesianGrid />
-                      <Bar dataKey="Susceptibility Range" barSize={25} fill="#5E9AC7" shape={<Rectangle radius={10} />}/>
-                    </BarChart>
-                  </ResponsiveContainer>
+                <Paper sx={{ width: "100%", height: "500px", borderRadius: "8px", boxShadow: 3  }}>
+                  <div style={{width: "100%", height: "100%" }}>
+                    <h3 className="pt-3" style={{ fontWeight: 650 }}>INTERACTIVE STATISTICS</h3>
+                        <p>Landslide Susceptibility</p>
+                      <ResponsiveContainer width="100%" height="80%">
+                        <BarChart
+                          data={susFrequencyMap}
+                          width={500}
+                          height={300}
+                          margin={{
+                            top: 50,
+                            right: 40,
+                            left: 0,
+                            bottom: 30,
+                          }}
+                        >
+                          <XAxis dataKey="name" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <CartesianGrid />
+                          <Bar dataKey="Susceptibility Range" barSize={25} fill="#5E9AC7" shape={<Rectangle radius={10} />}/>
+                        </BarChart>
+                      </ResponsiveContainer>
+                  </div>
                 </Paper>
               </Grid>
             </Grid>

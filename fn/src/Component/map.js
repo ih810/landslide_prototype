@@ -89,7 +89,7 @@ export default function MapViewTest(props) {
         ref={olmap}
         id="map"
         className="map p-3"
-        style={{ width: "100%", height: "640px" }}
+        style={{ width: "100%", height: "700px" }}
       ></div>
     </>
   );

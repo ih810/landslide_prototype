@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+//MUI assets
 import { Box, Paper, Button, Divider, Typography, Grid } from "@mui/material";
 
 export default function NewProjectModal() {

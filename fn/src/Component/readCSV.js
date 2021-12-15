@@ -32,7 +32,7 @@ const processCSV = (str, delim=',') => {
         }, {})
         return eachObject;
     })
-    console.log(newArray)
+    console.log('CSVArray',newArray)
     return newArray
 
 }

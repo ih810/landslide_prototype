@@ -7,17 +7,17 @@ import {
 
 //Fixed component
 import Navbar from "./navBar";
-import Login from "./Login/login";
+import Login from "./Page/login";
 import Drawer from "./drawer";
 
 //Component
-import viewresults from "./ViewResult/viewResult";
-import HomePage from "./HomePage/homePage";
-import NewProject from "./NewProject/newProject";
-import NewModelSetting from "./NewModelSetting/newModelSetting";
-import UploadInput from "./UploadInput/uploadInput";
-import ValidateInput from "./ValidateInput/validateInput";
-import PreTrainList from "./PreTrainModel/preTrainList";
+import viewresults from "./Page/viewResult";
+import HomePage from "./Page/homePage";
+import NewProject from "./Page/newProject";
+import NewModelSetting from "./Page/newModelSetting";
+import UploadInput from "./Page/uploadInput";
+import ValidateInput from "./Page/validateInput";
+import PreTrainList from "./Page/preTrainList";
 
 export default function App(props) {
 

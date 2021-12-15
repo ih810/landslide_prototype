@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //component
-import Table from "./table";
+import Table from "../Component/table";
 
 //icon assets
 import runningpj from '../assets/runpj.png'

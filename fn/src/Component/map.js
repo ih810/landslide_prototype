@@ -8,7 +8,6 @@ import TileLayer from "ol/layer/WebGLTile";
 
 //proj4
 import proj4 from "proj4";
-import { register } from "ol/proj/proj4";
 
 //environment variable
 require("dotenv").config();

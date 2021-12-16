@@ -56,9 +56,8 @@ export default function NewModelSetting() {
 
   return (
     <>
-      <Grid container sx={{ ml: 9, mr: 9 }}>
         <StepNavBtn title="Train New Model" next="/validateInput"/>
-        <Grid container>
+        <Grid container sx={{ ml: 9, mr: 9 }}>
           <Grid item xs={8} sx={{ pb: 3, pr: 3 }}>
             <Grid container sx={gridSpacing} className="sampling-container">
               <Grid item xs={8} sx={{pl:5, pr:5}} className="sampling-input ">
@@ -156,7 +155,6 @@ export default function NewModelSetting() {
             </Paper>
           </Grid>
         </Grid>
-      </Grid>
     </>
   );
 }

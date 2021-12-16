@@ -104,8 +104,8 @@ export default function ViewResult() {
 
   return (
     <>
-      <Grid container sx={{ ml: 9, mr: 9 }}>
         <StepNavBtn title={"Review Results"} noForward={true} />
+      <Grid container sx={{ ml: 9, mr: 9 }}>
         <Grid container sx={{ ml: 5, mt: 4 }}>
           <Grid item lg={7} md={12} className="pb-5">
             <Paper
@@ -132,6 +132,7 @@ export default function ViewResult() {
                       <p className="text-secondary">
                         {coord ? coord.click[0].toFixed(2) : <br />}
                       </p>
+                      <hr/>
                       <p> Y coordinate</p>
                       <p className="text-secondary">
                         {coord ? coord.click[1].toFixed(2) : <br />}

@@ -45,9 +45,8 @@ export default function PreTrainList() {
     }
     return (
         <>
-        <Grid container sx={{ ml: 9, mr: 9 }} >
             <StepNavBtn title="Pre-Train Model" next="/uploadFiles"/>
-            <Grid container sx={{ ml: 9, mr: 9, mt:5 }} spacing={3}>
+            <Grid container sx={{ ml: 9, mr: 9, mt:1 }} spacing={3}>
                 <Grid item xs={6}> 
                     <Paper sx={{ m:1, width:'100%', boxShadow: 3, bgcolor:'#393939', color:'#FFF' }}>
                         <div className="pt-4 pl-5 pb-4">
@@ -69,7 +68,6 @@ export default function PreTrainList() {
                 </Grid>
                 </Grid>
             </Grid>
-        </Grid>
         </>
     );
 }

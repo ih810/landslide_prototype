@@ -59,7 +59,6 @@ export default function UploadInput() {
 
   return (
     <>
-      <Grid container sx={{ ml: 9, mr: 9 }}>
         <StepNavBtn title="Pre-Train Model" next="/validateInput" />
         <Grid
           container
@@ -218,7 +217,6 @@ export default function UploadInput() {
             }
           )}
         </Grid>
-      </Grid>
     </>
   );
 }

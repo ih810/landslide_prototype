@@ -105,9 +105,9 @@ export default function ViewResult() {
   return (
     <>
         <StepNavBtn title={"Review Results"} noForward={true} />
-      <Grid container sx={{ ml: 9, mr: 9 }}>
+      <Grid container sx={{ ml: 9, mr: 6, width:'100%' }}>
         <Grid container sx={{ ml: 5, mt: 4 }}>
-          <Grid item lg={7} md={12} className="pb-5">
+          <Grid item lg={7} md={12} xs={12} className="pb-5">
             <Paper
               className="p-4 h-100"
               sx={{ borderRadius: "15px", boxShadow: 2 }}
@@ -122,9 +122,9 @@ export default function ViewResult() {
               />
             </Paper>
           </Grid>
-          <Grid item lg={5} md={12}>
+          <Grid item lg={5} md={12} xs={12}>
             <Grid container className="d-flex justify-content-between">
-              <Grid item lg={4} md={4} className="pl-4 pr-4">
+              <Grid item lg={4} md={4} xs={4} className="pl-4 pr-4">
                 <div>
                   <Paper sx={{ borderRadius: "10px", boxShadow: 2}}>
                     <div className="p-4 text-truncate font-weight-bold">
@@ -154,7 +154,7 @@ export default function ViewResult() {
                   </Paper>
                 </div>
               </Grid>
-              <Grid item lg={8} md={8}>
+              <Grid item lg={8} md={8} xs={8}>
                 <Paper sx={{ borderRadius: "10px", boxShadow: 2, height:'100%'}}>
                   <div style={{ width: "100%", height: "100%" }}>
                     {susCsv ? (
@@ -170,7 +170,7 @@ export default function ViewResult() {
               </Grid>
             </Grid>
             <Grid container sx={{ pl: 3, pt: 5 }}>
-              <Grid item lg={12} md={12}>
+              <Grid item lg={12} md={12} xs={12}>
                 <Paper
                   sx={{
                     width: "100%",

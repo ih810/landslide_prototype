@@ -180,6 +180,7 @@ export default function ValidateInput() {
               <OlMap 
               layersGroup={layersGroup} 
               viewLayer={viewLayer}
+              height={'700px'}
               />
               <div className="pt-4">
                 <FormGroup>

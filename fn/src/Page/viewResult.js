@@ -119,6 +119,7 @@ export default function ViewResult() {
                 viewLayer={viewLayer}
                 layersGroup={layersGroup}
                 setCoord={setCoord}
+                height={'700px'}
               />
             </Paper>
           </Grid>

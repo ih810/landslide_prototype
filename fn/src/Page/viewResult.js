@@ -6,8 +6,8 @@ import Prediction_LandslideCoordinates from "../assets/PredictionResults/Predict
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
-import readCSV from "../Component/readCSV";
-import queryTiff from "../Component/queryTiff";
+import readCSV from "../util/readCSV";
+import queryTiff from "../util/queryTiff";
 
 //Open Layers
 import { GeoTIFF } from "ol/source";

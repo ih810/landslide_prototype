@@ -55,7 +55,7 @@ export default function ViewPerformance() {
     <>
       <StepNavBtn title="Review Performance" next="/viewresults" />
       <Grid container sx={{ ml: 14, mr: 9, mb: 4 }}>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <Paper
             className="p-4 h-80"
             sx={{ borderRadius: "15px", boxShadow: 2 }}
@@ -66,8 +66,8 @@ export default function ViewPerformance() {
               height={"500px"}
             />
           </Paper>
-          <Grid container sx={{ pt: 3 }}>
-            <Grid item xs={8}>
+          <Grid container sx={{ pt: 3 }} className="d-flex justify-content-between">
+            <Grid item xs={8} sx={{ pr:1 }}>
                 <img
                   src={TrainProgress}
                   alt="train_progres"
@@ -83,7 +83,9 @@ export default function ViewPerformance() {
                 />
             </Grid>
             <Grid item xs={4}>
-              prog
+              <Paper>
+                  uga
+              </Paper>
             </Grid>
           </Grid>
         </Grid>

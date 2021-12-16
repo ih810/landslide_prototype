@@ -76,15 +76,14 @@ export default function ViewPerformance() {
 
   useEffect(() => {
     handleModelStat();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const handleModelStat = async () => {
     setModelAccuracy(
       (parseFloat(await readTxt(modelAccuracytxt)) * 100).toFixed(2)
     );
-
     processPerformanceGroup(await readCSV(precisionRecallF1));
     processConfusionGroup(await readCSV(confusionMatrixCsv));
   };
@@ -297,14 +296,14 @@ export default function ViewPerformance() {
                       <img
                         src={dummyRect}
                         alt="elevation"
-                        style={{ maxWidth: "100%", borderRadius:'10px' }}
+                        style={{ maxWidth: "100%", maxHeight:'100%', borderRadius:'10px' }}
                       />
                     </div>
                     <div className="col col-lg-6 col-md-12 p-3">
                       <img
                         src={dummyRect}
                         alt="aspect"
-                        style={{ maxWidth: "100%", borderRadius:'10px' }}
+                        style={{ maxWidth: "100%", maxHeight:'100%', borderRadius:'10px' }}
                       />
                     </div>
                   </div>
@@ -312,15 +311,13 @@ export default function ViewPerformance() {
               })}
               <Grid container sx={{ pl:4, pb:4 }}>
                   <Grid item lg={4} xs={12}>
-                      <div>
-                        X Coordinate: {coord.click? coord.click[0].toFixed(2):null}
-                      </div>
+                        <p>X Coordinate: {coord? coord.click[0].toFixed(2):null}</p>
                   </Grid>
                   <Grid item lg={4} xs={12}>
-                        Y Coordinate: {coord.click? coord.click[1].toFixed(2):null}
+                        <p>Y Coordinate: {coord? coord.click[1].toFixed(2):null}</p>
                   </Grid>
                   <Grid item lg={4} xs={12}>
-                        XXXXXXXXXXXX
+                        <p>XXXXXXXXXXXX</p>
                   </Grid>
               </Grid>
           </Paper>

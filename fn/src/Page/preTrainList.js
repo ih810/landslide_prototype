@@ -8,7 +8,7 @@ import StepNavBtn from "../Component/stepNavBtn";
 import VirtualizedList from "../Component/virtualizedList";
 import CircleChart from "../Component/circleChrat";
 
-import dummymap from '../assets/dumbmymap.png'
+import dummymap from "../assets/dumbmymap.png";
 
 const fillRed = { fill: "#76DCD6" };
 const fillBlue = { fill: "#9daba9" };
@@ -114,12 +114,25 @@ export default function PreTrainList() {
   return (
     <>
       <StepNavBtn title="Pre-Train Model" next="/uploadFiles" />
-      <Grid container sx={{ ml: 9, mr: 9, mt: 1 }} spacing={3}>
+      <Grid container sx={{ ml: 9, mr: 4, mt: 1 }} spacing={3}>
         {modelInfo.map((model) => {
           return (
             <Grid item xs={3}>
-              <Paper>
-                <p>fuck</p>
+              <Paper sx={{ borderRadius: "10px", boxShadow: 2, height: "auto" }}>
+                <img
+                  src={dummymap}
+                  alt="dafaq"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    borderRadius: "10px",
+                    padding: '32px',
+                  }}
+                />
+                <div className="pb-2 pl-4 pr-4 d-flex justify-content-between">
+                  <p>Location Name: {model.name}</p>
+                  <p>Percentage: {model.default}</p>
+                </div>
               </Paper>
             </Grid>
           );

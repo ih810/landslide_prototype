@@ -72,6 +72,7 @@ export default function ViewPerformance() {
   const [modelPerformance, setModelPerformance] = useState();
   const [confusionMatrix, setConfusionMatrix] = useState();
   const [metricSelection, setMetricSelection] = useState(true);
+  const [coord, setCoord] = useState()
 
   useEffect(() => {
     handleModelStat();
@@ -122,6 +123,8 @@ export default function ViewPerformance() {
   const handleSwitch = (e) => {
     setMetricSelection(!metricSelection);
   };
+
+  
   return (
     <>
       <StepNavBtn title="Review Performance" next="/viewresults" />
@@ -135,6 +138,7 @@ export default function ViewPerformance() {
             <OlMap
               viewLayer={viewLayer}
               layersGroup={layersGroup}
+              setCoord={setCoord}
               height={"500px"}
             />
           </Paper>
@@ -288,24 +292,37 @@ export default function ViewPerformance() {
                 "image_3",
               ].map(() => {
                 return (
-                  <div className="row">
-                    <div className="col col-lg-6 col-md-12 pl-4 pr-4 pt-3">
+                  <div className="row pl-3 pr-3">
+                    <div className="col col-lg-6 col-md-12 p-3">
                       <img
                         src={dummyRect}
                         alt="elevation"
-                        style={{ maxWidth: "100%", borderRadius:'10px'}}
+                        style={{ maxWidth: "100%", borderRadius:'10px' }}
                       />
                     </div>
-                    <div className="col col-lg-6 col-md-12 pl-4 pr-4 pt-3">
+                    <div className="col col-lg-6 col-md-12 p-3">
                       <img
                         src={dummyRect}
                         alt="aspect"
-                        style={{ maxWidth: "100%", borderRadius:'10px'}}
+                        style={{ maxWidth: "100%", borderRadius:'10px' }}
                       />
                     </div>
                   </div>
                 );
               })}
+              <Grid container sx={{ pl:4, pb:4 }}>
+                  <Grid item lg={4} xs={12}>
+                      <div>
+                        X Coordinate: {coord.click? coord.click[0].toFixed(2):null}
+                      </div>
+                  </Grid>
+                  <Grid item lg={4} xs={12}>
+                        Y Coordinate: {coord.click? coord.click[1].toFixed(2):null}
+                  </Grid>
+                  <Grid item lg={4} xs={12}>
+                        XXXXXXXXXXXX
+                  </Grid>
+              </Grid>
           </Paper>
         </Grid>
       </Grid>

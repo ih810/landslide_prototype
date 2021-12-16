@@ -77,7 +77,6 @@ export default function OlMapView(props) {
             extent: extents,
             click: clickCoordinate
           }
-          
           props.setCoord(coordGroup)
         }
       });

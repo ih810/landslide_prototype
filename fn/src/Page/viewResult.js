@@ -99,7 +99,12 @@ export default function ViewResult() {
   };
 
   const getCsv = async () => {
-    setSusCsv(await readCSV(Prediction_LandslideCoordinates, coord));
+    const unCleanedSusCsv = await readCSV(Prediction_LandslideCoordinates, coord);
+    const cleanSusCsv = unCleanedSusCsv.filter((row)=>{
+      return row['sus'] !== undefined
+    })
+    console.log(cleanSusCsv)
+    setSusCsv(cleanSusCsv);
   };
 
   return (

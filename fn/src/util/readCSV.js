@@ -1,6 +1,5 @@
-export default function readCSV (path, viewPort) {
+export default function readCSV (path) {
     return new Promise ((resolve)=>{
-        console.log('load new csv', path, viewPort)
         var request = new XMLHttpRequest();
             request.open('GET', path, true);
             console.log('load dcsv')
@@ -10,17 +9,16 @@ export default function readCSV (path, viewPort) {
                 console.log('read dcsv')
                 reader.readAsText(request.response);
                 reader.onload =  function(e){
-                    resolve(processCSV(e.target.result, viewPort))
+                    resolve(processCSV(e.target.result))
                 };
             };
         request.send();
     })
 }
 
-const processCSV = (str, viewPort, delim=',') => {
+const processCSV = (str, delim=',') => {
     const headers = str.slice(0,str.indexOf('\n')).split(delim);
     const rows = str.slice(str.indexOf('\n')+1).split('\n');
-    if(viewPort!==undefined){
         const tifArr = rows.map( (row,i) => {
             const values = row.split(delim);
             const eachObject = headers.reduce((obj, header, i) => {
@@ -30,8 +28,5 @@ const processCSV = (str, viewPort, delim=',') => {
             eachObject['id'] = i
             return eachObject
         })
-        console.log('?')
         return tifArr
-    }
-
 }

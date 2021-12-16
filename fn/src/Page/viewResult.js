@@ -78,6 +78,7 @@ export default function ViewResult() {
     if (!coord) return 
     getCsv();
     getSusCount();
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coord]);
 
@@ -94,6 +95,7 @@ export default function ViewResult() {
         }
       }
       setSusFrequencyMap(barChartSusCount);
+
       //clicked coord sus
       setTargetCoordSus((susCount["pxSus"][0] * 100).toFixed(4));
   };

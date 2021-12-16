@@ -6,12 +6,12 @@ import trainProgress from "../assets/Visualizations/TrainProgress.png";
 import modelAccuracytxt from "../assets/Visualizations/Accuracy.txt";
 import precisionRecallF1 from "../assets/Visualizations/PrecisionRecallFscore.csv";
 import confusionMatrixCsv from "../assets/Visualizations/ConfusionMatrix.csv";
+import dummyRect from '../assets/high-resolution-black-background-08.jpg'
 
 import readTxt from "../util/readTxt";
 import readCSV from "../util/readCSV";
 
 import {
-  Button,
   Grid,
   Paper,
   Switch,
@@ -19,6 +19,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
+  TableContainer,
   TableRow,
 } from "@mui/material";
 
@@ -74,6 +75,8 @@ export default function ViewPerformance() {
 
   useEffect(() => {
     handleModelStat();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleModelStat = async () => {
@@ -81,8 +84,8 @@ export default function ViewPerformance() {
       (parseFloat(await readTxt(modelAccuracytxt)) * 100).toFixed(2)
     );
 
-    processPerformanceGroup(await readCSV(precisionRecallF1))
-    processConfusionGroup(await readCSV(confusionMatrixCsv))
+    processPerformanceGroup(await readCSV(precisionRecallF1));
+    processConfusionGroup(await readCSV(confusionMatrixCsv));
   };
 
   const processPerformanceGroup = async (performanceCsvArr) => {
@@ -98,23 +101,23 @@ export default function ViewPerformance() {
         return row;
       });
     setModelPerformance(modelPerformanceGroup);
-  }
+  };
 
   const processConfusionGroup = (confusionCsvArr) => {
     const confusionGroup = confusionCsvArr
-    .filter((row) => row[""] !== "")
-    .map((row)=>{
+      .filter((row) => row[""] !== "")
+      .map((row) => {
         row[""] = row[""]
-        .split("_")
-        .join(' ')
-        .split(/(?=[A-Z])/)
-        .join(' ')
-        console.log(row)
-        return row
-    })
+          .split("_")
+          .join(" ")
+          .split(/(?=[A-Z])/)
+          .join(" ");
+        console.log(row);
+        return row;
+      });
 
-    setConfusionMatrix(confusionGroup)
-  }
+    setConfusionMatrix(confusionGroup);
+  };
 
   const handleSwitch = (e) => {
     setMetricSelection(!metricSelection);
@@ -122,13 +125,13 @@ export default function ViewPerformance() {
   return (
     <>
       <StepNavBtn title="Review Performance" next="/viewresults" />
-      <Grid container sx={{ ml: 14, mr: 9, mb: 4, mt: 4 }}>
-        <Grid item xs={7}>
+      <Grid container sx={{ m:3, ml: 14 }}>
+        <Grid item md={5} xs={12} >
           <Paper
             className="p-4 h-80"
             sx={{ borderRadius: "15px", boxShadow: 2 }}
           >
-            <h3>SUSCEPTIBILITY MAP</h3>
+            <h3 style={{fontWeight: 650}}>SUSCEPTIBILITY MAP</h3>
             <OlMap
               viewLayer={viewLayer}
               layersGroup={layersGroup}
@@ -149,17 +152,14 @@ export default function ViewPerformance() {
                   src={trainProgress}
                   alt="train_progres"
                   style={{
-                    maxHeight: "100%",
+                    paddingTop: "24px",
                     maxWidth: "100%",
-                    width: "auto",
-                    height: "auto",
-                    objectFit: "cover",
                     borderRadius: "10px",
                   }}
                 />
               </Paper>
             </Grid>
-            <Grid item lg={5} md={12} xs={12} sx={{ pb: 1 }}>
+            <Grid item lg={5} md={12} sm={12} sx={{ pb: 1 }}>
               <Paper
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
@@ -168,104 +168,145 @@ export default function ViewPerformance() {
                     <h4>Model Performance</h4>
                     <p>Accuracy: {modelAccuracy}%</p>
                   </div>
-                  <div>
+                  <div className="pt-3 pr-3">
                     <Switch
                       checked={metricSelection}
                       onChange={handleSwitch}
                     ></Switch>
                   </div>
                 </div>
+                <TableContainer sx={{ maxHeight: 440 }}>
                 <Table aria-label="simple table">
-                    {metricSelection?
+                  {metricSelection ? (
                     <>
-                        <TableHead>
-                            <TableRow>
-                            <TableCell>Metrics</TableCell>
-                            <TableCell align="right">Landslide</TableCell>
-                            <TableCell align="right">Not Landslide</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {modelPerformance
-                                ? modelPerformance.map((row, i) => (
-                                    <TableRow
-                                        key={i}
-                                        sx={{
-                                        "&:last-child td, &:last-child th": { border: 0 },
-                                        }}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                        {row[""]}
-                                        </TableCell>
-                                        {row[""] === "Support" ? (
-                                        <>
-                                            <TableCell align="right">
-                                            {row["Landslide"]}
-                                            </TableCell>
-                                            <TableCell align="right">
-                                            {row["NotLandslide"]}
-                                            </TableCell>
-                                        </>
-                                        ) : (
-                                        <>
-                                            <TableCell align="right">
-                                            {row["Landslide"]}%
-                                            </TableCell>
-                                            <TableCell align="right">
-                                            {row["NotLandslide"]}%
-                                            </TableCell>
-                                        </>
-                                        )}
-                                    </TableRow>
-                                    ))
-                                : 
-                                null
-                            }
-                        </TableBody>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Metrics</TableCell>
+                          <TableCell align="right">Landslide</TableCell>
+                          <TableCell align="right">Not Landslide</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {modelPerformance
+                          ? modelPerformance.map((row, i) => (
+                              <TableRow
+                                key={i}
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell component="th" scope="row">
+                                  {row[""]}
+                                </TableCell>
+                                {row[""] === "Support" ? (
+                                  <>
+                                    <TableCell align="right">
+                                      {row["Landslide"]}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                      {row["NotLandslide"]}
+                                    </TableCell>
+                                  </>
+                                ) : (
+                                  <>
+                                    <TableCell align="right">
+                                      {row["Landslide"]}%
+                                    </TableCell>
+                                    <TableCell align="right">
+                                      {row["NotLandslide"]}%
+                                    </TableCell>
+                                  </>
+                                )}
+                              </TableRow>
+                            ))
+                          : null}
+                      </TableBody>
                     </>
-                    :
+                  ) : (
                     <>
-                    <TableHead>
-                            <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell align="right">Positive Prediction</TableCell>
-                            <TableCell align="right">Negative Prediction</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {confusionMatrix
-                                ? confusionMatrix.map((row, i) => (
-                                    <TableRow
-                                        key={i}
-                                        sx={{
-                                        "&:last-child td, &:last-child th": { border: 0 },
-                                        }}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                        {row[""]}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                        {row["Landslide_pred"]}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                        {row["NotLandslide_pred"]}
-                                        </TableCell>
-                                    </TableRow>
-                                    ))
-                                : 
-                                null
-                            }
-                        </TableBody>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell></TableCell>
+                          <TableCell align="right">
+                            Landslide Prediction
+                          </TableCell>
+                          <TableCell align="right">
+                            No Landslide Prediction
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {confusionMatrix
+                          ? confusionMatrix.map((row, i) => (
+                              <TableRow
+                                key={i}
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell component="th" scope="row">
+                                  {row[""]}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row["Landslide_pred"]}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row["NotLandslide_pred"]}
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          : null}
+                      </TableBody>
                     </>
-                    }
-                  
+                  )}
                 </Table>
+                </TableContainer>
               </Paper>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={5}>
-          diu ngo
+        <Grid item md={7} sm={12} sx={{ pl:4, pb:1}}>
+          <Paper sx={{ borderRadius: "10px", boxShadow: 2, height: "auto" }}>
+            <div className="pl-3 pt-3">
+                <h3 style={{fontWeight: 650}}>PREDICTION REVIEW</h3>
+                <div className="row">
+                    <div className="col col-6">
+                        <p>Elevation</p>
+                    </div>
+                    <div className="col col-6">
+                        <p>Aspect</p>
+                    </div>
+                </div>
+            </div>
+              {[
+                "image_1",
+                "image_2",
+                "image_3",
+              ].map(() => {
+                return (
+                  <div className="row">
+                    <div className="col col-lg-6 col-md-12 pl-4 pr-4 pt-3">
+                      <img
+                        src={dummyRect}
+                        alt="elevation"
+                        style={{ maxWidth: "100%", borderRadius:'10px'}}
+                      />
+                    </div>
+                    <div className="col col-lg-6 col-md-12 pl-4 pr-4 pt-3">
+                      <img
+                        src={dummyRect}
+                        alt="aspect"
+                        style={{ maxWidth: "100%", borderRadius:'10px'}}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+          </Paper>
         </Grid>
       </Grid>
     </>

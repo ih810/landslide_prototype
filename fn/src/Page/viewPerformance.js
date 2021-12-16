@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StepNavBtn from "../Component/stepNavBtn";
 import { Button, Grid, Paper } from "@mui/material";
 import OlMap from "../Component/map";
 
-import TrainProgress from "../assets/Visualizations/TrainProgress.png";
+import trainProgress from "../assets/Visualizations/TrainProgress.png";
+import accuracy from "../assets/Visualizations/Accuracy.txt";
+
+import readTxt from '../util/readTxt'
 
 //Open Layers
 import { GeoTIFF } from "ol/source";
@@ -51,15 +54,20 @@ const layersGroup = [
   }),
 ];
 export default function ViewPerformance() {
+
+    useEffect(()=>{
+        readTxt(accuracy)
+    })
   return (
     <>
       <StepNavBtn title="Review Performance" next="/viewresults" />
       <Grid container sx={{ ml: 14, mr: 9, mb: 4 }}>
-        <Grid item xs={6}>
+        <Grid item xs={7}>
           <Paper
             className="p-4 h-80"
             sx={{ borderRadius: "15px", boxShadow: 2 }}
           >
+            <h3>SUSCEPTIBILITY MAP</h3>
             <OlMap
               viewLayer={viewLayer}
               layersGroup={layersGroup}
@@ -69,7 +77,7 @@ export default function ViewPerformance() {
           <Grid container sx={{ pt: 3 }} className="d-flex justify-content-between">
             <Grid item xs={8} sx={{ pr:1 }}>
                 <img
-                  src={TrainProgress}
+                  src={trainProgress}
                   alt="train_progres"
                   style={{
                     maxHeight: "100%",
@@ -84,12 +92,12 @@ export default function ViewPerformance() {
             </Grid>
             <Grid item xs={4}>
               <Paper>
-                  uga
+                  uhga
               </Paper>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           diu ngo
         </Grid>
       </Grid>

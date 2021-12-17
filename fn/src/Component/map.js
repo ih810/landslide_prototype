@@ -70,7 +70,7 @@ export default function OlMapView(props) {
 
           let neExtent = proj4("EPSG:3857", "EPSG:2326", [e.frameState.extent[0],e.frameState.extent[1]]);
           let swExtent = proj4("EPSG:3857", "EPSG:2326", [e.frameState.extent[2],e.frameState.extent[3]]);
-
+          //combine extent
           let extents = neExtent.concat(swExtent)
 
           coordGroup = {
@@ -82,6 +82,7 @@ export default function OlMapView(props) {
       });
     }
   };
+
   return (
     <>
       <div

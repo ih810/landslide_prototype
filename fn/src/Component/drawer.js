@@ -21,6 +21,7 @@ export default function TemporaryDrawer() {
   const [drawer, setDrawer] = useState(false);
   const location = useLocation();
   
+  //toggle render function
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -32,6 +33,7 @@ export default function TemporaryDrawer() {
     setDrawer(!drawer);
   };
 
+  //content of drawer
   const list = (anchor) => (
     <Box
       sx={{
@@ -96,7 +98,8 @@ export default function TemporaryDrawer() {
       </Box>
     </Box>
   );
-
+  
+  //default render static side bar 
   return (
     <>
       <Box

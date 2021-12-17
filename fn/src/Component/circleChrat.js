@@ -3,7 +3,6 @@ import React from 'react';
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function CircleChart(props) {
-    console.log(props)
     return (
         <ResponsiveContainer width="100%" height="100%">
             <PieChart>

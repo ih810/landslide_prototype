@@ -32,6 +32,5 @@ project_name = 'HongKongLiDAR2011_DEMO'
 demo_service = parentDir.get_share_client('data/'+project_name+'/Output/PredictionResults')
 demo_list = demo_service.list_directories_and_files()
 
-print(demo_service)
 for item in demo_list:
     print(item)

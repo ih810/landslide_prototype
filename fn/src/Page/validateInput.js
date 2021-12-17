@@ -160,8 +160,8 @@ export default function ValidateInput() {
   return (
     <>
         <StepNavBtn title="Validate Input" next="/viewresults" noForward={true}/>
-      <Grid container className="d-flex justify-content-between" sx={{ ml: 13, mr: 9, mb:4}}>
-        <Grid item xs={11}>
+      <Grid container className="d-flex justify-content-between" sx={{ ml: 13, mr: 5, mb:4}}>
+        <Grid item xs={12}>
           <Paper
             sx={{
               m: 1,
@@ -182,7 +182,7 @@ export default function ValidateInput() {
               viewLayer={viewLayer}
               height={'700px'}
               />
-              <div className="pt-4">
+              <div className="pt-4 d-flex flex-column justify-content-between">
                 <FormGroup>
                   {formGroupItems.map((item, index) => {
                     return (
@@ -201,14 +201,12 @@ export default function ValidateInput() {
                     );
                   })}
                 </FormGroup>
+                <div>
+                  <Button variant="contained" className="pl-5 pr-5 ml-2 mb-4">Run</Button>
+                </div>
               </div>
             </div>
           </Paper>
-        </Grid>
-        <Grid item xs={1} className="d-flex justify-content-end align-self-end" >
-          <div>
-            <Button variant="contained" ><p className="pl-4 pr-4 m-0">Run</p></Button>
-          </div>
         </Grid>
       </Grid>
     </>

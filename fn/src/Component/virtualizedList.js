@@ -8,7 +8,7 @@ import { FixedSizeList } from 'react-window';
 
 export default function VirtualizedList(props) {
   let itemsArr=[];
-  function renderRow(windowEle) {
+  const renderRow = (windowEle) => {
     const { index, style } = windowEle;
     const id = itemsArr[index]["id"]
     return (

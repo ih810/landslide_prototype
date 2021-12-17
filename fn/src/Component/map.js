@@ -55,7 +55,7 @@ export default function OlMapView(props) {
         });
       }
 
-      //remove static surplus
+      //remove static surplus from rerender
       if (olmap.current.childNodes.length > 1) {
         olmap.current.removeChild(olmap.current.childNodes[0]);
       }

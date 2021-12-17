@@ -1,9 +1,7 @@
 import React from "react";
 
 //mui
-//table
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-//grid
 import { Avatar } from "@mui/material";
 
 //icon assets
@@ -12,6 +10,7 @@ import profile from "../assets/dummy.png";
 const cellStyle = {color:"white", fontSize:20}
 
 export default function DashboardTable(props) {
+  //dummy data
   const data = [
     {uname: "test1ac",uuid: "1",projName: "test1Proj20211124",projId: "1",projStartDat: "1Nov2021",status: true},
     {uname: "test2ac",uuid: "2",projName: "test2Proj20211124",projId: "2",projStartDat: "2Nov2021",status: true},

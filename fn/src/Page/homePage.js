@@ -43,7 +43,7 @@ export default function HomePage() {
       {admin?<Grid container spacing={1} sx={{ ml:15, mt:1, mb:4, mr:5}}>
         {data.map((d, i)=>{
           return (
-          <Grid key={i} item md={12} lg={3}>
+          <Grid key={i} item xs={12} md={12} lg={3}>
             <Card sx={{ maxWidth: '100%', maxHeight:100, boxShadow:3 }}>
               <CardContent sx={{padding:0}}>
                 <Grid container>

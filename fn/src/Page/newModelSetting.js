@@ -55,7 +55,7 @@ export default function NewModelSetting() {
 
   return (
     <>
-      <StepNavBtn title="Train New Model" next="/validateInput" />
+      <StepNavBtn title="Train New Model" next="/uploadFiles" />
       <Grid container sx={{ ml: 15, mr: 9, mb:4 }}>
         <Grid item xs={8} sx={{ pb: 0, pr: 3 }}>
           <Grid container sx={gridSpacing} className="sampling-container">

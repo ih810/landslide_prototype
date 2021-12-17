@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 //MUI assets
 import { Grid, Paper, Icon, Button } from "@mui/material";
@@ -47,13 +47,21 @@ const dummyData = [{
     "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
     "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
     "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
+]}
 ]
-}]
 
 export default function UploadInput() {
   const hiddenModelInput = useRef();
   const hiddenOptModelInput = useRef();
   const hiddenTrainInput = useRef();
+
+  useEffect(()=>{
+    //api to get list of files from azure
+    //model input
+    //optional model input
+    //training input
+    console.log('ficl', dummyData)
+  },[])
 
   const handleClick = (e) => {
     let eventTarget = e.target.attributes["id"].value;
@@ -66,7 +74,10 @@ export default function UploadInput() {
     }
   };
 
-  const handleUpload = (e) => {};
+  const handleUpload = (e) => {
+    console.log(e.target.files[0])
+    //post request to upload to azure
+  };
 
   return (
     <>
@@ -97,13 +108,7 @@ export default function UploadInput() {
                             >
                               add_circle
                             </Icon>
-                            <input
-                              type="file"
-                              style={{ display: "none" }}
-                              ref={hiddenModelInput}
-                              onChange={handleUpload}
-                              accept=".tif"
-                            />
+                            
                         <div className="d-inline pl-1 pb-2">
                           <p className="d-inline text-primary ">Upload</p>
                           <br />
@@ -139,6 +144,27 @@ export default function UploadInput() {
               );
             }
           )}
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={hiddenModelInput}
+            onChange={handleUpload}
+            accept=".tif"
+          />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={hiddenOptModelInput}
+            onChange={handleUpload}
+            accept=".tif"
+          />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={hiddenTrainInput}
+            onChange={handleUpload}
+            accept=".tif"
+          />
         </Grid>
     </>
   );

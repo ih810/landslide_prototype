@@ -15,7 +15,7 @@ export default function CircleChart(props) {
                 cy="50%"
                 innerRadius={50}
                 outerRadius={80}
-            ></Pie>
+            />
             <Tooltip />
             </PieChart>
         </ResponsiveContainer>

@@ -275,7 +275,7 @@ export default function ViewPerformance() {
         <Grid item md={7} sm={12} sx={{ pl:4, pb:1}}>
           <Paper sx={{ borderRadius: "10px", boxShadow: 2, height: "auto" }}>
             <div className="pl-3 pt-3">
-                <h3 style={{fontWeight: 650}}>PREDICTION REVIEW</h3>
+                <h3 style={{ fontWeight: 650 }}>PREDICTION REVIEW</h3>
                 <div className="row">
                     <div className="col col-6">
                         <p>Elevation</p>

@@ -18,9 +18,9 @@ export default function NewModelSetting() {
     { value: 2000000, fill: "#637cf7", name: "Low Contrast Ratio" },
   ]);
   const [trainData, setTrainData] = useState([
-    { value: 80, fill: "#76DCD6", name: "Training Samples Ratio" },
-    { value: 10, fill: "#9daba9", name: "Validation Samples Ratio" },
-    { value: 10, fill: "#db74d4", name: "Testing Samples Ratio" },
+    { value: 80, fill: "#76DCD6", name: "Training" },
+    { value: 10, fill: "#9daba9", name: "Validation" },
+    { value: 10, fill: "#db74d4", name: "Testing" },
   ]);
 
   const handleSampleChange = (e) => {
@@ -56,7 +56,7 @@ export default function NewModelSetting() {
   return (
     <>
       <StepNavBtn title="Train New Model" next="/validateInput" />
-      <Grid container sx={{ ml: 15, mr: 9 }}>
+      <Grid container sx={{ ml: 15, mr: 9, mb:4 }}>
         <Grid item xs={8} sx={{ pb: 0, pr: 3 }}>
           <Grid container sx={gridSpacing} className="sampling-container">
             <Grid
@@ -95,8 +95,8 @@ export default function NewModelSetting() {
             <Grid
               item
               xs={4}
-              className="h-100 sampling-pie d-flex flex-column justify-content-center align-items-center"
-              sx={{ bgcolor: "#393939", borderRadius: "10px", height: "350px" }}
+              className="sampling-pie d-flex flex-column justify-content-center align-items-center"
+              sx={{ bgcolor: "#393939", borderRadius: "10px", minHeight: "350px", maxHeight:'400px'}}
             >
               <div className="pt-3">
                 <p style={{ color: "#FFF" }}>SAMPLING</p>
@@ -106,7 +106,7 @@ export default function NewModelSetting() {
           </Grid>
           <Grid container sx={gridSpacing} className="train-container">
             <Grid item xs={8} sx={{ pl: 5, pr: 5 }} className="train-input ">
-              <Paper sx={{ p: 2, pl: 5, height: "100%" }}>
+              <Paper sx={{ p: 2, pl: 5, height: "auto" }}>
                 <h3 className="pb-5" style={{ fontWeight: 650 }}>
                   Train
                 </h3>
@@ -135,11 +135,12 @@ export default function NewModelSetting() {
             <Grid
               item
               xs={4}
-              className="h-100 train-pie d-flex flex-column justify-content-center align-items-center"
+              className="train-pie d-flex flex-column justify-content-center align-items-center"
               sx={{
                 bgcolor: "#393939",
                 borderRadius: "10px",
-                height: "350px",
+                minHeight: '350px',
+                maxHeight: '390px'
               }}
             >
               <div className="pt-3">
@@ -150,7 +151,7 @@ export default function NewModelSetting() {
           </Grid>
         </Grid>
         <Grid item xs={4} sx={{ mt: 2 }}>
-          <Paper sx={{ p: 3, height: "100%"}}>
+          <Paper sx={{ p: 3, height: "auto", pb:4 }}>
             {[
               "Convolutional-Layers",
               "Dense Layers",
@@ -159,16 +160,16 @@ export default function NewModelSetting() {
               "Drop Out Rate",
             ].map((txt, i) => {
               return (
-                <div key={i} className="p-3 pl-5">
-                  <label htmlFor={txt}>{txt}</label>
-                  <br/>
-                  <input
-                    style={{
-                      minWidth: "10px",
-                    }}
-                    type="number"
-                    id={txt}
-                  />
+                <div className='d-flex flex-column p-3' key={i}>
+                    <label htmlFor={txt}>{txt}</label>
+                    <input
+                      style={{
+                        minWidth: "0px",
+                      }}
+                      type="number"
+                      id={txt}
+                      onChange={handleSampleChange}
+                    />
                 </div>
               );
             })}

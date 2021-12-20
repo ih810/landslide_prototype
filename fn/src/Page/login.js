@@ -19,7 +19,7 @@ export default function Login() {
   }, [showPw])
 
   return (
-    <div className="m-5 pl-5 pr-5">
+    <div className="pl-5 pr-5">
       <div className="row pb-3">
         <div className="col col-sm-8">
           <div className="row">
@@ -55,7 +55,7 @@ export default function Login() {
         </div>
       </div>
       <div className="row">
-        <div className="col col-sm-4 pr-5">
+        <div className="col col-sm-6 pr-5">
           <div className="pt-4">
             <p>
               Esse nostrud excepteur aliqua Lorem cupidatat laborum. Labore sunt
@@ -109,7 +109,7 @@ export default function Login() {
             </form>
           </div>
         </div>
-        <div className="col col-sm-8 d-flex justify-content-end p-0">
+        <div className="col col-sm-6 col-xs- d-flex justify-content-end p-0">
           <img
             src={desPic}
             style={{ maxWidth: "100%", maxHeight: "auto" }}

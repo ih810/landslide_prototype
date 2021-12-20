@@ -24,8 +24,8 @@ button{
 	outline: 'inherit';
 }
 
-p, h1, h2, h3, h4{
+/* p, h1, h2, h3, h4{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */

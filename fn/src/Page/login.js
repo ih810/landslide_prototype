@@ -7,8 +7,13 @@ import logo from "../assets/real_icon.png";
 
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
+  const [showPic, setShowPic] = useState(true)
   const toggleShowPw = () => setShowPw(!showPw)
-
+  useEffect(()=>{
+    window.matchMedia("(min-width: 992px)").addEventListener('change', (e)=>{
+      setShowPic(e.matches)
+    })}
+  )
   useEffect(()=>{
     let pwInput = document.getElementById("passwordInput")
     if(showPw){
@@ -18,15 +23,19 @@ export default function Login() {
     }
   }, [showPw])
 
+  const lmaooo =(e) => {
+    e.preventDefault();
+    console.log(e)
+  }
   return (
-    <div className="pl-5 pr-5">
+    <div className="abc pl-5 pr-5 pt-5" style={{backgroundColor:'#FFF'}} >
       <div className="row pb-3">
         <div className="col col-sm-8">
           <div className="row">
             <div className="p-2">
                 <img
                   src={logo}
-                  style={{ maxWidth: "100%", height: "auto" }}
+                  style={{ maxWidth: "100%", height: "auto", borderRadius:'15px' }}
                   alt="logo"
                   width="60px"
                   height="60px"
@@ -41,8 +50,8 @@ export default function Login() {
             </div>
           </div>
         </div>
-        <div className="col col-sm-4">
-          <div className="h-100 p-2 d-flex justify-content-end align-items-center">
+        <div className="col col-sm-4 pr-5">
+          <div className="h-100 d-flex justify-content-end align-items-center">
             <a href="https://www.arup.com/" rel="noreferrer" target="_blank">
               <img
                 src={arup}
@@ -55,7 +64,7 @@ export default function Login() {
         </div>
       </div>
       <div className="row">
-        <div className="col col-sm-6 pr-5">
+        <div className="col col-xs-12 col-sm-12 col-md-12 col-lg-5 pr-5">
           <div className="pt-4">
             <p>
               Esse nostrud excepteur aliqua Lorem cupidatat laborum. Labore sunt
@@ -69,10 +78,10 @@ export default function Login() {
             </p>
           </div>
           <div className="p-2">
-            <form>
+            <form onSubmit={(e)=>lmaooo(e)}>
               <div className="mt-5 mb-3 pb-5">
                 <label className="form-label">Username</label>
-                <input type="text" className="form-control" />
+                <input type="text" id="usernameInput" className="form-control" />
               </div>
               <div className="mb-3 pb-5">
                 <div className="col col-* p-0 d-flex justify-content-between">
@@ -92,7 +101,7 @@ export default function Login() {
                 <div className="p-3">
                   <button
                     type="submit"
-                    className="pl-5 pr-5 btn btn-outline-dark font-weight-bold shadow shadow-sm"
+                    className="pl-4 pr-4 btn btn-outline-dark font-weight-bold shadow shadow-sm"
                   >
                     Admin Login
                   </button>
@@ -100,7 +109,7 @@ export default function Login() {
                 <div className="p-3">
                   <button
                     type="submit"
-                    className="pl-5 pr-5 btn btn-primary font-weight-bold shadow shadow-sm"
+                    className="pl-4 pr-4 btn btn-primary font-weight-bold shadow shadow-sm"
                   >
                     User Login
                   </button>
@@ -109,14 +118,23 @@ export default function Login() {
             </form>
           </div>
         </div>
-        <div className="col col-sm-6 col-xs- d-flex justify-content-end p-0">
+
+        {showPic?
+        <>
+        <div className="col col-xs-1">
+        </div>
+        <div className="description-pic col-xs-12 col-sm-12 col-md-12 col-lg-6 d-flex justify-content-end p-0 pr-5">
           <img
             src={desPic}
-            style={{ maxWidth: "100%", maxHeight: "auto" }}
+            style={{ borderRadius: '15px' }}
             alt="desPic"
-            height="800px"
+            width='100%'
+            height="auto"
           />
         </div>
+        </>
+        :null
+      }
       </div>
       <p className="text-secondary">@2021 Arup All right reserved.</p>
     </div>

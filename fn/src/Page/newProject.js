@@ -10,11 +10,11 @@ export default function NewProjectModal() {
     const history = useHistory();
 
     const navTrainNewModel = () => {
-      history.push('/trainnewmodel');
+      history.push('/train-new-model');
     }
 
     const navPreTrainModel = () => {
-      history.push('/pretrainmodel');
+      history.push('/pre-train-model');
     }
     const handleSubmit = (e) => {
     e.preventDefault();

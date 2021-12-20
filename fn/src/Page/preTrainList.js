@@ -113,7 +113,7 @@ export default function PreTrainList() {
   };
   return (
     <>
-      <StepNavBtn title="Pre-Train Model" next="/uploadFiles" />
+      <StepNavBtn title="Pre-Train Model" next="/upload-files" />
       <Grid container sx={{ ml: 9, mr: 4, mt: 1 }} spacing={3}>
         {modelInfo.map((model) => {
           return (

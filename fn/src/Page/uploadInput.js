@@ -81,7 +81,7 @@ export default function UploadInput() {
 
   return (
     <>
-        <StepNavBtn title="Pre-Train Model" next="/validateInput" />
+        <StepNavBtn title="Pre-Train Model" next="/validate-input" />
         <Grid
           container
           sx={{ mt: 3, minHeight: "60vh" }}

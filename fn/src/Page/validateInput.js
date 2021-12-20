@@ -168,7 +168,7 @@ export default function ValidateInput() {
   }
   return (
     <>
-      <StepNavBtn title="Validate Input" next="/viewresults" noForward={true} />
+      <StepNavBtn title="Validate Input" next="/view-performance" noForward={true} />
       <Grid
         container
         className="d-flex justify-content-between"

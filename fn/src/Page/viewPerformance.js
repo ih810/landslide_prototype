@@ -126,7 +126,7 @@ export default function ViewPerformance() {
   
   return (
     <>
-      <StepNavBtn title="Review Performance" next="/viewresults" />
+      <StepNavBtn title="Review Performance" next="/view-results" />
       <Grid container sx={{ m:3, ml: 14 }}>
         <Grid item md={5} xs={12} >
           <Paper

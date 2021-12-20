@@ -7,13 +7,20 @@ import logo from "../assets/real_icon.png";
 
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
-  const [showPic, setShowPic] = useState(true)
+  const [showPic, setShowPic] = useState(true);
+  const [userInput, setUserInput] = useState({});
   const toggleShowPw = () => setShowPw(!showPw)
+
   useEffect(()=>{
-    window.matchMedia("(min-width: 992px)").addEventListener('change', (e)=>{
+    console.log(window)
+    if(window.innerWidth<1200){
+      setShowPic(false)
+    }
+    window.matchMedia("(min-width: 1200px)").addEventListener('change', (e)=>{
       setShowPic(e.matches)
     })}
   )
+
   useEffect(()=>{
     let pwInput = document.getElementById("passwordInput")
     if(showPw){
@@ -23,12 +30,24 @@ export default function Login() {
     }
   }, [showPw])
 
-  const lmaooo =(e) => {
-    e.preventDefault();
-    console.log(e)
+  const login = async (e) => {
+    fetch("api here",{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username:e.target['username'].value, password: e.target['password'].value})
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
   }
   return (
-    <div className="abc pl-5 pr-5 pt-5" style={{backgroundColor:'#FFF'}} >
+    <div className="pt-5" style={{backgroundColor:'#FFF', paddingRight:'80px', paddingLeft:'100px'}} >
       <div className="row pb-3">
         <div className="col col-sm-8">
           <div className="row">
@@ -64,7 +83,7 @@ export default function Login() {
         </div>
       </div>
       <div className="row">
-        <div className="col col-xs-12 col-sm-12 col-md-12 col-lg-5 pr-5">
+        <div className="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 pr-5">
           <div className="pt-4">
             <p>
               Esse nostrud excepteur aliqua Lorem cupidatat laborum. Labore sunt
@@ -78,10 +97,10 @@ export default function Login() {
             </p>
           </div>
           <div className="p-2">
-            <form onSubmit={(e)=>lmaooo(e)}>
+            <form onSubmit={login}>
               <div className="mt-5 mb-3 pb-5">
                 <label className="form-label">Username</label>
-                <input type="text" id="usernameInput" className="form-control" />
+                <input type="text" id="usernameInput" className="form-control" name="username"/>
               </div>
               <div className="mb-3 pb-5">
                 <div className="col col-* p-0 d-flex justify-content-between">
@@ -95,13 +114,14 @@ export default function Login() {
                       Show{" "}
                   </p>
                 </div>
-                <input type="password" id="passwordInput" className="form-control" />
+                <input type="password" id="passwordInput" className="form-control"  name="password"/>
               </div>
               <div className="row">
                 <div className="p-3">
                   <button
                     type="submit"
                     className="pl-4 pr-4 btn btn-outline-dark font-weight-bold shadow shadow-sm"
+                    id="admin_login"
                   >
                     Admin Login
                   </button>
@@ -110,7 +130,8 @@ export default function Login() {
                   <button
                     type="submit"
                     className="pl-4 pr-4 btn btn-primary font-weight-bold shadow shadow-sm"
-                  >
+                    id="user_login"
+                    >
                     User Login
                   </button>
                 </div>
@@ -128,8 +149,8 @@ export default function Login() {
             src={desPic}
             style={{ borderRadius: '15px' }}
             alt="desPic"
-            width='100%'
-            height="auto"
+            width="700px"
+            height="650px"
           />
         </div>
         </>

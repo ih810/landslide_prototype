@@ -162,13 +162,11 @@ export default function ValidateInput() {
     //api here
 
     //
-    console.trace(e)
-    //return to homepage
-    history.push('/')
+    history.push("/view-performance")
   }
   return (
     <>
-      <StepNavBtn title="Validate Input" next="/view-performance" noForward={true} />
+      <StepNavBtn title="Validate Input" noForward={true} />
       <Grid
         container
         className="d-flex justify-content-between"

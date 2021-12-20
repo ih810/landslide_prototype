@@ -34,7 +34,7 @@ export default async function queryTiff(coord) {
       //filter unwanted data && count range
       for (let i = 0; i < rasterSus[0].length; i++) {
         if (rasterSus[0][i] < 0.1) continue;
-        else if (rasterSus[0][i] < 0.2 && rasterSus[0][i] > 0.15) {
+        else if (rasterSus[0][i] < 0.2 && rasterSus[0][i] > 0.1) {
           countMap["0.1"]++;
           countMap["len"]++;
         } else if (rasterSus[0][i] < 0.3 && rasterSus[0][i] > 0.2) {

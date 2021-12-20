@@ -11,14 +11,14 @@ import Login from "./Page/login";
 import Drawer from "./Component/drawer";
 
 //Component
-import HomePage from "./Page/homePage";
-import PreTrainList from "./Page/preTrainList";
+import HomePage from "./Page/homepage";
 import NewProject from "./Page/newProject";
 import NewModelSetting from "./Page/newModelSetting";
+import PreTrainList from "./Page/preTrainList";
 import UploadInput from "./Page/uploadInput";
 import ValidateInput from "./Page/validateInput";
 import ViewPerformance from "./Page/viewPerformance";
-import viewresults from "./Page/viewResult";
+import Viewresults from "./Page/viewResult";
 
 export default function App(props) {
 
@@ -34,13 +34,13 @@ export default function App(props) {
         <div className="row">
           <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route path="/newproject" component={NewProject} />
-                <Route path="/trainnewmodel" component={NewModelSetting} />
-                <Route path="/pretrainmodel" component={PreTrainList} />
-                <Route path="/uploadFiles" component={UploadInput} />
-                <Route path="/validateInput" component={ValidateInput} />
-                <Route path="/viewPerformance" component={ViewPerformance} />
-                <Route path="/viewresults" component={viewresults} />
+                <Route path="/new-project" component={NewProject} />
+                <Route path="/train-new-model" component={NewModelSetting} />
+                <Route path="/pre-train-model" component={PreTrainList} />
+                <Route path="/upload-files" component={UploadInput} />
+                <Route path="/validate-input" component={ValidateInput} />
+                <Route path="/view-performance" component={ViewPerformance} />
+                <Route path="/view-results" component={Viewresults} />
           </Switch>
         </div>
       </div>

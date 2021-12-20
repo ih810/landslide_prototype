@@ -20,7 +20,7 @@ export default function HomePage() {
   const history = useHistory();
 
   const navNewProject = () => {
-    history.push('/newproject');
+    history.push('/new-project');
   }
 
   const flexTheme = { display:'flex', justifyContent: 'center', alignItems: 'center' }

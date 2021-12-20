@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 //Open layers
@@ -12,6 +12,8 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
+
+import axios from 'axios';
 
 require("dotenv").config();
 const azure = {
@@ -50,9 +52,9 @@ export default function ValidateInput() {
       source: new GeoTIFF({
         sources: [
           {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/redColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
+            url: `https://${azure.accName}.file.core.windows.net/${azure.folder}/${
+              azure.file
+            }.tif${azure.sas}&xyz=${Date.now()}`,
             overview: `https://${azure.accName}.file.core.windows.net/${
               azure.folder
             }/redColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
@@ -117,24 +119,24 @@ export default function ValidateInput() {
         ],
       }),
     }),
-    new TileLayer({
-      className: "Satelite",
-      visible: satelite,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/prupleColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/prupleColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
+    // new TileLayer({
+    //   className: "Satelite",
+    //   visible: satelite,
+    //   opacity: 0.5,
+    //   source: new GeoTIFF({
+    //     sources: [
+    //       {
+    //         url: `https://${azure.accName}.file.core.windows.net/${
+    //           azure.folder
+    //         }/prupleColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
+    //         overview: `https://${azure.accName}.file.core.windows.net/${
+    //           azure.folder
+    //         }/prupleColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
+    //         nodata: 0,
+    //       },
+    //     ],
+    //   }),
+    // }),
   ];
   const formGroupItems = [
     "Landslide Location",
@@ -143,6 +145,46 @@ export default function ValidateInput() {
     "Terrain",
     "Satelite",
   ];
+
+  useEffect(()=>{
+    axios.get(`https://${azure.accName}.file.core.windows.net/${azure.folder}/${
+      azure.file
+    }.tif${azure.sas}&xyz=${Date.now()}`)
+    .then((res)=>{
+      console.log('azure', res)
+      const lmao = new GeoTIFF({
+        sources:[{
+          url:`https://${azure.accName}.file.core.windows.net/${
+            azure.folder
+          }/prupleColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
+          overview: `https://${azure.accName}.file.core.windows.net/${
+            azure.folder
+          }/prupleColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
+          nodata: 0,
+        },]
+      })
+      console.log('azure lmao', lmao)
+    })
+    .catch((err)=>{
+      console.log('azure',err)
+    })
+    // const lmao2 = new GeoTIFF({
+    //   sources:[{
+    //     url:`http://localhost:8080`,
+    //     overview: `http://localhost:8080/1`,
+    //     nodata: 0,
+    //   },]
+    // })
+    // console.log('local lmao', lmao2)
+    // axios.get('http://localhost:8080')
+    // .then((res)=>{
+    //   console.log('local', res)
+      
+    // })
+    // .catch((err)=>{
+    //   console.log('local', err)
+    // })
+  })
 
   const handleClick = (e, item) => {
     if (item === "Landslide Location") {

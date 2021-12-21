@@ -155,6 +155,8 @@ export default function ViewPerformance() {
                   alt="train_progres"
                   style={{
                     paddingTop: "24px",
+                    width: '100%',
+                    height: '100%',
                     maxWidth: "100%",
                     borderRadius: "10px",
                   }}

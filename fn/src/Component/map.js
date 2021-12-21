@@ -24,7 +24,7 @@ export default function OlMapView(props) {
   let coordGroup;
 
   //define resolution
-  let layerRes = [16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
+  let layerRes = [64, 32, 16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
 
   useEffect(() => {
     initiateMap();
@@ -50,7 +50,7 @@ export default function OlMapView(props) {
           ],
           view: new View({
             ...viewSource,
-            zoom: 1,
+            zoom: 0.5,
           }),
         });
       }

@@ -103,7 +103,7 @@ export default function TemporaryDrawer() {
   return (
     <>
       <Box
-        sx={{ minHeight:'1080px', minWidth: 75, bgcolor:'#191D39', overflow:'hidden', position:'fixed', boxShadow: 3}}
+        sx={{ minHeight:'100%', minWidth: 75, bgcolor:'#191D39', overflow:'hidden', position:'fixed', boxShadow: 3}}
         onClick={toggleDrawer(drawer, true)}
       >
         <ListIcon sx={{color:"#FFF", width:50, height:50, mt:2, ml:1}}/>

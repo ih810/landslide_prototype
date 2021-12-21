@@ -178,7 +178,7 @@ export default function ViewPerformance() {
                     ></Switch>
                   </div>
                 </div>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 400, width:'auto', maxWidth:'350' }}>
                 <Table aria-label="simple table">
                   {metricSelection ? (
                     <>

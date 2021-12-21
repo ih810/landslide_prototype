@@ -168,22 +168,22 @@ export default function ValidateInput() {
     .catch((err)=>{
       console.log('azure',err)
     })
-    // const lmao2 = new GeoTIFF({
-    //   sources:[{
-    //     url:`http://localhost:8080`,
-    //     overview: `http://localhost:8080/1`,
-    //     nodata: 0,
-    //   },]
-    // })
-    // console.log('local lmao', lmao2)
-    // axios.get('http://localhost:8080')
-    // .then((res)=>{
-    //   console.log('local', res)
+    const lmao2 = new GeoTIFF({
+      sources:[{
+        url:`http://localhost:8080`,
+        overview: `http://localhost:8080/1`,
+        nodata: 0,
+      },]
+    })
+    console.log('local lmao', lmao2)
+    axios.get('http://localhost:8080')
+    .then((res)=>{
+      console.log('local', res)
       
-    // })
-    // .catch((err)=>{
-    //   console.log('local', err)
-    // })
+    })
+    .catch((err)=>{
+      console.log('local', err)
+    })
   })
 
   const handleClick = (e, item) => {

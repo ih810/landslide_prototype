@@ -40,7 +40,10 @@ app.get("/1", (req, res) => {
           }/prupleColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`
     )
     .then((response) => {
-        res.writeHead(200, response.headers);
+      response.on('data', (chunk)=>{
+        console.log('chunbmking', chunk)
+      })
+      res.writeHead(200, response.headers);
         res.write(response.data);
         res.end(response.data)
     })

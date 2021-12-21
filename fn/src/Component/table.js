@@ -8,23 +8,23 @@ import { Avatar } from "@mui/material";
 import profile from "../assets/dummy.png";
 
 const cellStyle = {color:"white", fontSize:20}
+const data = [
+  {uname: "test1ac",uuid: "1",projName: "test1Proj20211124",projId: "1",projStartDat: "1Nov2021",status: true},
+  {uname: "test2ac",uuid: "2",projName: "test2Proj20211124",projId: "2",projStartDat: "2Nov2021",status: true},
+  {uname: "test3ac",uuid: "3",projName: "test3Proj20211124",projId: "3",projStartDat: "3Nov2021",status: true},
+  {uname: "test4ac",uuid: "4",projName: "test4Proj20211124",projId: "4",projStartDat: "4Nov2021",status: false},
+  {uname: "test5ac",uuid: "5",projName: "test5Proj20211124",projId: "5",projStartDat: "5Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "6",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "7",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "8",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "9",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "10",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "11",projStartDat: "6Nov2021",status: false},
+  {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "12",projStartDat: "6Nov2021",status: false},
+];
 
 export default function DashboardTable(props) {
   //dummy data
-  const data = [
-    {uname: "test1ac",uuid: "1",projName: "test1Proj20211124",projId: "1",projStartDat: "1Nov2021",status: true},
-    {uname: "test2ac",uuid: "2",projName: "test2Proj20211124",projId: "2",projStartDat: "2Nov2021",status: true},
-    {uname: "test3ac",uuid: "3",projName: "test3Proj20211124",projId: "3",projStartDat: "3Nov2021",status: true},
-    {uname: "test4ac",uuid: "4",projName: "test4Proj20211124",projId: "4",projStartDat: "4Nov2021",status: false},
-    {uname: "test5ac",uuid: "5",projName: "test5Proj20211124",projId: "5",projStartDat: "5Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "6",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "7",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "8",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "9",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "10",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "11",projStartDat: "6Nov2021",status: false},
-    {uname: "test6ac",uuid: "6",projName: "test6Proj20211124",projId: "12",projStartDat: "6Nov2021",status: false},
-  ];
 
 
   return (

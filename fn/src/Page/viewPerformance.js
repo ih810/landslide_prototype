@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
 
-import trainProgress from "../assets/Visualizations/TrainProgress.png";
 import modelAccuracytxt from "../assets/Visualizations/Accuracy.txt";
 import precisionRecallF1 from "../assets/Visualizations/PrecisionRecallFscore.csv";
 import confusionMatrixCsv from "../assets/Visualizations/ConfusionMatrix.csv";
@@ -152,7 +151,7 @@ export default function ViewPerformance() {
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
                 <img
-                  src={trainProgress}
+                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png${azure.sas}&xyz=${Date.now()}`}
                   alt="train_progres"
                   style={{
                     paddingTop: "24px",

@@ -36,9 +36,9 @@ const azure = {
 const viewLayer = new GeoTIFF({
   sources: [
     {
-      url: `https://${azure.accName}.file.core.windows.net/${azure.folder}/${
-        azure.file
-      }.tif${azure.sas}&xyz=${Date.now()}`,
+      url: `https://${azure.accName}.file.core.windows.net/${
+        azure.folder
+      }/${azure.file}_reporj.tif${azure.sas}&xyz=${Date.now()}`,
       overview: `https://${azure.accName}.file.core.windows.net/${
         azure.folder
       }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
@@ -127,7 +127,7 @@ export default function ViewPerformance() {
     <>
       <StepNavBtn title="Review Performance" next="/view-results" />
       <Grid container sx={{ m:3, ml: 14 }}>
-        <Grid item md={5} xs={12} >
+        <Grid item md={4} xs={12} >
           <Paper
             className="p-4 h-80"
             sx={{ borderRadius: "15px", boxShadow: 2 }}
@@ -146,12 +146,12 @@ export default function ViewPerformance() {
             className="d-flex justify-content-between"
             spacing={3}
           >
-            <Grid item lg={7} md={12} xs={12} sx={{ pb: 1 }}>
+            <Grid item xs={12} sx={{ pb: 1 }}>
               <Paper
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
                 <img
-                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png${azure.sas}&xyz=${Date.now()}`}
+                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png${azure.sas}`}
                   alt="train_progres"
                   style={{
                     paddingTop: "24px",
@@ -161,7 +161,7 @@ export default function ViewPerformance() {
                 />
               </Paper>
             </Grid>
-            <Grid item lg={5} md={12} sm={12} sx={{ pb: 1 }}>
+            <Grid item xs={12} sx={{ pb: 1 }}>
               <Paper
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
@@ -271,7 +271,7 @@ export default function ViewPerformance() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} sm={12} sx={{ pl:4, pb:1}}>
+        <Grid item md={8} sm={12} sx={{ pl:4, pb:1}}>
           <Paper sx={{ borderRadius: "10px", boxShadow: 2, height: "auto" }}>
             <div className="pl-3 pt-3">
                 <h3 style={{ fontWeight: 650 }}>PREDICTION REVIEW</h3>
@@ -298,7 +298,7 @@ export default function ViewPerformance() {
                         style={{ maxWidth: "100%", maxHeight:'100%', borderRadius:'10px' }}
                       />
                     </div>
-                    <div className="col col-lg-6 col-md-12 p-3">
+                    <div className="col col-lg-6 col-md-12 col-sm-12 p-3">
                       <img
                         src={dummyRect}
                         alt="aspect"

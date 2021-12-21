@@ -7,6 +7,7 @@ const AzureStorageFileShare = require("@azure/storage-file-share");
 const {
   ShareServiceClient,
   StorageSharedKeyCredential,
+  generateAccountSASQueryParameters
 } = require("@azure/storage-file-share");
 app.use(cors({ origin: "*" }));
 require("dotenv").config();
@@ -26,6 +27,9 @@ const serviceClient = new ShareServiceClient(
   credential
 );
 console.log(serviceClient);
+
+const key = generateAccountSASQueryParameters({  }, credential).toString()
+console.log(key)
 
 app.get("/", (req, res) => {
   res.send(credential);

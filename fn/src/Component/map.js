@@ -24,7 +24,7 @@ export default function OlMapView(props) {
   let coordGroup;
 
   //define resolution
-  let layerRes = [64, 32, 16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
+  let layerRes = [ 32, 16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
 
   useEffect(() => {
     initiateMap();
@@ -50,7 +50,9 @@ export default function OlMapView(props) {
           ],
           view: new View({
             ...viewSource,
-            zoom: 0.5,
+            zoom: 1,
+            maxZoom: 18,
+            constrainOnlyCenter: true,
           }),
         });
       }
@@ -59,10 +61,11 @@ export default function OlMapView(props) {
       if (olmap.current.childNodes.length > 1) {
         olmap.current.removeChild(olmap.current.childNodes[0]);
       }
-
+      
       //handle click event
       initMap.on("click", function (e) {
         e.preventDefault();
+        console.log(e)
         if(props.setCoord){
           
           // convert coordinate to EPSG-4326

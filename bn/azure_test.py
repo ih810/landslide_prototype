@@ -18,7 +18,7 @@ sas_token = generate_account_sas(
     permission=AccountSasPermissions(read=True),
     expiry=datetime.utcnow() + timedelta(hours=1)
 )
-
+print(sas_token)
 service = ShareServiceClient(
     account_url="https://"+ ACC_NAME +".file.core.windows.net/", credential=sas_token)
 parentDir = service.from_connection_string(
@@ -32,5 +32,5 @@ project_name = 'HongKongLiDAR2011_DEMO'
 demo_service = parentDir.get_share_client('data/'+project_name+'/Output/PredictionResults')
 demo_list = demo_service.list_directories_and_files()
 
-for item in demo_list:
-    print(item)
+# for item in demo_list:
+#     print(item)

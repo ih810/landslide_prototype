@@ -145,7 +145,12 @@ export default function ValidateInput() {
     "Terrain",
     "Satelite",
   ];
-
+  useEffect(()=>{
+    axios.get('http://localhost:8080/')
+    .then((resp)=>{
+      console.log('lmaoooo', resp)
+    })
+  },[])
   const handleClick = (e, item) => {
     if (item === "Landslide Location") {
       setLandSlideLocation(!landSlideLocation);

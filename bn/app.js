@@ -8,36 +8,77 @@ const AzureStorageFileShare = require("@azure/storage-file-share");
 const {
   ShareServiceClient,
   StorageSharedKeyCredential,
-  generateAccountSASQueryParameters
+  generateFileSASQueryParameters,
+  AccountSASPermissions,
 } = require("@azure/storage-file-share");
 app.use(cors({ origin: "*" }));
 require("dotenv").config();
-const azure = {
-  accName: process.env.ACC_NAME,
-  folder: "home",
-  file: "colorSus_map",
-  sas: process.env.SAS_KEY,
-};
-var generateSasToken = function(resourceUri, signingKey, expiresInMins) {
-  resourceUri = encodeURIComponent(resourceUri);
 
-  // Set expiration in seconds
-  var expires = (Date.now() / 1000) + expiresInMins * 60;
-  expires = Math.ceil(expires);
-  var toSign = resourceUri + '\n' + expires;
+// const azure = {
+//   accName: process.env.ACC_NAME,
+//   folder: "home",
+//   file: "colorSus_map",
+//   sas: process.env.SAS_KEY,
+// };
+// var generateSasToken = function(resourceUri, signingKey, expiresInMins) {
+//   resourceUri = encodeURIComponent(resourceUri);
 
-  // Use crypto
-  var hmac = crypto.createHmac('sha256', Buffer.from(signingKey, 'base64'));
-  hmac.update(toSign);
-  var base64UriEncoded = encodeURIComponent(hmac.digest('base64'));
+//   // Set expiration in seconds
+//   var expires = (Date.now() / 1000) + expiresInMins * 60;
+//   expires = Math.ceil(expires);
+//   var toSign = resourceUri + '\n' + expires;
 
-  // Construct authorization string
-  var token = "SharedAccessSignature sr=" + resourceUri + "&sig="
-  + base64UriEncoded + "&se=" + expires;
-  return token;
-};
-const token = generateSasToken('https://aiat3landslidestg.file.core.windows.net', process.env.ACC_KEY, 10)
-console.log(token)
+//   // Use crypto
+//   var hmac = crypto.createHmac('sha256', Buffer.from(signingKey, 'base64'));
+//   hmac.update(toSign);
+//   var base64UriEncoded = encodeURIComponent(hmac.digest('base64'));
+
+//   // Construct authorization string
+//   var token = "SharedAccessSignature sr=" + resourceUri + "&sig="
+//   + base64UriEncoded + "&se=" + expires;
+//   return token;
+// };
+// const token = generateSasToken('https://aiat3landslidestg.file.core.windows.net', process.env.ACC_KEY, 10)
+// console.log(token)
+
+// Enter your storage account name and shared key
+const account = process.env.ACC_NAME;
+const accountKey = process.env.ACC_KEY;
+
+// Use StorageSharedKeyCredential with storage account and account key
+// StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+const credential = new StorageSharedKeyCredential(account, accountKey);
+console.log(credential)
+const serviceClient = new ShareServiceClient(
+  // When using AnonymousCredential, following url should include a valid SAS
+  `https://${account}.file.core.windows.net/`,
+  credential
+);
+const fileClient = new AzureStorageFileShare.ShareFileClient(
+  `https://${account}.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png`,
+  credential
+  )
+  const fileClient1 = new AzureStorageFileShare.ShareFileClient(
+    `https://${account}.file.core.windows.net/home/colorSus_map.tif`,
+    credential
+    )
+  
+console.log('file cunt;,',fileClient)
+const fileprop = fileClient.generateSasUrl({
+  'permissions': "r",
+  'expiresOn': new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+  'version': '2020-08-04'
+})
+const fileprop1 = fileClient1.generateSasUrl({
+  'permissions': "r",
+  'expiresOn': new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+  'version': '2020-08-04'
+})
+const properties = serviceClient.generateAccountSasUrl(new Date(), new AccountSASPermissions({'read':true}), "sco");
+
+console.log(fileprop)
+console.log(fileprop1)
+console.log(properties)
 
 app.get("/", (req, res) => {
   res.send(credential);

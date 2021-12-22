@@ -31,8 +31,9 @@ const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
   folder: "home",
   file: "colorSus_map",
-  sas: process.env.REACT_APP_STORAGE_SAS_TOKEN,
+  sas:process.env.REACT_APP_STORAGE_SAS_TOKEN
 };
+console.log(process.env.REACT_APP_STORAGE_SAS_TOKEN)
 const viewLayer = new GeoTIFF({
   sources: [
     {
@@ -54,9 +55,7 @@ const layersGroup = [
     source: new GeoTIFF({
       sources: [
         {
-          url: `https://${azure.accName}.file.core.windows.net/${
-            azure.folder
-          }/${azure.file}.tif${azure.sas}&xyz=${Date.now()}`,
+          url: `https://aiat3landslidestg.file.core.windows.net/home/colorSus_map.tif?sv=2020-08-04&se=2022-12-22T08%3A35%3A48Z&sr=f&sp=r&sig=noUk5Rd8kMy3FbYkNaxJBdDmJFNlDBZdFW5Kxn%2BZ3Sk%3D&xyz=${Date.now()}`,
           overview: `https://${azure.accName}.file.core.windows.net/${
             azure.folder
           }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
@@ -151,7 +150,7 @@ export default function ViewPerformance() {
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
                 <img
-                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png${azure.sas}`}
+                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?sv=2020-08-04&se=2022-12-22T08%3A15%3A49Z&sr=f&sp=r&sig=1MQg92ohbHhHvrmtUysK9OwEmU3XJT8wuFc4mrVtVOE%3D`}
                   alt="train_progres"
                   style={{
                     paddingTop: "24px",

@@ -4,6 +4,7 @@ import ProgressBar from "../Component/progressBar";
 
 //mui
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -14,6 +15,7 @@ import {
 import { Avatar } from "@mui/material";
 
 //icon assets
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import profile from "../assets/dummy.png";
 
 const cellStyle = { color: "white", fontSize: 20 };
@@ -115,7 +117,7 @@ const data = [
     projId: "11",
     projStartDat: "6Nov2021",
     status: false,
-    progress: 'error',
+    progress: "error",
   },
   {
     uname: "test12ac",
@@ -130,6 +132,12 @@ const data = [
 
 export default function DashboardTable(props) {
   //dummy data
+  const deleteModal = () => {
+
+  }
+  const undoModal = () => {
+
+  }
   return (
     <>
       <TableContainer sx={{ pr: 4, ml: 15 }}>
@@ -144,16 +152,14 @@ export default function DashboardTable(props) {
                   Users
                 </TableCell>
               ) : (
-                <TableCell sx={cellStyle} size="small">
+                <TableCell sx={cellStyle} size="small" >
                   Start Date
                 </TableCell>
               )}
               <TableCell sx={cellStyle} size="small">
                 Status
               </TableCell>
-              <TableCell sx={cellStyle} size="small">
-                
-              </TableCell>
+              <TableCell sx={cellStyle} size="small"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody sx={{ bgcolor: "#FFFFFF" }}>
@@ -161,6 +167,7 @@ export default function DashboardTable(props) {
               <TableRow
                 key={project.projId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                hover
               >
                 <TableCell
                   component="th"
@@ -171,11 +178,7 @@ export default function DashboardTable(props) {
                 </TableCell>
                 {props.admin ? (
                   <TableCell align="right" className="text-truncate">
-                    <Avatar
-                      sx={{ float: "left"}}
-                      src={profile}
-                      alt="avatar"
-                    />
+                    <Avatar sx={{ float: "left" }} src={profile} alt="avatar" />
                     <div className="d-flex justify-content-start">
                       <h4 className="mt-2">{project.uname}</h4>
                     </div>
@@ -197,43 +200,56 @@ export default function DashboardTable(props) {
                     }
                   />
                 </TableCell>
-                {isNaN(project.progress)?
-                <TableCell
-                component="th"
-                sx={{ fontSize: 20, minWidth: 400 }}
-              >
-                <div
-                  className="border rounded-pill "
-                  style={{ width: 200, height: 30, backgroundColor: "#FF8BCA", color: "#FF0044", textAlign: 'center'}}
-                >
-                  Failed
-                </div>
-              </TableCell>
-              :project.status ? (
-                  <TableCell
-                    component="th"
-                    sx={{ fontSize: 20, minWidth: 400 }}
-                  >
-                    <div
-                      className="border rounded-pill pl-5 pr-5"
-                      style={{ width: 200, height: 30, backgroundColor: "#B3E8BF", color: "#178B32", textAlign: 'center'}}
-                    >
-                      Complete
+                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }}>
+                  <div className="d-flex justify-content-end">
+                    {isNaN(project.progress) ? (
+                      <div
+                        className="border rounded-pill "
+                        style={{
+                          width: 200,
+                          height: 30,
+                          backgroundColor: "#FF8BCA",
+                          color: "#FF0044",
+                          textAlign: "center",
+                        }}
+                      >
+                        Failed
+                      </div>
+                    ) : project.status ? (
+                      <div
+                        className="border rounded-pill pl-5 pr-5"
+                        style={{
+                          width: 200,
+                          height: 30,
+                          backgroundColor: "#B3E8BF",
+                          color: "#178B32",
+                          textAlign: "center",
+                        }}
+                      >
+                        Complete
+                      </div>
+                    ) : (
+                      <div
+                        className="border rounded-pill pl-5 pr-5"
+                        style={{
+                          width: 200,
+                          height: 30,
+                          backgroundColor: "#ABC9F2",
+                          color: "#498CE4",
+                          textAlign: "center",
+                        }}
+                      >
+                        Processing
+                      </div>
+                    )}
+                    <div style={{ color: "#A4A4A4"}}>
+                        <Button size="small" color='inherit' onClick={undoModal}>Undo</Button>
                     </div>
-                  </TableCell>
-                ) : (
-                  <TableCell
-                    component="th"
-                    sx={{ fontSize: 20, minWidth: 400 }}
-                  >
-                    <div
-                      className="border rounded-pill pl-5 pr-5"
-                      style={{ width: 200, height: 30, backgroundColor: "#ABC9F2", color: "#498CE4", textAlign: 'center'}}
-                    >
-                      Processing
+                    <div style={{ color: "#A4A4A4"}}>
+                        <DeleteOutlineIcon color='inherit' onClick={deleteModal}/>
                     </div>
-                  </TableCell>
-                )}
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

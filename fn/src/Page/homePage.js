@@ -38,8 +38,9 @@ export default function HomePage() {
                   label="Sort By"
                   onChange={handleChange}
                 >
-                  <MenuItem value={'month'}>Last month</MenuItem>
-                  <MenuItem value={'week'}>Last Week</MenuItem>
+                  <MenuItem value={'Name'}>Name</MenuItem>
+                  <MenuItem value={'time'}>Time</MenuItem>
+                  <MenuItem value={'status'}>Status</MenuItem>
                 </Select>
               </FormControl>
             </Box>

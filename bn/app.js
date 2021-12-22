@@ -81,6 +81,7 @@ console.log(fileprop1)
 console.log(properties)
 
 app.get("/", (req, res) => {
+  
   res.send(credential);
 });
 app.get("/1", (req, res) => {

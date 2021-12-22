@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
 const axios = require("axios");
+const crypto = require('crypto');
 const cors = require("cors");
 const AzureStorageFileShare = require("@azure/storage-file-share");
 const {
@@ -17,7 +18,7 @@ const azure = {
   file: "colorSus_map",
   sas: process.env.SAS_KEY,
 };
-var generateSasToken = function(resourceUri, signingKey, policyName, expiresInMins) {
+var generateSasToken = function(resourceUri, signingKey, expiresInMins) {
   resourceUri = encodeURIComponent(resourceUri);
 
   // Set expiration in seconds
@@ -33,9 +34,11 @@ var generateSasToken = function(resourceUri, signingKey, policyName, expiresInMi
   // Construct authorization string
   var token = "SharedAccessSignature sr=" + resourceUri + "&sig="
   + base64UriEncoded + "&se=" + expires;
-  if (policyName) token += "&skn="+policyName;
   return token;
 };
+const token = generateSasToken('https://aiat3landslidestg.file.core.windows.net', process.env.ACC_KEY, 10)
+console.log(token)
+
 app.get("/", (req, res) => {
   res.send(credential);
 });

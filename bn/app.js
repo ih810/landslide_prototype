@@ -17,20 +17,25 @@ const azure = {
   file: "colorSus_map",
   sas: process.env.SAS_KEY,
 };
-const credential = new StorageSharedKeyCredential(
-  process.env.ACC_NAME,
-  process.env.ACC_KEY
-);
-console.log(credential);
-const serviceClient = new ShareServiceClient(
-  `https://${process.env.ACC_NAME}.file.core.windows.net`,
-  credential
-);
-console.log(serviceClient);
+var generateSasToken = function(resourceUri, signingKey, policyName, expiresInMins) {
+  resourceUri = encodeURIComponent(resourceUri);
 
-const key = generateAccountSASQueryParameters({  }, credential).toString()
-console.log(key)
+  // Set expiration in seconds
+  var expires = (Date.now() / 1000) + expiresInMins * 60;
+  expires = Math.ceil(expires);
+  var toSign = resourceUri + '\n' + expires;
 
+  // Use crypto
+  var hmac = crypto.createHmac('sha256', Buffer.from(signingKey, 'base64'));
+  hmac.update(toSign);
+  var base64UriEncoded = encodeURIComponent(hmac.digest('base64'));
+
+  // Construct authorization string
+  var token = "SharedAccessSignature sr=" + resourceUri + "&sig="
+  + base64UriEncoded + "&se=" + expires;
+  if (policyName) token += "&skn="+policyName;
+  return token;
+};
 app.get("/", (req, res) => {
   res.send(credential);
 });

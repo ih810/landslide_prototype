@@ -29,7 +29,7 @@ export default function AdminHomePage() {
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
         {data.map((d, i) => {
           return (
-            <Grid key={i} item xs={12} md={12} lg={3}>
+            <Grid key={i} item xs={12} md={12} lg={4}>
               <Card sx={{ maxWidth: "100%", maxHeight: 100, boxShadow: 3 }}>
                 <CardContent sx={{ padding: 0 }}>
                   <Grid container>
@@ -58,13 +58,13 @@ export default function AdminHomePage() {
             </Grid>
           );
         })}
-        <Grid item md={12} lg={3} sx={flexTheme}>
+        {/* <Grid item md={12} lg={3} sx={flexTheme}>
           <Box>
             <Button variant="contained" sx={{ pl: 5, pr: 5, fontSize: 18 }}>
               Generate Reports
             </Button>
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Table admin={true}/>
     </>

@@ -76,7 +76,7 @@ export default function NewProjectModal() {
               <Grid item xs={6}>
                 <label htmlFor="startD">Start Date </label>
                 <br />
-                <input type="date" id="startD" className="p-2 w-75" />
+                <input type="date" id="startD" className="p-2 w-75"/>
               </Grid>
               <Grid item xs={6}>
                 <label htmlFor="endD">End Date </label>

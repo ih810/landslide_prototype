@@ -4,11 +4,11 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-import decode from 'jwt-decode';
+// import decode from 'jwt-decode';
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
-  const refreshToken = localStorage.getItem('refreshToken');
+  // const token = localStorage.getItem('token');
+  // const refreshToken = localStorage.getItem('refreshToken');
   return true
 //   try {
 //     decode(token);

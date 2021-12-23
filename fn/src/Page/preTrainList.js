@@ -5,120 +5,34 @@ import { Grid, Paper } from "@mui/material";
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
-import VirtualizedList from "../Component/virtualizedList";
-import CircleChart from "../Component/circleChrat";
 
 import dummymap from "../assets/dumbmymap.png";
 
-const fillRed = { fill: "#76DCD6" };
-const fillBlue = { fill: "#9daba9" };
-const fillGreen = { fill: "#db74d4" };
-
-//Dummy data
-const modelInfo = [
-  {
-    id: 1,
-    default: "A",
-    name: "A1",
-    data: [
-      { value: 20, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 2,
-    default: "B",
-    name: "B2",
-    data: [
-      { value: 24, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 3,
-    default: "C",
-    name: "C3",
-    data: [
-      { value: 25, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 4,
-    default: "D",
-    name: "D4",
-    data: [
-      { value: 28, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 5,
-    default: "E",
-    name: "E5",
-    data: [
-      { value: 24, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 6,
-    default: "E",
-    name: "E5",
-    data: [
-      { value: 22, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 7,
-    default: "E",
-    name: "E5",
-    data: [
-      { value: 27, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-  {
-    id: 8,
-    default: "E",
-    name: "E5",
-    data: [
-      { value: 12, name: "dataA", ...fillRed },
-      { value: 30, name: "dataB", ...fillBlue },
-      { value: 50, name: "dataC", ...fillGreen },
-    ],
-  },
-];
+const dummyModal = [
+  {name: 'Hong_Kong_2021', default:12},
+  {name: 'Hong_Kong_2022', default:24},
+  {name: 'Hong_Kong_2023', default:32},
+  {name: 'Hong_Kong_2024', default:48},
+  {name: 'Hong_Kong_2025', default:60},
+  {name: 'Hong_Kong_2026', default:72},
+  {name: 'Hong_Kong_2027', default:84},
+  {name: 'Hong_Kong_2028', default:96},
+]
 
 export default function PreTrainList() {
-  const [selectedPie, setSelectedPie] = useState(0);
-
-  const handleClick = (e) => {
-    console.log(e);
-    if (e.target.attributes["id"] === undefined) {
-      setSelectedPie(
-        parseInt(e.target.parentElement.attributes["id"].value) - 1
-      );
-    } else {
-      setSelectedPie(parseInt(e.target.attributes["id"].value) - 1);
-    }
-  };
+  const [selected, setSelected] = useState()
+  const handleClick = (e, i) => {
+    setSelected(i)
+  }
   return (
     <>
       <StepNavBtn title="Pre-Train Model" next="/upload-files" />
       <Grid container sx={{ ml: 9, mr: 4, mt: 1 }} spacing={3}>
-        {modelInfo.map((model) => {
+        {dummyModal.map((model, i) => {
           return (
             <Grid item xs={3}>
-              <Paper sx={{ borderRadius: "10px", boxShadow: 2, height: "auto" }}>
+              {selected === i?
+              <Paper sx={{ borderRadius: "10px", boxShadow: 1, height: "auto", bgcolor:"#ECECEC" }} onClick={(e)=>{handleClick(e,i)}}>
                 <img
                   src={dummymap}
                   alt="dafaq"
@@ -134,6 +48,24 @@ export default function PreTrainList() {
                   <p>Percentage: {model.default}</p>
                 </div>
               </Paper>
+            :
+            <Paper sx={{ borderRadius: "10px", boxShadow: 3, height: "auto" }}  onClick={(e)=>{handleClick(e,i)}}>
+              <img
+                src={dummymap}
+                alt="dafaq"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  borderRadius: "10px",
+                  padding: '32px',
+                }}
+              />
+              <div className="pb-2 pl-4 pr-4 d-flex justify-content-between">
+                <p>Location Name: {model.name}</p>
+                <p>Percentage: {model.default}</p>
+              </div>
+          </Paper>
+            }
             </Grid>
           );
         })}

@@ -17,16 +17,26 @@ CONN_STR = os.environ.get("CONN_STR")
 
 app = Flask(__name__)
 
+@app.route('/login')
 
-@app.route('/homepahe/user-dashboard', methods=['GET'])
+@app.route('/homepage/admin-dashboard', methods=['GET'])
 def get_all_project():
-    json_data_list = []
-    data_list = List('data/')
-    for item in data_list:
-        json_data_list.append(item.name)
+    data_list = []
+    azure_list = List('data/')
+    for item in azure_list:
+        data_list.append(item.name)
     
-    return jsonify(json_data_list) 
+    return jsonify(data_list) 
 
+@app.route('/homepage/user-dashboard', methods=['GET'])
+def get_user_project():
+    data_list = []
+    azure_list = List('data/')
+    for item in azure_list:
+        data_list.append(item.name)
+    
+    return jsonify(data_list)
+        
 
 @app.route('/post_form', methods=['POST'])
 def process_form():

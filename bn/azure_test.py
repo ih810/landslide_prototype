@@ -31,7 +31,4 @@ def List(path):
     demo_service = parentDir.get_share_client(
         path)
     demo_list = demo_service.list_directories_and_files()
-    for item in demo_list:
-        return demo_list
-    # for item in demo_list:
-    #     print(item)
+    return demo_list

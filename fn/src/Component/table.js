@@ -119,7 +119,7 @@ const data = [
     projId: "11",
     projStartDat: "6Nov2021",
     status: false,
-    progress: "error",
+    progress: -1
   },
   {
     uname: "test12ac",
@@ -199,7 +199,7 @@ export default function DashboardTable(props) {
                     color={
                       project.progress === 100
                         ? "success"
-                        : isNaN(project.progress)
+                        : project.progress < 0
                         ? "error"
                         : "primary"
                     }
@@ -207,7 +207,7 @@ export default function DashboardTable(props) {
                 </TableCell>
                 <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }}>
                   <div className="d-flex justify-content-end">
-                    {isNaN(project.progress) ? (
+                    {project.progress < 0 ? (
                       <div
                         className="border rounded-pill "
                         style={{

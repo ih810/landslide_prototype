@@ -144,19 +144,19 @@ export default function DashboardTable(props) {
         <Table>
           <TableHead>
             <TableRow sx={{ bgcolor: "#3F3F3F" }}>
-              <TableCell sx={cellStyle} size="small">
+              <TableCell sx={cellStyle} width={'20%'}>
                 Project
               </TableCell>
               {props.admin ? (
-                <TableCell sx={cellStyle} size="small">
+                <TableCell sx={cellStyle} width={'20%'}>
                   Users
                 </TableCell>
               ) : (
-                <TableCell sx={cellStyle} size="small" >
+                <TableCell sx={cellStyle} width={'20%'}>
                   Start Date
                 </TableCell>
               )}
-              <TableCell sx={cellStyle} size="small">
+              <TableCell sx={cellStyle} width={'60%'}>
                 Status
               </TableCell>
               <TableCell sx={cellStyle} size="small"></TableCell>

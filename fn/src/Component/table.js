@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ProgressBar from "../Component/progressBar";
+import ComponentModal from "./modal";
 
 //mui
 import {
@@ -13,6 +14,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Avatar } from "@mui/material";
+
 
 //icon assets
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -131,12 +133,15 @@ const data = [
 ];
 
 export default function DashboardTable(props) {
-  //dummy data
-  const deleteModal = () => {
-
+  const [undoModal, setUndoModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const triggerRemoveAPI = () => {
+    //api
+    console.log('remove')
   }
-  const undoModal = () => {
-
+  const triggerUndoAPI = () => {
+    //api
+    console.log('undo')
   }
   return (
     <>
@@ -243,10 +248,10 @@ export default function DashboardTable(props) {
                       </div>
                     )}
                     <div style={{ color: "#A4A4A4"}}>
-                        <Button size="small" color='inherit' onClick={undoModal}>Undo</Button>
+                        <Button size="small" color='inherit' onClick={()=>{setUndoModal(!undoModal)}}>Undo</Button>
                     </div>
                     <div style={{ color: "#A4A4A4"}}>
-                        <DeleteOutlineIcon color='inherit' onClick={deleteModal}/>
+                        <DeleteOutlineIcon color='inherit' onClick={()=>{setDeleteModal(!deleteModal)}}/>
                     </div>
                   </div>
                 </TableCell>
@@ -255,6 +260,8 @@ export default function DashboardTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <ComponentModal control={undoModal} toggle={()=>{setUndoModal(!undoModal)}} remove={triggerUndoAPI} type={'Undo'}/>
+      <ComponentModal control={deleteModal} toggle={()=>{setDeleteModal(!deleteModal)}} remove={triggerRemoveAPI} type={'Remove'}/>
     </>
   );
 }

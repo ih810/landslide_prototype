@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //MUI assets
 import { Grid, Paper } from "@mui/material";
@@ -17,12 +17,33 @@ export default function NewModelSetting() {
     { value: 2000000, fill: "#db74d4", name: "Negative Samples Ratio" },
     { value: 2000000, fill: "#637cf7", name: "Low Contrast Ratio" },
   ]);
+  const [pieChartData, setPieChartData] = useState([
+    {name: 'Negative Sample Ratio', value: 50, fill: "#db74d4"},
+    {name: 'Negative Low Contrast', value: 0 , fill: "#9daba9"},
+    {name: 'Positive Sample Ratio', value: 50, fill: "#76DCD6"},
+  ])
   const [trainData, setTrainData] = useState([
     { value: 80, fill: "#76DCD6", name: "Training" },
     { value: 10, fill: "#9daba9", name: "Validation" },
     { value: 10, fill: "#db74d4", name: "Testing" },
   ]);
 
+  const handlePieChange = (e) => {
+    let pieChart = [...pieChartData];
+    let inputValue = parseInt(e.target.value);
+    let negativeSample = pieChart[0];
+    let lowContrastNegative = pieChart[1];
+    let positiveSample = pieChart[2];
+    if(e.target.attributes["id"].value === "Negative Samples Ratio") {
+      negativeSample.value = inputValue;
+      positiveSample.value = 100 - inputValue - lowContrastNegative.value;
+      lowContrastNegative.value = 100 - inputValue - positiveSample.value; 
+    } else if (e.target.attributes["id"].value === "Low Contrast samples ratio"){
+      lowContrastNegative.value = inputValue;
+      negativeSample.value = 100 - positiveSample.value - lowContrastNegative.value;
+    }
+    setPieChartData(pieChart)
+  }
   const handleSampleChange = (e) => {
     let newArr = [...sampleData];
     let value = parseInt(e.target.value);
@@ -72,8 +93,6 @@ export default function NewModelSetting() {
                 {[
                   "Sample Height",
                   "Sample Width",
-                  "Negative Samples Ratio",
-                  "Low Contrast samples ratio",
                 ].map((txt, i) => {
                   return (
                     <div className={spacebw} key={i}>
@@ -90,6 +109,28 @@ export default function NewModelSetting() {
                     </div>
                   );
                 })}
+                {[
+                  "Negative Samples Ratio",
+                  "Low Contrast samples ratio",
+                ].map((txt, i) => {
+                  return (
+                    <div className={spacebw} key={i}>
+                      <label htmlFor={txt}>{txt}</label>
+                      <input
+                        max='100'
+                        min='0'
+                        style={{
+                          minWidth: "0px",
+                        }}
+                        type="number"
+                        value={pieChartData[i].value}
+                        id={txt}
+                        
+                        onChange={handlePieChange}
+                      />
+                    </div>
+                  );
+                })}
               </Paper>
             </Grid>
             <Grid
@@ -101,7 +142,7 @@ export default function NewModelSetting() {
               <div className="pt-3">
                 <p style={{ color: "#FFF" }}>SAMPLING</p>
               </div>
-              <CircleChart data={sampleData} />
+              <CircleChart data={pieChartData} />
             </Grid>
           </Grid>
           <Grid container sx={gridSpacing} className="train-container">

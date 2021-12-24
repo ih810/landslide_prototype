@@ -33,7 +33,6 @@ const azure = {
   file: "colorSus_map",
   sas:process.env.REACT_APP_STORAGE_SAS_TOKEN
 };
-console.log(process.env.REACT_APP_STORAGE_SAS_TOKEN)
 const viewLayer = new GeoTIFF({
   sources: [
     {

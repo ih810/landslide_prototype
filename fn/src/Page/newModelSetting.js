@@ -11,15 +11,15 @@ const gridSpacing = { mt: 2, maxWidth: "120vh" };
 const spacebw = "d-flex justify-content-between pb-4";
 
 export default function NewModelSetting() {
-  const [sampleData, setSampleData] = useState([
+  const [displayData, setDisplayData] = useState([
     { value: 2000000, fill: "#76DCD6", name: "Sample Height" },
     { value: 2000000, fill: "#9daba9", name: "Sample Width" },
-    { value: 2000000, fill: "#db74d4", name: "Negative Samples Ratio" },
-    { value: 2000000, fill: "#637cf7", name: "Low Contrast Ratio" },
+    { value: 50, fill: "#db74d4", name: "Negative Samples Ratio" },
+    { value: 0, fill: "#637cf7", name: "Low Contrast Samples Ratio" },
   ]);
   const [pieChartData, setPieChartData] = useState([
     {name: 'Negative Sample Ratio', value: 50, fill: "#db74d4"},
-    {name: 'Negative Low Contrast', value: 0 , fill: "#9daba9"},
+    {name: 'Negative Low Contrast', value: 0, fill: "#9daba9"},
     {name: 'Positive Sample Ratio', value: 50, fill: "#76DCD6"},
   ])
   const [trainData, setTrainData] = useState([
@@ -29,23 +29,35 @@ export default function NewModelSetting() {
   ]);
 
   const handlePieChange = (e) => {
+    //format data
     let pieChart = [...pieChartData];
+    let display = [...displayData]
     let inputValue = parseInt(e.target.value);
+
+    //seperate value for display/submit purpose
     let negativeSample = pieChart[0];
     let lowContrastNegative = pieChart[1];
     let positiveSample = pieChart[2];
+    
+    let negativeDisplay = display[2];
+    let lowContrastDisplay = display[3];
+    
     if(e.target.attributes["id"].value === "Negative Samples Ratio") {
-      negativeSample.value = inputValue;
-      positiveSample.value = 100 - inputValue - lowContrastNegative.value;
-      lowContrastNegative.value = 100 - inputValue - positiveSample.value; 
-    } else if (e.target.attributes["id"].value === "Low Contrast samples ratio"){
+      negativeSample.value = inputValue-lowContrastNegative.value;
+      positiveSample.value = 100 - (negativeSample.value+lowContrastNegative.value);
+
+      negativeDisplay.value = inputValue;
+    } else if (e.target.attributes["id"].value === "Low Contrast Samples Ratio"){
+      negativeSample.value = negativeSample.value + (lowContrastNegative.value - inputValue);
       lowContrastNegative.value = inputValue;
-      negativeSample.value = 100 - positiveSample.value - lowContrastNegative.value;
+
+      lowContrastDisplay.value = inputValue;
     }
     setPieChartData(pieChart)
+    setDisplayData(display)
   }
   const handleSampleChange = (e) => {
-    let newArr = [...sampleData];
+    let newArr = [...displayData];
     let value = parseInt(e.target.value);
     if (e.target.attributes["id"].value === "Sample Height") {
       newArr[0].value = value;
@@ -56,7 +68,7 @@ export default function NewModelSetting() {
     } else {
       newArr[3].value = value;
     }
-    setSampleData(newArr);
+    setDisplayData(newArr);
   };
 
   const handleTrainChange = (e) => {
@@ -93,6 +105,8 @@ export default function NewModelSetting() {
                 {[
                   "Sample Height",
                   "Sample Width",
+                  // "Negative Samples Ratio",
+                  // "Low Contrast Samples Ratio",
                 ].map((txt, i) => {
                   return (
                     <div className={spacebw} key={i}>
@@ -102,35 +116,43 @@ export default function NewModelSetting() {
                           minWidth: "0px",
                         }}
                         type="number"
-                        value={sampleData[i].value}
+                        value={displayData[i].value}
                         id={txt}
                         onChange={handleSampleChange}
                       />
                     </div>
                   );
                 })}
-                {[
-                  "Negative Samples Ratio",
-                  "Low Contrast samples ratio",
-                ].map((txt, i) => {
-                  return (
-                    <div className={spacebw} key={i}>
-                      <label htmlFor={txt}>{txt}</label>
-                      <input
-                        max='100'
-                        min='0'
-                        style={{
-                          minWidth: "0px",
-                        }}
-                        type="number"
-                        value={pieChartData[i].value}
-                        id={txt}
-                        
-                        onChange={handlePieChange}
-                      />
-                    </div>
-                  );
-                })}
+                <div className={spacebw}>
+                  <label htmlFor={displayData[2].name}>{displayData[2].name}</label>
+                  <input
+                    max='100'
+                    min='0'
+                    style={{
+                      minWidth: "0px",
+                    }}
+                    type="number"
+                    value={displayData[2].value}
+                    id={displayData[2].name}
+                    
+                    onChange={handlePieChange}
+                  />
+                </div>
+                <div className={spacebw}>
+                  <label htmlFor={displayData[3].name}>{displayData[3].name}</label>
+                  <input
+                    max='100'
+                    min='0'
+                    style={{
+                      minWidth: "0px",
+                    }}
+                    type="number"
+                    value={displayData[3].value}
+                    id={displayData[3].name}
+                    
+                    onChange={handlePieChange}
+                  />
+                </div>
               </Paper>
             </Grid>
             <Grid

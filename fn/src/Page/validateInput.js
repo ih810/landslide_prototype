@@ -190,9 +190,9 @@ export default function ValidateInput() {
             }}
             className="d-flex flex-column justify-content-between"
           >
-            <div className="pl-4 pt-4">
+            <div className="pl-4 pt-3">
               <h2>DATA CHECKING</h2>
-              <p className="font-weight-bold">
+              <p className="font-weight-bold mb-0">
                 Please check if the data is correctly located on the map
               </p>
             </div>

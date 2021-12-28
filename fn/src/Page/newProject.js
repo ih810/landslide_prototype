@@ -41,7 +41,7 @@ export default function NewProjectModal() {
           elevation={24}
           sx={{
             width: 900,
-            height: 800,
+            height: 740,
             bgcolor: "#393939",
             color: "#FFF",
             borderRadius: "20px",
@@ -65,12 +65,8 @@ export default function NewProjectModal() {
             />
 
             <Typography sx={{ ml: 7, mt: 5, fontWeight:1000 }} variant="h4">
-              ADVANCED SETTING
+              LiDAR Data SETTING
             </Typography>
-
-            <Box sx={{ ml: 7, mt: 3,  color: greyColor }}>
-              <Typography variant="p">LiDAR</Typography>
-            </Box>
 
             <Grid container sx={{ ml: 7, mr: 7, mt: 3, color: greyColor }}>
               <Grid item xs={6}>
@@ -86,7 +82,7 @@ export default function NewProjectModal() {
             </Grid>
 
             <Box sx={{ ml: 7, mt: 5, color: greyColor }}>
-              <label htmlFor="resolution">Required resolution </label>
+              <label htmlFor="resolution">Required resolution (m) </label>
               <br />
               <input
                 type="number"
@@ -96,26 +92,26 @@ export default function NewProjectModal() {
               />
             </Box>
 
-            <Grid container sx={{ ml: 7, mr: 7, mt: 7, color: greyColor }}>
-              <Grid item xs={6}>
+            <Grid container sx={{ mt: 7, color: greyColor }}>
+              <Grid item xs={6} className="d-flex justify-content-center">
                 <Button
                   variant="contained"
-                  sx={{ pl: 11, pr: 11, fontSize: fontSize }}
+                  sx={{ pl: 8, pr: 8, fontSize: fontSize }}
                   type="submit"
                   onClick={navPreTrainModel}
                 >
-                  Pre-Train Model
+                  Prediction
                 </Button>
               </Grid>
 
-              <Grid item xs={6}>
+              <Grid item xs={6} className="d-flex justify-content-center">
                 <Button
                   variant="contained"
                   sx={{ pl: 11, pr: 11, fontSize: fontSize }}
                   type="submit"
                   onClick={navTrainNewModel}
                 >
-                  Train New Model
+                  Train
                 </Button>
               </Grid>
             </Grid>

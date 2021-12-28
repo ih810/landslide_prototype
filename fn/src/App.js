@@ -44,7 +44,7 @@ export default function App(props) {
         <Switch>
           <>
             <div style={{ height: "76px" }}>
-              <Navbar />
+              <Navbar location={location.pathname}/>
             </div>
             <Drawer />
             <div className="row">

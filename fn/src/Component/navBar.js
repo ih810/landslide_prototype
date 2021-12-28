@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 //logo
 import logo from "../assets/real_icon (2).png";
@@ -6,7 +6,18 @@ import profile from "../assets/dummy.png";
 import arup from "../assets/Arup_Red_RGB.png";
 
 export default function NavBar(props) {
-
+  const [title, setTitle] = useState();
+  useEffect(()=>{
+    if(props.location === '/') setTitle('Dashboard')
+    else if(props.location ==='/admin') setTitle('Admin Page')
+    else if(props.location ==='/new-project') setTitle('New Project Setting')
+    else if(props.location ==='/train-new-model') setTitle('Model Config')
+    else if(props.location ==='/pre-train-model') setTitle('Model Selection')
+    else if(props.location ==='/upload-files') setTitle('Upload Trainning Materials')
+    else if(props.location ==='/validate-input') setTitle('Validate Input')
+    else if(props.location ==='/view-performance') setTitle('Review Performance')
+    else if(props.location ==='/view-results') setTitle('Review Prediction Results')
+  })
   return (
       <div className='NavBar row bg-white shadow h-0 fixed-top' style={{zIndex:2000}}>
         <div className="col col-8 d-flex flex-row align-items-center">
@@ -18,6 +29,11 @@ export default function NavBar(props) {
               alt="logo"
             />
             </a>
+          </span>
+          <span className="pl-4">
+            <h1 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}>
+              {title}
+            </h1>
           </span>
         </div>
         <div className="col col-4 d-flex flex-row-reverse align-items-center">

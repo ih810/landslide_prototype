@@ -47,7 +47,7 @@ export default function Login() {
       )
   }
   return (
-    <div className="pt-5" style={{backgroundColor:'#FFF', paddingRight:'80px', paddingLeft:'100px'}} >
+    <div className="pt-5" style={{backgroundColor:'#FFF', paddingRight:'80px', paddingLeft:'100px', height:'100vh'}} >
       <div className="row pb-3">
         <div className="col col-sm-8">
           <div className="row">

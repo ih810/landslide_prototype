@@ -141,11 +141,14 @@ def select_pretrained():
 def list_uploaded_file():
     project_id = request.args.get('project_id')
 
+    # list files from azure
     uploaded_files = [
         {'name': 'file1', 'azure': 'is dumb', 'ihate': 'microsoft'}, 
         {'name': 'file2', 'azure': 'is dumb', 'ihate': 'microsoft'},
         {'name': 'file3', 'azure': 'is dumb', 'ihate': 'microsoft'}
         ]
+
+    # construct response json
     response_json = {"input_file": []}
     for file in uploaded_files:
         response_json["input_file"].append(file['name'])
@@ -181,6 +184,15 @@ def get_layers():
 @app.route('/validate-input/run', methods=['POST'])
 # return void
 def run_project():
+    project_id = request.args.get('project_id')
+
+    # run model
+
+    return project_id
+
+@app.route('view-performance/info', methods=['GET'])
+# return 
+def model_performance_info():
     project_id = request.args.get('project_id')
 
     return project_id

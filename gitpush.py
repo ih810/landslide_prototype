@@ -11,7 +11,9 @@ def main():
 
     run('add', '.')
     run('commit', '-m', commit_message)
-    if push:
+    if push == True:
         run('push', 'origin', commit_branch)
+    else:
+        return
 
 main()

@@ -178,6 +178,13 @@ def get_layers():
     
     return ('', 200)
 
+@app.route('/validate-input/run', methods=['POST'])
+# return void
+def run_project():
+    project_id = request.args.get('project_id')
+
+    return project_id
+
 @app.route('/post_form', methods=['POST'])
 def process_form():
     data = request.form

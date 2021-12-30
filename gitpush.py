@@ -11,7 +11,7 @@ def main():
 
     run('add', '.')
     run('commit', '-m', commit_message)
-    if push == True:
+    if push == 'y':
         run('push', 'origin', commit_branch)
     else:
         return

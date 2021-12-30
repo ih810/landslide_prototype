@@ -10,6 +10,8 @@ import dummyRect from '../assets/high-resolution-black-background-08.jpg'
 import readTxt from "../util/readTxt";
 import readCSV from "../util/readCSV";
 
+import axios from 'axios'
+
 import {
   Grid,
   Paper,
@@ -70,9 +72,19 @@ export default function ViewPerformance() {
   const [confusionMatrix, setConfusionMatrix] = useState();
   const [metricSelection, setMetricSelection] = useState(true);
   const [coord, setCoord] = useState()
-
+  const [image, setImage] = useState()
+  const [susMap, setSusMap] = useState()
   useEffect(() => {
     handleModelStat();
+    axios.get('http://localhost:8080/')
+    .then((res)=>{
+      setImage(res.data)
+    })
+    axios.get('http://localhost:8080/1')
+    .then((res)=>{
+      console.log('fuck', res)
+      setSusMap(res.data)
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -149,7 +161,7 @@ export default function ViewPerformance() {
                 sx={{ borderRadius: "10px", boxShadow: 2, height: "100%" }}
               >
                 <img
-                  src={`https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?sv=2020-08-04&se=2022-12-22T08%3A15%3A49Z&sr=f&sp=r&sig=1MQg92ohbHhHvrmtUysK9OwEmU3XJT8wuFc4mrVtVOE%3D`}
+                  src={image}
                   alt="train_progres"
                   style={{
                     paddingTop: "24px",

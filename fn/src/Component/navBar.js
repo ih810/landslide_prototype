@@ -31,9 +31,9 @@ export default function NavBar(props) {
             </a>
           </span>
           <span className="pl-4">
-            <h1 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}>
+            <h2 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}>
               {title}
-            </h1>
+            </h2>
           </span>
         </div>
         <div className="col col-4 d-flex flex-row-reverse align-items-center">

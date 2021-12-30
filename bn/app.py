@@ -18,6 +18,16 @@ CONN_STR = os.environ.get("CONN_STR")
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def test():
+    data_list = []
+    azure_test = List('data/')
+    # for item in azure_test:
+    #     data_list.append(item.name)
+    # print(data_list)
+    print('fuck', azure_test)
+    return azure_test
+
 @app.route('/login', methods=['POST'])
 def login():
     login_data = request.form

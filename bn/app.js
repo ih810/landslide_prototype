@@ -1,14 +1,11 @@
 const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
-const axios = require("axios");
-const crypto = require('crypto');
 const cors = require("cors");
 const AzureStorageFileShare = require("@azure/storage-file-share");
 const {
   ShareServiceClient,
   StorageSharedKeyCredential,
-  generateFileSASQueryParameters,
   AccountSASPermissions,
 } = require("@azure/storage-file-share");
 app.use(cors({ origin: "*" }));
@@ -28,7 +25,7 @@ const serviceClient = new ShareServiceClient(
   credential
 );
 const fileClient = new AzureStorageFileShare.ShareFileClient(
-  `https://${account}.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png`,
+  `https://${account}.file.core.windows.net/file/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png`,
   credential
   )
   const fileClient1 = new AzureStorageFileShare.ShareFileClient(
@@ -54,11 +51,10 @@ console.log(fileprop1)
 console.log(properties)
 
 app.get("/", (req, res) => {
-  
-  res.send(credential);
+  res.json(fileprop);
 });
 app.get("/1", (req, res) => {
-  res.send(credential);
+  res.json(fileprop1);
 });
 
 //Setup Server

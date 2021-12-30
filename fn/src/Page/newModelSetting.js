@@ -29,32 +29,37 @@ export default function NewModelSetting() {
   ]);
 
   const handlePieChange = (e) => {
-    //format data
-    let pieChart = [...pieChartData];
-    let display = [...displayData]
-    let inputValue = parseInt(e.target.value);
-
-    //seperate value for display/submit purpose
-    let negativeSample = pieChart[0];
-    let lowContrastNegative = pieChart[1];
-    let positiveSample = pieChart[2];
-    
-    let negativeDisplay = display[2];
-    let lowContrastDisplay = display[3];
-    
-    if(e.target.attributes["id"].value === "Negative Samples Ratio") {
-      negativeSample.value = inputValue-lowContrastNegative.value;
-      positiveSample.value = 100 - (negativeSample.value+lowContrastNegative.value);
-
-      negativeDisplay.value = inputValue;
-    } else if (e.target.attributes["id"].value === "Low Contrast Samples Ratio"){
-      negativeSample.value = negativeSample.value + (lowContrastNegative.value - inputValue);
-      lowContrastNegative.value = inputValue;
-
-      lowContrastDisplay.value = inputValue;
+    console.log(e.target.value)
+    if(e.target.value === ''){
+      return
+    } else {
+      //format data
+      let pieChart = [...pieChartData];
+      let display = [...displayData]
+      let inputValue = parseInt(e.target.value);
+  
+      //seperate value for display/submit purpose
+      let negativeSample = pieChart[0];
+      let lowContrastNegative = pieChart[1];
+      let positiveSample = pieChart[2];
+      
+      let negativeDisplay = display[2];
+      let lowContrastDisplay = display[3];
+      
+      if(e.target.attributes["id"].value === "Negative Samples Ratio") {
+        negativeSample.value = inputValue - lowContrastNegative.value;
+        positiveSample.value = 100 - (negativeSample.value + lowContrastNegative.value);
+  
+        negativeDisplay.value = inputValue;
+      } else if (e.target.attributes["id"].value === "Low Contrast Samples Ratio"){
+        negativeSample.value = negativeSample.value + (lowContrastNegative.value - inputValue);
+        lowContrastNegative.value = inputValue;
+  
+        lowContrastDisplay.value = inputValue;
+      }
+      setPieChartData(pieChart)
+      setDisplayData(display)
     }
-    setPieChartData(pieChart)
-    setDisplayData(display)
   }
   const handleSampleChange = (e) => {
     let newArr = [...displayData];

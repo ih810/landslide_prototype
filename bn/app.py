@@ -5,8 +5,8 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 from Util.azure_test import List
-from Router.homepage import Homepage
-
+from Router.homepage import Homepage_Route
+from Router.login import Login_Route
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -18,7 +18,8 @@ CONN_STR = os.environ.get("CONN_STR")
 # List('data/')
 app = Flask(__name__)
 
-Homepage.register(app, route_base='/')
+Login_Route.register(app, route_base='/')
+Homepage_Route.register(app, route_base='/homepage')
 
 @app.route('/', methods=['GET'])
 def test():
@@ -29,15 +30,6 @@ def test():
     # print(data_list)
     print('fuck', azure_test)
     return azure_test
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    login_data = request.form
-    print(login_data['username'])
-    print(login_data['password'])
-    return login_data
-
 
 @app.route('/new-project', methods=['POST'])
 # return project info

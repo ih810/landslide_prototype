@@ -1,7 +1,14 @@
-from flask import Flask, request, json, jsonify
-from azure.storage.fileshare import ShareServiceClient, generate_account_sas, ResourceTypes, AccountSasPermissions
-from datetime import datetime, timedelta
-import os
-from os.path import join, dirname
-from dotenv import load_dotenv
-from azure_test import List
+from flask import request
+from flask import request
+from flask_classy import FlaskView, route
+
+class Login_Route(FlaskView):
+    def index(self):
+        return self
+
+    @route('/login', methods=['POST'])
+    def login(self):
+        login_data = request.form
+        print(login_data['username'])
+        print(login_data['password'])
+        return login_data

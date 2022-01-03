@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 //image assets
 import desPic from "../assets/desPic.png";
@@ -8,11 +9,10 @@ import logo from "../assets/real_icon.png";
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [showPic, setShowPic] = useState(true);
-  const [userInput, setUserInput] = useState({});
-  const toggleShowPw = () => setShowPw(!showPw)
+  const toggleShowPw = () => setShowPw(!showPw);
+  const history = useHistory();
 
   useEffect(()=>{
-    console.log(window)
     if(window.innerWidth<1200){
       setShowPic(false)
     }
@@ -31,15 +31,20 @@ export default function Login() {
   }, [showPw])
 
   const login = async (e) => {
-    fetch("api here",{
+    e.preventDefault();
+    fetch("http://127.0.0.1:5000/login",{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({username:e.target['username'].value, password: e.target['password'].value})
     })
-      .then(res => res.json())
+      .then((res) => {
+        return res.json()
+      })
       .then(
         (result) => {
-          console.log(result)
+          localStorage.setItem('token', result.data)
+          localStorage.setItem('refreshToken', result.data)
+          history.push('/')
         },
         (error) => {
           console.log(error)

@@ -22,6 +22,7 @@ import Viewresults from "./Page/viewResult";
 
 export default function App(props) {
   const location = useLocation();
+  console.log(location)
   const routes = [
     { path: "/", component: HomePage, exact: true },
     { path: "/admin", component: AdminHomePage, exact: false },
@@ -35,34 +36,36 @@ export default function App(props) {
   ];
   return (
     <>
-      {location.pathname === "/login" ? (
-        <>
-        <Route path="/login" component={Login} />
-        </>
-      ) : (
-        <>
-        <Switch>
+      {
+        location.pathname === "/login" ? (
           <>
-            <div style={{ height: "76px" }}>
-              <Navbar location={location.pathname}/>
-            </div>
-            <Drawer />
-            <div className="row">
-              {routes.map((route,i) => {
-                return (
-                  <PrivateRoute
-                    key={i}
-                    exact={route.exact}
-                    path={route.path}
-                    component={route.component}
-                  />
-                );
-              })}
-            </div>
+            <Route path="/login" component={Login} />
           </>
-        </Switch>
-        </>
-      )}
+        ) : (
+          <>
+            <Switch>
+              <>
+                <div style={{ height: "76px" }}>
+                  <Navbar location={location.pathname} />
+                </div>
+                <Drawer />
+                <div className="row">
+                  {routes.map((route, i) => {
+                    return (
+                      <PrivateRoute
+                        key={i}
+                        exact={route.exact}
+                        path={route.path}
+                        component={route.component}
+                      />
+                    );
+                  })}
+                </div>
+              </>
+            </Switch>
+          </>
+        )
+      }
     </>
   );
 }

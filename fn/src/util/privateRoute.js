@@ -4,20 +4,19 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-// import decode from 'jwt-decode';
+import decode from 'jwt-decode';
 
 const isAuthenticated = () => {
-  // const token = localStorage.getItem('token');
-  // const refreshToken = localStorage.getItem('refreshToken');
-  return true
-//   try {
-//     decode(token);
-//     decode(refreshToken);
-//     console.log([decode(token),decode(refreshToken)])
-//     return true;
-//   } catch (error) {
-//     return false;
-//   }
+  const token = localStorage.getItem('token');
+  const refreshToken = localStorage.getItem('refreshToken');
+  try {
+    decode(token);
+    decode(refreshToken);
+    console.log([decode(token),decode(refreshToken)])
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 function PrivateRoute({ component: Component, ...rest }) {

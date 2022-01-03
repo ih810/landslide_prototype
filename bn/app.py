@@ -12,6 +12,7 @@ from Router.login import Login_Route
 from Router.new_project import New_Project_Route
 from Router.new_model_setting import New_Model_Config
 from Router.pretrain_list import Pretrain_List
+from Router.upload_input import Upload_Input
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -28,53 +29,8 @@ Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')
 New_Model_Config.register(app, route_base='/')
 Pretrain_List.register(app, route_base='/pre-train-list')
+Upload_Input.register(app, route_base='/upload-input')
 
-
-@app.route('/upload-input/list', methods=['GET'])
-# return a list of uploaded file
-def list_uploaded_file():
-    project_id = request.args.get('project_id')
-
-    # list files from azure
-    uploaded_files = [
-        {'name': 'file1', 'azure': 'is dumb', 'ihate': 'microsoft'}, 
-        {'name': 'file2', 'azure': 'is dumb', 'ihate': 'microsoft'},
-        {'name': 'file3', 'azure': 'is dumb', 'ihate': 'microsoft'}
-        ]
-
-    # construct response json
-    response_json = {"input_file": []}
-    for file in uploaded_files:
-        response_json["input_file"].append(file['name'])
-
-    return response_json
-
-@app.route('/upload-input/download', methods=['GET'])
-# return the request file URI
-def download_sample_file():
-    sample_name = request.args.get('sample_name')
-
-    # get the file URI from azure
-    files = {'files':[
-        {
-            'file_name': 'str',
-            'file_location': 'str',
-            'file_sas': 'str',
-            'file_acc': 'str'
-        }
-    ]}
-
-    return sample_name
-
-@app.route('/upload-input/upload', methods=['POST'])
-# return a list of uploaded file
-def upload_file():
-    project_id = request.args.get('project_id')
-    input_type = request.args.get('input_type')
-
-    # after upload return what?
-
-    return ('', 200)
 
 @app.route('/validate-input/layers', methods=['GET'])
 # return a list of uploaded file

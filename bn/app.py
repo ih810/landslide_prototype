@@ -13,6 +13,7 @@ from Router.new_project import New_Project_Route
 from Router.new_model_setting import New_Model_Config
 from Router.pretrain_list import Pretrain_List
 from Router.upload_input import Upload_Input
+from Router.validate_input import Validate_Input
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -30,31 +31,10 @@ New_Project_Route.register(app, route_base='/')
 New_Model_Config.register(app, route_base='/')
 Pretrain_List.register(app, route_base='/pre-train-list')
 Upload_Input.register(app, route_base='/upload-input')
+Validate_Input.register(app, route_base='/validate-input')
 
 
-@app.route('/validate-input/layers', methods=['GET'])
-# return a list of uploaded file
-def get_layers():
-    project_id = request.args.get('project_id')
-    # query layers from azure 
-    layers = {'layers': [
-        {
-            'layers_name': 'susceptibility_map.tif',
-            'layers_url': 'url',
-            'ovr_name': 'susceptibility_map.ovr.tif',
-            'ovr_url': 'url'
-        }
-    ]}
-    return layers
 
-@app.route('/validate-input/run', methods=['POST'])
-# return void
-def run_project():
-    project_id = request.args.get('project_id')
-
-    # run model
-
-    return project_id
 
 @app.route('/view-performance/info', methods=['GET'])
 # return performance metrics

@@ -1,32 +1,23 @@
-from flask import Flask, request, json, jsonify
-from azure.storage.fileshare import ShareServiceClient, generate_account_sas, ResourceTypes, AccountSasPermissions
-from datetime import datetime, timedelta
+from flask import Flask
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
-from flask_classy import route
-from Util.azure_test import List
 
-from Router.homepage import Homepage_Route
-from Router.login import Login_Route
-from Router.new_project import New_Project_Route
-from Router.new_model_setting import New_Model_Config
-from Router.pretrain_list import Pretrain_List
-from Router.upload_input import Upload_Input
-from Router.validate_input import Validate_Input
-from Router.view_performance import View_Performance
-from Router.view_results import View_Results
+# Routers are encapsulated
+from Router import *
 
+# load dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
+# environment var for security credential
 ACC_NAME = os.environ.get("ACC_NAME")
 ACC_KEY = os.environ.get("ACC_KEY")
 CONN_STR = os.environ.get("CONN_STR")
 
-# List('data/')
 app = Flask(__name__)
 
+# default route_base="/" for api that consist only 1 endpoint
 Login_Route.register(app, route_base='/')
 Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')

@@ -1,5 +1,4 @@
 from flask import request
-from flask import request
 from flask_classy import FlaskView, route
 
 class Login_Route(FlaskView):

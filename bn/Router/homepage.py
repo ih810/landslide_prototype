@@ -3,8 +3,6 @@ from flask_classy import FlaskView, route
 
 #test
 class Homepage_Route(FlaskView):
-    def index(self):
-        return self
 
     @route('/admin-dashboard', methods=['GET'])
     # return all project available

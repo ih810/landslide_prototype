@@ -5,8 +5,10 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 from Util.azure_test import List
+
 from Router.homepage import Homepage_Route
 from Router.login import Login_Route
+from Router.new_project import New_Project_Route
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -20,29 +22,8 @@ app = Flask(__name__)
 
 Login_Route.register(app, route_base='/')
 Homepage_Route.register(app, route_base='/homepage')
+New_Project_Route.register(app, route_base='/')
 
-@app.route('/', methods=['GET'])
-def test():
-    data_list = []
-    azure_test = List('data/')
-    # for item in azure_test:
-    #     data_list.append(item.name)
-    # print(data_list)
-    print('fuck', azure_test)
-    return azure_test
-
-@app.route('/new-project', methods=['POST'])
-# return project info
-def new_project():
-    body_json = request.get_json()
-
-    # construct response object
-    response_json = {
-        'project_id': 1,
-        'project_name': body_json["project_name"]
-    }
-
-    return response_json
 
 
 @app.route('/new-model-config', methods=['POST'])

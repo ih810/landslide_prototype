@@ -1,7 +1,16 @@
-from flask import Flask, request, json, jsonify
-from azure.storage.fileshare import ShareServiceClient, generate_account_sas, ResourceTypes, AccountSasPermissions
-from datetime import datetime, timedelta
-import os
-from os.path import join, dirname
-from dotenv import load_dotenv
-from azure_test import List
+from flask import request
+from flask_classy import FlaskView, route
+
+class New_Project_Route(FlaskView):
+    # return project info
+    @route('/new-project', methods=['POST'])
+    def post(self):
+        body_json = request.get_json()
+
+        # construct response object
+        response_json = {
+            'project_id': 1,
+            'project_name': body_json["project_name"]
+        }
+
+        return response_json

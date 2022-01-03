@@ -4,7 +4,9 @@ from datetime import datetime, timedelta
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
-from azure_test import List
+from Util.azure_test import List
+from Router.homepage import Homepage
+
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -16,6 +18,7 @@ CONN_STR = os.environ.get("CONN_STR")
 # List('data/')
 app = Flask(__name__)
 
+Homepage.register(app, route_base='/')
 
 @app.route('/', methods=['GET'])
 def test():
@@ -34,34 +37,6 @@ def login():
     print(login_data['username'])
     print(login_data['password'])
     return login_data
-
-
-@app.route('/homepage/admin-dashboard', methods=['GET'])
-# return all project available
-def get_all_project():
-    user_id = request.args.get('user_id')
-    return user_id
-
-
-@app.route('/homepage/user-dashboard', methods=['GET'])
-# return all project of the user
-def get_user_project():
-    user_id = request.args.get('user_id')
-    return user_id
-
-
-@app.route('/homepage/undo-project', methods=['PUT'])
-# return void/all project?
-def undo_project():
-    project_id = request.args.get('project_id')
-    return project_id
-
-
-@app.route('/homepage/delete-project', methods=['DELETE'])
-# return void/all project?
-def delete_project():
-    project_id = request.args.get('project_id')
-    return project_id
 
 
 @app.route('/new-project', methods=['POST'])
@@ -204,7 +179,7 @@ def run_project():
 
     return project_id
 
-@app.route('view-performance/info', methods=['GET'])
+@app.route('/view-performance/info', methods=['GET'])
 # return performance metrics
 def model_performance_info():
     project_id = request.args.get('project_id')
@@ -241,7 +216,7 @@ def model_performance_info():
     ]}
     return model_performance
 
-@app.route('view-performance/layers', methods=['GET'])
+@app.route('/view-performance/layers', methods=['GET'])
 # return a list of layer URI
 def model_performance_layer():
     project_id = request.args.get('project_id')
@@ -293,7 +268,7 @@ def list_result_layer():
 
 @app.route('/view-result/susceptibility', methods=['GET'])
 # return a list of performance file URI
-def download_performance_file():
+def download_susceptibility_file():
     project_id = request.args.get('project_id')
 
     # query the file URI from azure
@@ -310,7 +285,7 @@ def download_performance_file():
 
 @app.route('/view-result/csv', methods=['GET'])
 # return a list of performance file URI
-def download_performance_file():
+def download_csv_file():
     project_id = request.args.get('project_id')
 
     # query the file URI from azure

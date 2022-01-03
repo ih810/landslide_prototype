@@ -4,7 +4,7 @@ from flask_classy import FlaskView, route
 class New_Project_Route(FlaskView):
     # return project info
     @route('/new-project', methods=['POST'])
-    def post(self):
+    def new_project(self):
         body_json = request.get_json()
 
         # construct response object

@@ -4,11 +4,13 @@ from datetime import datetime, timedelta
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+from flask_classy import route
 from Util.azure_test import List
 
 from Router.homepage import Homepage_Route
 from Router.login import Login_Route
 from Router.new_project import New_Project_Route
+from Router.new_model_setting import New_Model_Config
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -23,7 +25,7 @@ app = Flask(__name__)
 Login_Route.register(app, route_base='/')
 Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')
-
+New_Model_Config.register(app, route_base='/')
 
 
 @app.route('/new-model-config', methods=['POST'])

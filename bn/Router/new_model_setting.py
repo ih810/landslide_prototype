@@ -1,10 +1,10 @@
-from flask import request
+from flask import config, request
 from flask_classy import FlaskView, route
 
 class New_Model_Config(FlaskView):
     @route('/new-model-config', methods=['POST'])
     # return void
-    def new_model_config(self):
+    def user_select_config(self):
         # get needed data
         project_name = request.args.get('project_name')
         body_json = request.get_json()

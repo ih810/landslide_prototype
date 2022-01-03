@@ -11,6 +11,7 @@ from Router.homepage import Homepage_Route
 from Router.login import Login_Route
 from Router.new_project import New_Project_Route
 from Router.new_model_setting import New_Model_Config
+from Router.pretrain_list import Pretrain_List
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -26,62 +27,7 @@ Login_Route.register(app, route_base='/')
 Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')
 New_Model_Config.register(app, route_base='/')
-
-
-@app.route('/new-model-config', methods=['POST'])
-# return void
-def new_model_config():
-    # get needed data
-    project_id = request.args.get('project_id')
-    body_json = request.get_json()
-
-    # construct response object
-    response_json = {
-        'project_id': project_id,
-        'project_width': body_json["width"],
-        'project_height': body_json["height"],
-    }
-
-    return ('', 200)
-
-
-@app.route('/pre-train-list/model-info', methods=['GET'])
-# return list of pretrain model
-def list_pretrained():
-    # list dir from azure
-    response_json = {'model_info':
-                     [{
-                         "model_name": "hong kong1",
-                         "location": "Hong Kong",
-                         "Percentage": "93%",
-                         "image": "url/base64"
-                     }, {
-                         "model_name": "hong kong2",
-                         "location": "Hong Kong",
-                         "Percentage": "94%",
-                         "image": "url/base64"
-                     }, {
-                         "model_name": "hong kong3",
-                         "location": "Hong Kong",
-                         "Percentage": "95%",
-                         "image": "url/base64"
-                     }, ]
-                     }
-    return response_json
-
-
-@app.route('/pre-train-list/select-model', methods=['POST'])
-# return list of pretrain model
-def select_pretrained():
-    # select a pretrained model for the project
-    project_id = request.args.get('project_id')
-    model_id = request.args.get('model_id')
-
-    response_json = {
-        "project_id": project_id,
-        "model_id": model_id,
-    }
-    return response_json
+Pretrain_List.register(app, route_base='/pre-train-list')
 
 
 @app.route('/upload-input/list', methods=['GET'])

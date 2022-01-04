@@ -1,7 +1,7 @@
 from flask import request
 from flask_classy import FlaskView, route
 
-class Pretrain_List(FlaskView):
+class Pretrain_List_Route(FlaskView):
     @route('/model-info', methods=['GET'])
     # return list of pretrain model
     def list_pretrained(self):

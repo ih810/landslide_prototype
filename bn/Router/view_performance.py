@@ -1,7 +1,7 @@
 from flask import request
 from flask_classy import FlaskView, route
 
-class View_Performance(FlaskView):
+class View_Performance_Route(FlaskView):
     @route('/info', methods=['GET'])
     # return performance metrics
     def model_performance_info(self):

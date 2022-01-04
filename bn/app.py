@@ -23,12 +23,12 @@ CORS(app)
 Login_Route.register(app, route_base='/')
 Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')
-New_Model_Config.register(app, route_base='/')
-Pretrain_List.register(app, route_base='/pre-train-list')
-Upload_Input.register(app, route_base='/upload-input')
-Validate_Input.register(app, route_base='/validate-input')
-View_Performance.register(app, route_base='/view-performance')
-View_Results.register(app, route_base='/view-result')
+New_Model_Config_Route.register(app, route_base='/')
+Pretrain_List_Route.register(app, route_base='/pre-train-list')
+Upload_Input_Route.register(app, route_base='/upload-input')
+Validate_Input_Route.register(app, route_base='/validate-input')
+View_Performance_Route.register(app, route_base='/view-performance')
+View_Results_Route.register(app, route_base='/view-result')
 
 if __name__ == '__main__':
     # run app in debug mode on port 5000

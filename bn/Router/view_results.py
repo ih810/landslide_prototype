@@ -1,7 +1,7 @@
 from flask import request
 from flask_classy import FlaskView, route
 
-class View_Results(FlaskView):
+class View_Results_Route(FlaskView):
     @route('/layers', methods=['GET'])
     # return a list of layer file URI
     def list_result_layer(self):

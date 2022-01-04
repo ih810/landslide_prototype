@@ -1,7 +1,7 @@
 from flask import request
 from flask_classy import FlaskView, route
 
-class Upload_Input(FlaskView):
+class Upload_Input_Route(FlaskView):
     @route('/list', methods=['GET'])
     # return a list of uploaded file
     def list_uploaded_file(self):

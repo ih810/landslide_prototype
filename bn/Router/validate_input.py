@@ -1,7 +1,7 @@
 from flask import request
 from flask_classy import FlaskView, route
 
-class Validate_Input(FlaskView):
+class Validate_Input_Route(FlaskView):
     @route('/layers', methods=['GET'])
     # return a list of uploaded file
     def get_layers(self):

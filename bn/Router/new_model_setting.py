@@ -1,7 +1,7 @@
 from flask import config, request
 from flask_classy import FlaskView, route
 
-class New_Model_Config(FlaskView):
+class New_Model_Config_Route(FlaskView):
     @route('/new-model-config', methods=['POST'])
     # return void
     def user_select_config(self):

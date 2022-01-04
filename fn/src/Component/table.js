@@ -99,7 +99,7 @@ export default function DashboardTable(props) {
                   </TableCell>
                 ) : (
                   <TableCell className="text-truncate" sx={{ fontSize: 20 }}>
-                    {project.projStartDat}
+                    {project.start_date}
                   </TableCell>
                 )}
                 <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }}>

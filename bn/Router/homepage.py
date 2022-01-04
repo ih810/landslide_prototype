@@ -2,13 +2,12 @@ import re
 import json
 from flask import request
 from flask_classy import FlaskView, route
-from Util.azure_file_share import Get_File_Service
+from Util.azure_read_txt import Read_Txt
 from Util.azure_table_query import Get_Table_Client
 
 class Homepage_Route(FlaskView):
     def __init__(self):
         self.table_client = Get_Table_Client()
-        self.file_service = Get_File_Service()
 
     @route('/admin-dashboard', methods=['GET'])
     # return all project available
@@ -21,11 +20,9 @@ class Homepage_Route(FlaskView):
         for project in project_ownership:
 
             # read file to utf-8
-            complete_text = self.file_service.get_file_to_text(share_name='data', directory_name=project['project_name'], file_name='AnalysisDone.txt').content
-            complete_list = re.split('\n|\r', complete_text)
-            filtered_list = list(filter(None, complete_list))
+            completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
 
-            progress = (len(filtered_list)/10) * 100
+            progress = (len(completed_task)/10) * 100
             
             # construct response array
             response_list.append({
@@ -48,28 +45,35 @@ class Homepage_Route(FlaskView):
 
         response_list = []
         for project in project_ownership:
-
             # read file to utf-8
-            complete_text = self.file_service.get_file_to_text(share_name='data', directory_name=project['project_name'], file_name='AnalysisDone.txt').content
-            complete_list = re.split('\n|\r', complete_text)
-            filtered_list = list(filter(None, complete_list))
-            progress = (len(filtered_list)/10) * 100
+            completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
+            progress = (len(completed_task)/10) * 100
+            file_config = Read_Txt(project['project_name'], 'project_config.txt')
+            if file_config:
+                for idx, val in enumerate(file_config):
+                    if 'start_date' in val:
+                        temp = file_config[idx]
+                        project_start_date = temp.replace('start_date: ', "").replace(',', '')
+
             response_list.append({
                 "proj_name": project['project_name'],
-                "owner": user_id,
+                "start_date": project_start_date,
                 "progress": progress,
                 "status": True
             })
+
         return json.dumps(response_list)
 
     @route('/undo-project', methods=['PUT'])
     # return void/all project?
     def undo_project(self):
-        project_id = request.args.get('project_id')
+        project_id = request.args.get('project_name')
+        # should do smth
         return project_id
 
     @route('/delete-project', methods=['DELETE'])
     # return void/all project?
     def delete_project(self):
-        project_id = request.args.get('project_id')
+        project_id = request.args.get('project_name')
+        # should do smth
         return project_id

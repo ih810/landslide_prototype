@@ -6,9 +6,12 @@ import desPic from "../assets/desPic.png";
 import arup from "../assets/Arup_Red_RGB.png";
 import logo from "../assets/real_icon.png";
 
+import { Alert,Collapse } from '@mui/material';
+
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [showPic, setShowPic] = useState(true);
+  const [showError, setShowError] = useState(false);
   const toggleShowPw = () => setShowPw(!showPw);
   const history = useHistory();
 
@@ -42,9 +45,13 @@ export default function Login() {
       })
       .then(
         (result) => {
-          localStorage.setItem('token', result.data)
-          localStorage.setItem('refreshToken', result.data)
-          history.push('/')
+          if(result.data !== 'user does not exist' && result.data !== 'auth failed'){
+            localStorage.setItem('token', result.data)
+            localStorage.setItem('refreshToken', result.data)
+            history.push('/')
+          } else {
+            setShowError(true)
+          }
         },
         (error) => {
           console.log(error)
@@ -87,6 +94,11 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Collapse in={showError}>
+        <Alert sx={{ mb: 2 }} severity="error">
+          We could not verify your login information
+        </Alert>
+      </Collapse>
       <div className="row">
         <div className="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-5 pr-5">
           <div className="pt-4">
@@ -162,6 +174,7 @@ export default function Login() {
         :null
       }
       </div>
+      
       <p className="text-secondary">@2021 Arup All right reserved.</p>
     </div>
   );

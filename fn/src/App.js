@@ -22,7 +22,6 @@ import Viewresults from "./Page/viewResult";
 
 export default function App(props) {
   const location = useLocation();
-  console.log(location)
   const routes = [
     { path: "/", component: HomePage, exact: true },
     { path: "/admin", component: AdminHomePage, exact: false },

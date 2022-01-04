@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Route,
@@ -12,7 +11,6 @@ const isAuthenticated = () => {
   try {
     decode(token);
     decode(refreshToken);
-    console.log([decode(token),decode(refreshToken)])
     return true;
   } catch (error) {
     return false;

@@ -7,5 +7,4 @@ class Login_Route(FlaskView):
     def login(self):
         login_data = request.get_json()
         auth_result = azure_login_query(login_data['username'], login_data['password'])
-        print(auth_result)
         return {'data':auth_result}

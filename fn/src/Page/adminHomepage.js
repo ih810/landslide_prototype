@@ -23,7 +23,8 @@ const data = [
   { title: "Total Users", icon: totalu, data: 3000 },
 ];
 
-export default function AdminHomePage() {
+export default function AdminHomePage(props) {
+  console.log(props)
   return (
     <>
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
@@ -66,7 +67,7 @@ export default function AdminHomePage() {
           </Box>
         </Grid> */}
       </Grid>
-      <Table admin={true}/>
+      <Table admin={true} username={props.userId}/>
     </>
   );
 }

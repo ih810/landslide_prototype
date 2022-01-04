@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import ProgressBar from "../Component/progressBar";
 import ComponentModal from "./modal";
@@ -15,126 +15,38 @@ import {
 } from "@mui/material";
 import { Avatar } from "@mui/material";
 
-
 //icon assets
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import profile from "../assets/dummy.png";
 
 const cellStyle = { color: "white", fontSize: 20 };
-const data = [
-  {
-    uname: "test1ac",
-    uuid: "1",
-    projName: "test1Proj20211124",
-    projId: "1",
-    projStartDat: "1Nov2021",
-    status: true,
-    progress: 100,
-  },
-  {
-    uname: "test2ac",
-    uuid: "2",
-    projName: "test2Proj20211124",
-    projId: "2",
-    projStartDat: "2Nov2021",
-    status: true,
-    progress: 100,
-  },
-  {
-    uname: "test3ac",
-    uuid: "3",
-    projName: "test3Proj20211124",
-    projId: "3",
-    projStartDat: "3Nov2021",
-    status: true,
-    progress: 100,
-  },
-  {
-    uname: "test4ac",
-    uuid: "4",
-    projName: "test4Proj20211124",
-    projId: "4",
-    projStartDat: "4Nov2021",
-    status: false,
-    progress: 70,
-  },
-  {
-    uname: "test5ac",
-    uuid: "5",
-    projName: "test5Proj20211124",
-    projId: "5",
-    projStartDat: "5Nov2021",
-    status: false,
-    progress: 70,
-  },
-  {
-    uname: "test6ac",
-    uuid: "6",
-    projName: "test6Proj20211124",
-    projId: "6",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 60,
-  },
-  {
-    uname: "test7ac",
-    uuid: "6",
-    projName: "test7Proj20211124",
-    projId: "7",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 60,
-  },
-  {
-    uname: "test8ac",
-    uuid: "6",
-    projName: "test8Proj20211124",
-    projId: "8",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 50,
-  },
-  {
-    uname: "test9ac",
-    uuid: "6",
-    projName: "test9Proj20211124",
-    projId: "9",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 50,
-  },
-  {
-    uname: "test10ac",
-    uuid: "6",
-    projName: "test10Proj20211124",
-    projId: "10",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 20,
-  },
-  {
-    uname: "test11ac",
-    uuid: "6",
-    projName: "test11Proj20211124",
-    projId: "11",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: -1
-  },
-  {
-    uname: "test12ac",
-    uuid: "6",
-    projName: "test21Proj20211124",
-    projId: "12",
-    projStartDat: "6Nov2021",
-    status: false,
-    progress: 10,
-  },
-];
 
+require("dotenv").config();
 export default function DashboardTable(props) {
+  const [projectInfo, setProjectInfo] = useState()
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  useEffect(()=>{
+    let url
+
+    if(props.admin) url = `${process.env.REACT_APP_BN}/homepage/admin-dashboard`
+    else url = `${process.env.REACT_APP_BN}/homepage/user-dashboard`
+
+    fetch(url,{
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+
+    })
+    .then((res)=>{
+      return res.json()
+    })
+    .then((result)=>{
+      console.log(result)
+      setProjectInfo(result)
+    },(error)=>{
+      console.log(error)
+    })
+  },[])
   const triggerRemoveAPI = () => {
     //api
     console.log('remove')
@@ -168,9 +80,9 @@ export default function DashboardTable(props) {
             </TableRow>
           </TableHead>
           <TableBody sx={{ bgcolor: "#FFFFFF" }}>
-            {data.map((project) => (
+            {projectInfo?projectInfo.map((project, i) => (
               <TableRow
-                key={project.projId}
+                key={project.i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 hover
               >
@@ -179,13 +91,13 @@ export default function DashboardTable(props) {
                   className="text-truncate"
                   sx={{ fontSize: 20, maxnWidth: 400 }}
                 >
-                  {project.projName}
+                  {project.proj_name}
                 </TableCell>
                 {props.admin ? (
                   <TableCell align="right" className="text-truncate">
                     <Avatar sx={{ float: "left" }} src={profile} alt="avatar" />
                     <div className="d-flex justify-content-start">
-                      <h4 className="mt-2">{project.uname}</h4>
+                      <h4 className="mt-2">{project.owner}</h4>
                     </div>
                   </TableCell>
                 ) : (
@@ -256,7 +168,7 @@ export default function DashboardTable(props) {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+            )):null}
           </TableBody>
         </Table>
       </TableContainer>

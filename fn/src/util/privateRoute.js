@@ -4,10 +4,11 @@ import {
   Redirect
 } from 'react-router-dom';
 import decode from 'jwt-decode';
-
+let decoded;
 const isAuthenticated = () => {
   const token = localStorage.getItem('token');
   const refreshToken = localStorage.getItem('refreshToken');
+  decoded = decode(token)
   try {
     decode(token);
     decode(refreshToken);
@@ -24,7 +25,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         {...rest}
         render={props =>
             isAuthenticated() ? (
-            <Component {...props} />
+            <Component {...props} userId={decoded} />
             ) : (
             <Redirect
                 to={{

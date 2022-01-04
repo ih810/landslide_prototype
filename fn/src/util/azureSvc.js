@@ -3,9 +3,6 @@ import { ShareServiceClient } from "@azure/storage-file-share";
 //account name
 const account = "aiat3landslidestg";
 
-//azure website/<storage account>/Shared access signature
-const sas =
-  "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2021-12-02T11:35:16Z&st=2021-12-02T03:35:16Z&spr=https&sig=X3R7rlOlFU45fLoYZyT0ZjJvQl9jjLdcymWrhm%2Bf4x8%3D";
 
 //file under the root of account
 const shareName = "home";

@@ -8,6 +8,8 @@ import logo from "../assets/real_icon.png";
 
 import { Alert,Collapse } from '@mui/material';
 
+require("dotenv").config();
+
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [showPic, setShowPic] = useState(true);
@@ -35,7 +37,7 @@ export default function Login() {
 
   const login = async (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:5000/login",{
+    fetch(`${process.env.REACT_APP_BN}/login`,{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({username:e.target['username'].value, password: e.target['password'].value})

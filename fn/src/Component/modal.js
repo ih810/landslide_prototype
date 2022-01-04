@@ -9,7 +9,7 @@ export default function ComponentModal (props) {
         <div>
         <Modal centered isOpen={props.control}>
             <ModalHeader>
-                <h1>{props.type}</h1>
+                {props.type}
             </ModalHeader>
             <ModalBody>
             <p>This action cannot be undone, are you sure?</p>                

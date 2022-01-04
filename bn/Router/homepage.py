@@ -3,27 +3,23 @@ from flask import request
 from flask_classy import FlaskView, route
 from Util.azure_file_share import Get_Share_Client
 from Util.azure_table_query import Get_Table_Client
-#test
-class Homepage_Route(FlaskView):
 
+class Homepage_Route(FlaskView):
     @route('/admin-dashboard', methods=['GET'])
     # return all project available
     def get_all_project(self):
-        user_id = request.args.get('user_id')
-        
-        share_client = Get_Share_Client()
-        dir_list = share_client.list_directories_and_files()
-        
         table_client = Get_Table_Client()
-        project_access = table_client.query_entities("username gt '' and project_name gt ''")
-        for entry in project_access:
-            print(entry)
+        project_ownership = table_client.query_entities("username gt '' and project_name gt ''")
         
+        ownership_map = {}
+        for project in project_ownership:
+            ownership_map[project['project_name']] = project["username"]
+
         response_list = []
-        for item in dir_list:
+        for item in ownership_map:
             response_list.append({
-                "proj_name":item['name'],
-                "owner": user_id,
+                "proj_name": item,
+                "owner": ownership_map[item],
                 "progress": 100,
                 "status": True
             })

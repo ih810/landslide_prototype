@@ -24,7 +24,7 @@ const data = [
 ];
 
 export default function AdminHomePage(props) {
-  console.log(props)
+  console.log(props.userId.username)
   return (
     <>
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
@@ -59,13 +59,6 @@ export default function AdminHomePage(props) {
             </Grid>
           );
         })}
-        {/* <Grid item md={12} lg={3} sx={flexTheme}>
-          <Box>
-            <Button variant="contained" sx={{ pl: 5, pr: 5, fontSize: 18 }}>
-              Generate Reports
-            </Button>
-          </Box>
-        </Grid> */}
       </Grid>
       <Table admin={true} username={props.userId.username}/>
     </>

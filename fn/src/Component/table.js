@@ -38,6 +38,7 @@ export default function DashboardTable(props) {
       return res.json()
     })
     .then((result)=>{
+      console.log(result)
       setProjectInfo(result)
     },(error)=>{
       console.log(error)
@@ -128,7 +129,7 @@ export default function DashboardTable(props) {
                       >
                         Failed
                       </div>
-                    ) : project.status ? (
+                    ) : project.progress === 100 ? (
                       <div
                         className="border rounded-pill pl-5 pr-5"
                         style={{

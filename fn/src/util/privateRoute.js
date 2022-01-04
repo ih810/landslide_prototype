@@ -8,7 +8,9 @@ let decoded;
 const isAuthenticated = () => {
   const token = localStorage.getItem('token');
   const refreshToken = localStorage.getItem('refreshToken');
-  decoded = decode(token)
+  if(token){
+    decoded = decode(token)
+  }
   try {
     decode(token);
     decode(refreshToken);

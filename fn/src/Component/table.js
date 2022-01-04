@@ -44,6 +44,7 @@ export default function DashboardTable(props) {
       console.log(error)
     })
   },[])
+
   const triggerRemoveAPI = () => {
     //api
     console.log('remove')
@@ -82,27 +83,29 @@ export default function DashboardTable(props) {
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 hover
+                
               >
                 <TableCell
                   component="th"
                   className="text-truncate"
                   sx={{ fontSize: 20, maxnWidth: 400 }}
+                  onClick={props.nav}
                 >
                   {project.proj_name}
                 </TableCell>
                 {props.admin ? (
-                  <TableCell align="right" className="text-truncate">
+                  <TableCell align="right" className="text-truncate" onClick={props.nav} >
                     <Avatar sx={{ float: "left" }} src={profile} alt="avatar" />
                     <div className="d-flex justify-content-start">
                       <h4 className="mt-2">{project.owner}</h4>
                     </div>
                   </TableCell>
                 ) : (
-                  <TableCell className="text-truncate" sx={{ fontSize: 20 }}>
+                  <TableCell className="text-truncate" sx={{ fontSize: 20 }} onClick={props.nav}>
                     {project.start_date}
                   </TableCell>
                 )}
-                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }}>
+                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }} onClick={props.nav}>
                   <ProgressBar
                     progress={project.progress}
                     color={
@@ -157,10 +160,10 @@ export default function DashboardTable(props) {
                       </div>
                     )}
                     <div style={{ color: "#A4A4A4"}}>
-                        <Button size="small" color='inherit' onClick={()=>{setUndoModal(!undoModal)}}>Undo</Button>
+                        <Button size="small" color='inherit' onClick={(e)=>{setUndoModal(!undoModal)}}>Undo</Button>
                     </div>
                     <div style={{ color: "#A4A4A4"}}>
-                        <DeleteOutlineIcon color='inherit' onClick={()=>{setDeleteModal(!deleteModal)}}/>
+                        <DeleteOutlineIcon color='inherit' onClick={(e)=>{setDeleteModal(!deleteModal)}}/>
                     </div>
                   </div>
                 </TableCell>
@@ -169,8 +172,8 @@ export default function DashboardTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <ComponentModal control={undoModal} toggle={()=>{setUndoModal(!undoModal)}} remove={triggerUndoAPI} type={'Undo'}/>
-      <ComponentModal control={deleteModal} toggle={()=>{setDeleteModal(!deleteModal)}} remove={triggerRemoveAPI} type={'Remove'}/>
+      <ComponentModal control={undoModal} toggle={(e)=>{setUndoModal(!undoModal)}} remove={triggerUndoAPI} type={'Undo'}/>
+      <ComponentModal control={deleteModal} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={triggerRemoveAPI} type={'Remove'}/>
     </>
   );
 }

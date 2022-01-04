@@ -2,7 +2,6 @@ import os
 import jwt
 import json
 import datetime
-from time import strftime
 from dotenv import load_dotenv
 from os.path import join, dirname
 from Util.hash import hash_password

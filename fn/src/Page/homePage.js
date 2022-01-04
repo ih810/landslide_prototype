@@ -17,6 +17,11 @@ export default function HomePage(props) {
     history.push('/new-project');
   }
 
+  const navViewPorject = () => {
+    console.log('click')
+    history.push('/view-performance')
+  }
+
   const handleChange = (e) =>{
     setSort(e.target.value)
   }
@@ -46,7 +51,7 @@ export default function HomePage(props) {
             </Box>
           </Grid>
         </Grid>
-      <Table username={props.userId.username}/>
+      <Table username={props.userId.username} nav={navViewPorject}/>
     </>
   );
 }

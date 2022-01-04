@@ -67,7 +67,7 @@ export default function AdminHomePage(props) {
           </Box>
         </Grid> */}
       </Grid>
-      <Table admin={true} username={props.userId}/>
+      <Table admin={true} username={props.userId.username}/>
     </>
   );
 }

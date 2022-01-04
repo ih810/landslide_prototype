@@ -28,20 +28,16 @@ export default function DashboardTable(props) {
   const [deleteModal, setDeleteModal] = useState(false);
   useEffect(()=>{
     let url
-
     if(props.admin) url = `${process.env.REACT_APP_BN}/homepage/admin-dashboard`
-    else url = `${process.env.REACT_APP_BN}/homepage/user-dashboard`
+    else url = `${process.env.REACT_APP_BN}/homepage/user-dashboard?username=${props.username}`
 
     fetch(url,{
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-
+      method: 'GET'
     })
     .then((res)=>{
       return res.json()
     })
     .then((result)=>{
-      console.log(result)
       setProjectInfo(result)
     },(error)=>{
       console.log(error)
@@ -82,7 +78,7 @@ export default function DashboardTable(props) {
           <TableBody sx={{ bgcolor: "#FFFFFF" }}>
             {projectInfo?projectInfo.map((project, i) => (
               <TableRow
-                key={project.i}
+                key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 hover
               >

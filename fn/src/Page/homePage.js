@@ -9,7 +9,7 @@ import { Box } from '@mui/system';
 import { Grid, Button } from '@mui/material';
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 
-export default function HomePage() {
+export default function HomePage(props) {
   const [sortType, setSort] = useState('');
   const history = useHistory();
 
@@ -46,7 +46,7 @@ export default function HomePage() {
             </Box>
           </Grid>
         </Grid>
-      <Table/>
+      <Table username={props.userId.username}/>
     </>
   );
 }

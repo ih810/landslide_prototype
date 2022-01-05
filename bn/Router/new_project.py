@@ -5,6 +5,7 @@ import json
 from Util.azure_file_share import Get_Share_Client
 from azure.core.exceptions import ResourceExistsError
 
+
 class New_Project_Route(FlaskView):
     # return project info
     @route('/new-project', methods=['POST'])
@@ -14,7 +15,7 @@ class New_Project_Route(FlaskView):
         # create directory in azure
         share_client = Get_Share_Client()
         try:
-            response = share_client.create_directory(project_id)
+            share_client.create_directory(project_id)
         except ResourceExistsError:
             return {'data': 'resource already exist'}
 

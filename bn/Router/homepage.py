@@ -7,6 +7,7 @@ from Util.azure_table_query import Get_Table_Client
 from Util.azure_file_share import Get_Share_Client
 from azure.core.exceptions import ResourceNotFoundError
 
+
 class Homepage_Route(FlaskView):
     def __init__(self):
         self.table_client = Get_Table_Client()
@@ -15,25 +16,27 @@ class Homepage_Route(FlaskView):
     # return all project available
     def get_all_project(self):
         # Query table
-        project_ownership = self.table_client.query_entities("username gt '' and project_name gt ''")
-        
+        project_ownership = self.table_client.query_entities(
+            "username gt '' and project_name gt ''")
+
         # use arr to store content of items
         response_list = []
         for project in project_ownership:
 
             # read file to utf-8
-            completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
+            completed_task = Read_Txt(
+                project['project_name'], 'AnalysisDone.txt')
 
             progress = (len(completed_task)/9) * 100
-            
+
             # construct response array
             response_list.append({
                 "proj_name": project['project_name'],
                 "owner": project["username"],
                 "progress": progress,
                 "status": True
-                })
-        
+            })
+
         return json.dumps(response_list)
 
     @route('/user-dashboard', methods=['GET'])
@@ -43,20 +46,22 @@ class Homepage_Route(FlaskView):
         user_id = request.args.get('username')
 
         # Query table
-        project_ownership = self.table_client.query_entities("username eq '"+user_id+"' and project_name gt ''")
+        project_ownership = self.table_client.query_entities(
+            "username eq '"+user_id+"' and project_name gt ''")
 
         response_list = []
         for project in project_ownership:
             # read file to utf-8
-            completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
+            completed_task = Read_Txt(
+                project['project_name'], 'AnalysisDone.txt')
             progress = (len(completed_task)/9) * 100
 
             # read project_config.txt file to utf-8
-            file_config = Read_Txt(project['project_name'], 'project_config.txt')
-            for idx, config in enumerate(file_config):
+            file_config = Read_Txt(
+                project['project_name'], 'project_config.txt')
+            for idx, config in file_config:
                 if 'start_date' in config:
-                    temp = file_config[idx]
-                    project_start_date = temp.replace('start_date: ', "")
+                    project_start_date  = file_config[idx].replace('start_date: ', "")
 
             response_list.append({
                 "proj_name": project['project_name'],

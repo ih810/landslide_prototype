@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 //component
@@ -25,11 +25,40 @@ const data = [
 ];
 
 export default function AdminHomePage(props) {
+  const [projectInfo, setProjectInfo] = useState();
   const history = useHistory();
-  console.log(props.userId.username)
-  const navViewPorject = (e) => {
-    history.push('/view-performance/'+e.target.parentNode.attributes['id'].value);
-  }
+  console.log(props.userId.username);
+
+  useEffect(()=>{
+    let url = `${process.env.REACT_APP_BN}/homepage/admin-dashboard`
+
+    fetch(url,{
+      method: 'GET'
+    })
+    .then((res)=>{
+      return res.json()
+    })
+    .then((result)=>{
+      setProjectInfo(result)
+    },(error)=>{
+      console.log(error)
+    })
+  },[]);
+
+  const navViewPorject = (e, project_name) => {
+    for(let i = 0; i < projectInfo.length; i++){
+      if(projectInfo[i]['proj_name'] === project_name){
+        if(projectInfo[i]['progress'] === 100){
+          history.push(`/view-performance/${project_name}`);
+        } else if (projectInfo[i]['status']){
+          console.log('project not ready')
+        } else {
+          console.log('restart project?')
+        }
+      }
+    };
+  };
+
   return (
     <>
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
@@ -65,7 +94,7 @@ export default function AdminHomePage(props) {
           );
         })}
       </Grid>
-      <Table admin={true} username={props.userId.username} nav={navViewPorject}/>
+      <Table admin={true} username={props.userId.username} nav={navViewPorject} projectInfo={projectInfo}/>
     </>
   );
 }

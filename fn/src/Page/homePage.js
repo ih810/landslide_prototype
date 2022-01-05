@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 //component
@@ -10,19 +10,46 @@ import { Grid, Button } from '@mui/material';
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 
 export default function HomePage(props) {
+  const [projectInfo, setProjectInfo] = useState();
   const [sortType, setSort] = useState('');
   const history = useHistory();
+
+  useEffect(()=>{
+    let url = `${process.env.REACT_APP_BN}/homepage/user-dashboard?username=${props.userId.username}`
+
+    fetch(url,{
+      method: 'GET'
+    })
+    .then((res)=>{
+      return res.json()
+    })
+    .then((result)=>{
+      setProjectInfo(result)
+    },(error)=>{
+      console.log(error)
+    })
+  },[])
 
   const navNewProject = () => {
     history.push('/new-project');
   }
 
-  const navViewPorject = (e) => {
-    history.push('/view-performance/'+e.target.parentNode.attributes['id'].value);
+  const navViewPorject = (e, project_name) => {
+    for(let i = 0; i < projectInfo.length; i++){
+      if(projectInfo[i]['proj_name'] === project_name){
+        if(projectInfo[i]['progress'] === 100){
+          history.push(`/view-performance/${project_name}`);
+        } else if (projectInfo[i]['status']){
+          console.log('project not ready')
+        } else {
+          console.log('restart project?')
+        }
+      }
+    };
   }
 
   const handleChange = (e) =>{
-    setSort(e.target.value)
+    setSort(e.target.value);
   }
   
   return (
@@ -50,7 +77,7 @@ export default function HomePage(props) {
             </Box>
           </Grid>
         </Grid>
-      <Table username={props.userId.username} nav={navViewPorject}/>
+      <Table username={props.userId.username} nav={navViewPorject} projectInfo={projectInfo}/>
     </>
   );
 }

@@ -22,7 +22,7 @@ class Homepage_Route(FlaskView):
             # read file to utf-8
             completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
 
-            progress = (len(completed_task)/10) * 100
+            progress = (len(completed_task)/9) * 100
             
             # construct response array
             response_list.append({
@@ -47,7 +47,7 @@ class Homepage_Route(FlaskView):
         for project in project_ownership:
             # read file to utf-8
             completed_task = Read_Txt(project['project_name'], 'AnalysisDone.txt')
-            progress = (len(completed_task)/10) * 100
+            progress = (len(completed_task)/9) * 100
 
             # read project_config.txt file to utf-8
             file_config = Read_Txt(project['project_name'], 'project_config.txt')

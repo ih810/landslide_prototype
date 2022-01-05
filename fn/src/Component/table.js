@@ -23,27 +23,9 @@ const cellStyle = { color: "white", fontSize: 20 };
 
 require("dotenv").config();
 export default function DashboardTable(props) {
-  const [projectInfo, setProjectInfo] = useState()
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  useEffect(()=>{
-    let url
-    if(props.admin) url = `${process.env.REACT_APP_BN}/homepage/admin-dashboard`
-    else url = `${process.env.REACT_APP_BN}/homepage/user-dashboard?username=${props.username}`
 
-    fetch(url,{
-      method: 'GET'
-    })
-    .then((res)=>{
-      return res.json()
-    })
-    .then((result)=>{
-      console.log(result)
-      setProjectInfo(result)
-    },(error)=>{
-      console.log(error)
-    })
-  },[])
 
   const triggerRemoveAPI = () => {
     //api
@@ -78,36 +60,37 @@ export default function DashboardTable(props) {
             </TableRow>
           </TableHead>
           <TableBody sx={{ bgcolor: "#FFFFFF" }}>
-            {projectInfo?projectInfo.map((project, i) => (
+            {props.projectInfo?props.projectInfo.map((project, i) => (
               <TableRow
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                id={project.proj_name}
                 hover
+                onClick={(e)=>{props.nav(e, project.proj_name)}}
               >
                 <TableCell
                   component="th"
-                  className="text-truncate"
+                  className={'text-truncate ' + project.proj_name}
                   sx={{ fontSize: 20, maxnWidth: 400 }}
-                  onClick={(e)=>{props.nav(e)}}
+                
                 >
                   {project.proj_name}
                 </TableCell>
                 {props.admin ? (
-                  <TableCell align="right" className="text-truncate" onClick={(e)=>{props.nav(e)}} >
+                  <TableCell align="right" className={'text-truncate ' + project.proj_name} >
                     <Avatar sx={{ float: "left" }} src={profile} alt="avatar" />
                     <div className="d-flex justify-content-start">
                       <h4 className="mt-2">{project.owner}</h4>
                     </div>
                   </TableCell>
                 ) : (
-                  <TableCell className="text-truncate" sx={{ fontSize: 20 }} onClick={(e)=>{props.nav(e)}}>
+                  <TableCell className={'text-truncate ' + project.proj_name} sx={{ fontSize: 20 }}>
                     {project.start_date}
                   </TableCell>
                 )}
-                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }} onClick={(e)=>{props.nav(e)}}>
+                <TableCell component="th" className={project.proj_name} sx={{ fontSize: 20, minWidth: 400 }} >
                   <ProgressBar
                     progress={project.progress}
+                    className={project.proj_name}
                     color={
                       project.progress === 100
                         ? "success"
@@ -117,7 +100,7 @@ export default function DashboardTable(props) {
                     }
                   />
                 </TableCell>
-                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }}>
+                <TableCell component="th" className={project.proj_name} sx={{ fontSize: 20, minWidth: 400 }}>
                   <div className="d-flex justify-content-end">
                     {project.progress < 0 ? (
                       <div
@@ -160,10 +143,10 @@ export default function DashboardTable(props) {
                       </div>
                     )}
                     <div style={{ color: "#A4A4A4"}}>
-                        <Button size="small" color='inherit' onClick={(e)=>{setUndoModal(!undoModal)}}>Undo</Button>
+                        <Button size="small" color='inherit' onClick={(e)=>{e.stopPropagation(); setUndoModal(!undoModal)}}>Undo</Button>
                     </div>
                     <div style={{ color: "#A4A4A4"}}>
-                        <DeleteOutlineIcon color='inherit' onClick={(e)=>{setDeleteModal(!deleteModal)}}/>
+                        <DeleteOutlineIcon color='inherit' onClick={(e)=>{e.stopPropagation(); setDeleteModal(!deleteModal)}}/>
                     </div>
                   </div>
                 </TableCell>

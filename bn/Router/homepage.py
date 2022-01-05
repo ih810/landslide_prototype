@@ -23,7 +23,7 @@ class Homepage_Route(FlaskView):
         response_list = []
         for project in project_ownership:
 
-            # read file to utf-8
+            # read txt file from auzre to utf-8
             completed_task = Read_Txt(
                 project['project_name'], 'AnalysisDone.txt')
 
@@ -51,7 +51,8 @@ class Homepage_Route(FlaskView):
 
         response_list = []
         for project in project_ownership:
-            # read file to utf-8
+
+            # read txt file from auzre to utf-8
             completed_task = Read_Txt(
                 project['project_name'], 'AnalysisDone.txt')
             progress = (len(completed_task)/9) * 100
@@ -59,7 +60,7 @@ class Homepage_Route(FlaskView):
             # read project_config.txt file to utf-8
             file_config = Read_Txt(
                 project['project_name'], 'project_config.txt')
-            for idx, config in file_config:
+            for idx, config in enumerate(file_config):
                 if 'start_date' in config:
                     project_start_date  = file_config[idx].replace('start_date: ', "")
 
@@ -86,7 +87,9 @@ class Homepage_Route(FlaskView):
 
         # remove directory from azure
         share_client = Get_Share_Client()
-
+        
+        target_entity = self.table_client.query_entities('project_name eq '+project_id)
+        print(target_entity)
         try:
             share_client.delete_directory(project_id)
         except ResourceNotFoundError:

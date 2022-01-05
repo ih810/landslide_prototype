@@ -8,4 +8,4 @@ set /P pushing=Push?[y/[n]]:
 call git add .
 call git commit -m %commitMessage%
 echo commit finished
-IF %pushing%=="y" call git push origin %branchName% call git push lab origin %branchName%
+IF %pushing%==y call git push origin %branchName% call git push lab origin %branchName%

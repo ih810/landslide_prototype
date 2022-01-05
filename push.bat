@@ -9,4 +9,4 @@ call git add .
 call git commit -m %commitMessage%
 echo commit finished
 call git push origin %branchName% 
-call git push lab origin %branchName%
+call git push lab %branchName%

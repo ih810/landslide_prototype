@@ -5,6 +5,7 @@ from flask_classy import FlaskView, route
 from Util.azure_read_txt import Read_Txt
 from Util.azure_table_query import Get_Table_Client
 from Util.azure_file_share import Get_Share_Client
+from azure.core.exceptions import ResourceNotFoundError
 
 class Homepage_Route(FlaskView):
     def __init__(self):
@@ -73,13 +74,17 @@ class Homepage_Route(FlaskView):
         # should do smth
         return project_id
 
-    @route('/delete-project/lmao', methods=['DELETE'])
+    @route('/delete-project', methods=['DELETE'])
     # return void/all project?
     def delete_project(self):
         project_id = request.args.get('project_name')
 
         # remove directory from azure
         share_client = Get_Share_Client()
-        share_client.delete_directory(project_id)
+
+        try:
+            share_client.delete_directory(project_id)
+        except ResourceNotFoundError:
+            return {'data': 'resource does not exist'}
 
         return project_id

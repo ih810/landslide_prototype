@@ -4,6 +4,7 @@ from flask import request
 from flask_classy import FlaskView, route
 from Util.azure_read_txt import Read_Txt
 from Util.azure_table_query import Get_Table_Client
+from Util.azure_file_share import Get_Share_Client
 
 class Homepage_Route(FlaskView):
     def __init__(self):
@@ -72,9 +73,13 @@ class Homepage_Route(FlaskView):
         # should do smth
         return project_id
 
-    @route('/delete-project', methods=['DELETE'])
+    @route('/delete-project/lmao', methods=['DELETE'])
     # return void/all project?
     def delete_project(self):
         project_id = request.args.get('project_name')
-        # should do smth
+
+        # remove directory from azure
+        share_client = Get_Share_Client()
+        share_client.delete_directory(project_id)
+
         return project_id

@@ -12,6 +12,8 @@ load_dotenv(dotenv_path)
 ACC_NAME = os.environ.get("ACC_NAME")
 ACC_KEY = os.environ.get("ACC_KEY")
 
+# Seperating into function to handle different needs
+
 def Get_Account_Client():
     # Generate Azure Table Client 
     service_client = ShareServiceClient(account_url="https://"+ACC_NAME+".file.core.windows.net/", credential=ACC_KEY)
@@ -21,6 +23,11 @@ def Get_Share_Client():
     acc_client = Get_Account_Client()
     share_client = acc_client.get_share_client('data')
     return share_client
+
+def Get_Dir_Client(path):
+    share_client = Get_Share_Client()
+    dir_client = share_client.get_directory_client(path)
+    return dir_client
 
 acc_sas_token = generate_account_sas(
     account_name=ACC_NAME,

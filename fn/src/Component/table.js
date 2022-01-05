@@ -82,30 +82,30 @@ export default function DashboardTable(props) {
               <TableRow
                 key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                id={project.proj_name}
                 hover
-                
               >
                 <TableCell
                   component="th"
                   className="text-truncate"
                   sx={{ fontSize: 20, maxnWidth: 400 }}
-                  onClick={props.nav}
+                  onClick={(e)=>{props.nav(e)}}
                 >
                   {project.proj_name}
                 </TableCell>
                 {props.admin ? (
-                  <TableCell align="right" className="text-truncate" onClick={props.nav} >
+                  <TableCell align="right" className="text-truncate" onClick={(e)=>{props.nav(e)}} >
                     <Avatar sx={{ float: "left" }} src={profile} alt="avatar" />
                     <div className="d-flex justify-content-start">
                       <h4 className="mt-2">{project.owner}</h4>
                     </div>
                   </TableCell>
                 ) : (
-                  <TableCell className="text-truncate" sx={{ fontSize: 20 }} onClick={props.nav}>
+                  <TableCell className="text-truncate" sx={{ fontSize: 20 }} onClick={(e)=>{props.nav(e)}}>
                     {project.start_date}
                   </TableCell>
                 )}
-                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }} onClick={props.nav}>
+                <TableCell component="th" sx={{ fontSize: 20, minWidth: 400 }} onClick={(e)=>{props.nav(e)}}>
                   <ProgressBar
                     progress={project.progress}
                     color={

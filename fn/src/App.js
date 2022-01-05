@@ -1,6 +1,6 @@
 //React
 import React from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 
 //Fixed component
 import Navbar from "./Component/navBar";
@@ -22,17 +22,20 @@ import Viewresults from "./Page/viewResult";
 
 export default function App(props) {
   const location = useLocation();
+  const history = useHistory();
   const routes = [
     { path: "/", component: HomePage, exact: true },
     { path: "/admin", component: AdminHomePage, exact: false },
     { path: "/new-project", component: NewProject, exact: false },
-    { path: "/train-new-model", component: NewModelSetting, exact: false },
-    { path: "/pre-train-model", component: PreTrainList, exact: false },
-    { path: "/upload-files", component: UploadInput, exact: false },
-    { path: "/validate-input", component: ValidateInput, exact: false },
-    { path: "/view-performance", component: ViewPerformance, exact: false },
-    { path: "/view-results", component: Viewresults, exact: false },
+    { path: "/train-new-model/:project_name", component: NewModelSetting, exact: false },
+    { path: "/pre-train-model/:project_name", component: PreTrainList, exact: false },
+    { path: "/upload-files/:project_name", component: UploadInput, exact: false },
+    { path: "/validate-input/:project_name", component: ValidateInput, exact: false },
+    { path: "/view-performance/:project_name", component: ViewPerformance, exact: false },
+    { path: "/view-results/:project_name", component: Viewresults, exact: false },
   ];
+  console.log(location)
+  console.log(history)
   return (
     <>
       {

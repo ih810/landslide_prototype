@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 //component
 import Table from "../Component/table";
@@ -24,7 +25,11 @@ const data = [
 ];
 
 export default function AdminHomePage(props) {
+  const history = useHistory();
   console.log(props.userId.username)
+  const navViewPorject = (e) => {
+    history.push('/view-performance/'+e.target.parentNode.attributes['id'].value);
+  }
   return (
     <>
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
@@ -60,7 +65,7 @@ export default function AdminHomePage(props) {
           );
         })}
       </Grid>
-      <Table admin={true} username={props.userId.username}/>
+      <Table admin={true} username={props.userId.username} nav={navViewPorject}/>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 //logo
 import logo from "../assets/real_icon (2).png";
@@ -9,16 +9,22 @@ import arup from "../assets/Arup_Red_RGB.png";
 export default function NavBar(props) {
   const [title, setTitle] = useState();
   const history = useHistory()
+  const match = useRouteMatch()
+  console.log('curr match', match)
+  console.log('curr loca', props.location)
+  console.log('curr props', props)
   useEffect(()=>{
-    if(props.location === '/') setTitle('Dashboard')
-    else if(props.location ==='/admin') setTitle('Admin Page')
-    else if(props.location ==='/new-project') setTitle('New Project Setting')
-    else if(props.location ==='/train-new-model') setTitle('Model Config')
-    else if(props.location ==='/pre-train-model') setTitle('Model Selection')
-    else if(props.location ==='/upload-files') setTitle('Upload Trainning Materials')
-    else if(props.location ==='/validate-input') setTitle('Validate Input')
-    else if(props.location ==='/view-performance') setTitle('Review Performance')
-    else if(props.location ==='/view-results') setTitle('Review Prediction Results')
+    let currPath = props.location.slice(0, props.location.lastIndexOf('/'))
+    console.log(currPath)
+    if(currPath === '/') setTitle('Dashboard')
+    else if(currPath ==='/admin') setTitle('Admin Page')
+    else if(currPath ==='/new-project') setTitle('New Project Setting')
+    else if(currPath ==='/train-new-model') setTitle('Model Config')
+    else if(currPath ==='/pre-train-model') setTitle('Model Selection')
+    else if(currPath ==='/upload-files') setTitle('Upload Trainning Materials')
+    else if(currPath ==='/validate-input') setTitle('Validate Input')
+    else if(currPath ==='/view-performance') setTitle('Review Performance')
+    else if(currPath ==='/view-results') setTitle('Review Prediction Results')
   })
   const logout = () =>{
     localStorage.removeItem('token')

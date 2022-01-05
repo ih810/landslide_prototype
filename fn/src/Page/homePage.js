@@ -17,9 +17,8 @@ export default function HomePage(props) {
     history.push('/new-project');
   }
 
-  const navViewPorject = () => {
-    console.log('click')
-    history.push('/view-performance')
+  const navViewPorject = (e) => {
+    history.push('/view-performance/'+e.target.parentNode.attributes['id'].value);
   }
 
   const handleChange = (e) =>{

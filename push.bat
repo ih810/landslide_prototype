@@ -10,3 +10,4 @@ call git commit -m %commitMessage%
 IF %pushing%==y (echo 'push') ELSE (echo 'nothing')
 call git push origin %branchName% 
 call git push lab %branchName%
+@REM 3

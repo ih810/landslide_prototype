@@ -11,7 +11,7 @@ from azure.core.exceptions import ResourceNotFoundError
 class Homepage_Route(FlaskView):
     def __init__(self):
         self.table_client = Get_Table_Client()
-
+        self.share_client = Get_Share_Client()
     @route('/admin-dashboard', methods=['GET'])
     # return all project available
     def get_all_project(self):
@@ -56,7 +56,7 @@ class Homepage_Route(FlaskView):
             completed_task = Read_Txt(
                 project['project_name'], 'AnalysisDone.txt')
             progress = (len(completed_task)/9) * 100
-
+            print(progress)
             # read project_config.txt file to utf-8
             file_config = Read_Txt(
                 project['project_name'], 'project_config.txt')
@@ -86,12 +86,13 @@ class Homepage_Route(FlaskView):
         project_id = request.args.get('project_name')
 
         # remove directory from azure
-        share_client = Get_Share_Client()
-        
-        target_entity = self.table_client.query_entities('project_name eq '+project_id)
-        print(target_entity)
+        print('project_name eq '+project_id)
+        target_entity = self.table_client.query_entities("project_name eq '"+project_id+"'")
+        for item in target_entity:
+            target_row_key = item["RowKey"]
         try:
-            share_client.delete_directory(project_id)
+            self.share_client.delete_directory(project_id)
+            self.table_client.delete_entity(row_key=target_row_key, partition_key='ownership', entity=target_entity)
         except ResourceNotFoundError:
             return {'data': 'resource does not exist'}
 

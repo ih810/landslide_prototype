@@ -23,26 +23,22 @@ class New_Project_Route(FlaskView):
         # create directory in azure
         try:
             self.share_client.create_directory(project_id)
-        except ResourceExistsError:
-            return {'data': 'resource already exist'}
-        except:
-            return {'data': 'something went wrong'}
+            # get the lenght of the table 
+            eTag = self.table_client.get_entity('ID', 'ID')
+            eTag['len'] += 1
 
-        # get the lenght of the table 
-        eTag = self.table_client.get_entity('ID', 'ID')
-        eTag['len'] += 1
-
-        # insert new row to azure table
-        try:
+            # insert new row to azure table
             self.table_client.create_entity({
                     "PartitionKey": 'ownership',
                     "RowKey": str(eTag['len']),
                     "username": project_config['username'],
                     "project_name": project_id,
                 })
+        except ResourceExistsError:
+            return {'data': 'resource already exist'}
         except:
             return {'data': 'something went wrong'}
-
+            
         # update the length of the table
         self.table_client.update_entity(entity=eTag, mode=UpdateMode.REPLACE)
 

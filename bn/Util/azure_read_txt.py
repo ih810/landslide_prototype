@@ -9,4 +9,4 @@ def Read_Txt(folder_name, file_name):
         filtered_list = list(filter(None, txt_list))
         return filtered_list
     except:
-        return False
+        return []

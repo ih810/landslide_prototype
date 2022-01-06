@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import ProgressBar from "../Component/progressBar";
 import ComponentModal from "./modal";
@@ -25,25 +26,31 @@ require("dotenv").config();
 export default function DashboardTable(props) {
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [interactTarget, setInteractTarget]= useState()
+  const [interactTarget, setInteractTarget]= useState();
+  const history = useHistory();
 
-  console.log('fuck', props)
   const triggerRemoveAPI = (projectName) => {
     //api
-    console.log('remove')
-    console.log(projectName)
-    console.log('target', interactTarget)
-    // fetch(`${process.env.REACT_APP_BN}/homepage/delete-project?project_name=${projectName}`,{
-    //   method: 'DELETE',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({username:props.username})
-    // })
+    fetch(`${process.env.REACT_APP_BN}/homepage/delete-project?project_name=${interactTarget}`,{
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username:props.username})
+    })
+    .then((res)=>{
+      history.push('/')
+    })
   }
   const triggerUndoAPI = () => {
     //api
     console.log('undo')
   }
-  console.log(interactTarget)
+  const triggerModal = (e, projectName, type) => {
+    if(type === 'undo'){
+      setUndoModal(true)
+    } else {
+      setDeleteModal(true)
+    }
+  }
   return (
     <>
       <TableContainer sx={{ pr: 4, ml: 15 }}>
@@ -153,20 +160,20 @@ export default function DashboardTable(props) {
                       </div>
                     )}
                     <div style={{ color: "#A4A4A4"}}>
-                        <Button size="small" color='inherit' onClick={(e)=>{e.stopPropagation(); setUndoModal(!undoModal)}}>Undo</Button>
+                        <Button size="small" color='inherit' onClick={(e)=>{triggerModal(e, project.proj_name,'undo')}}>Undo</Button>
                     </div>
                     <div style={{ color: "#A4A4A4"}}>
-                        <DeleteOutlineIcon color='inherit' onClick={(e)=>{e.stopPropagation(); setDeleteModal(!deleteModal)}}/>
+                        <DeleteOutlineIcon color='inherit' onClick={(e)=>{triggerModal(e, project.proj_name,'delete')}}/>
                     </div>
                   </div>
                 </TableCell>
-                <ComponentModal control={undoModal} name={interactTarget} toggle={(e)=>{setUndoModal(!undoModal)}} remove={()=>triggerUndoAPI(project.proj_name)} type={'Undo'}/>
-                <ComponentModal control={deleteModal} name={interactTarget} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={()=>triggerRemoveAPI(project.proj_name)} type={'Remove'}/>
               </TableRow>
             )):null}
           </TableBody>
         </Table>
       </TableContainer>
+      <ComponentModal control={undoModal} name={interactTarget} toggle={(e)=>{setUndoModal(!undoModal)}} remove={()=>triggerUndoAPI(interactTarget)} type={'Undo'}/>
+      <ComponentModal control={deleteModal} name={interactTarget} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={()=>triggerRemoveAPI(interactTarget)} type={'Remove'}/>
     </>
   );
 }

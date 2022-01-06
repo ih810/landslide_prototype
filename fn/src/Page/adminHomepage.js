@@ -48,7 +48,7 @@ export default function AdminHomePage(props) {
   const navViewPorject = (e, project_name) => {
     for(let i = 0; i < projectInfo.length; i++){
       if(projectInfo[i]['proj_name'] === project_name){
-        if(projectInfo[i]['progress'] === 100){
+        if(projectInfo[i]['progress'] === "100"){
           history.push(`/view-performance/${project_name}`);
         } else if (projectInfo[i]['status']){
           console.log('project not ready')

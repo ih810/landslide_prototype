@@ -12,5 +12,3 @@ call git push lab %branchName%
 SET commitMessage=''
 SET branchName=''
 SET pushing=''
-
-@REM 3

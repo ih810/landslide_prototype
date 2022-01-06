@@ -7,12 +7,13 @@ import Table from "../Component/table";
 //mui
 import { Box } from '@mui/system';
 import { Grid, Button } from '@mui/material';
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
+import { InputLabel, MenuItem, FormControl, Select, Alert, Snackbar } from '@mui/material';
 
 export default function HomePage(props) {
   const [projectInfo, setProjectInfo] = useState();
   const [sortType, setSort] = useState('');
   const history = useHistory();
+  const [showError, setShowError] = useState(false);
 
   useEffect(()=>{
     let url = `${process.env.REACT_APP_BN}/homepage/user-dashboard?username=${props.userId.username}`
@@ -37,12 +38,12 @@ export default function HomePage(props) {
   const navViewPorject = (e, project_name) => {
     for(let i = 0; i < projectInfo.length; i++){
       if(projectInfo[i]['proj_name'] === project_name){
-        if(projectInfo[i]['progress'] === 100){
+        if(projectInfo[i]['progress'] === '100'){
           history.push(`/view-performance/${project_name}`);
         } else if (projectInfo[i]['status']){
-          console.log('project not ready')
+          setShowError(true)
         } else {
-          console.log('restart project?')
+          setShowError(true)
         }
       }
     };
@@ -77,6 +78,11 @@ export default function HomePage(props) {
             </Box>
           </Grid>
         </Grid>
+        <Snackbar open={showError}>
+            <Alert sx={{ mb: 2 }} severity="error">
+              Project in progress
+            </Alert>
+        </Snackbar>
       <Table username={props.userId.username} nav={navViewPorject} projectInfo={projectInfo}/>
     </>
   );

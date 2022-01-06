@@ -6,7 +6,7 @@ echo Push? y/[n]
 read pushing
 
 git add .
-echo git commit -m $commitMessage
+git commit -m $commitMessage
 if [[ -z ${pushing} ]]
 then
     echo 'commited'

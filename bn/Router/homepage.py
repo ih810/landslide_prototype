@@ -22,18 +22,10 @@ class Homepage_Route(FlaskView):
         # use arr to store content of items
         response_list = []
         for project in project_ownership:
-
-            # read txt file from auzre to utf-8
-            completed_task = Read_Txt(
-                project['project_name'], 'AnalysisDone.txt')
-
-            progress = (len(completed_task)/9) * 100
-
-            # construct response array
             response_list.append({
                 "proj_name": project['project_name'],
                 "owner": project["username"],
-                "progress": progress,
+                "progress": project["progress"],
                 "status": True
             })
 
@@ -52,22 +44,12 @@ class Homepage_Route(FlaskView):
         response_list = []
         for project in project_ownership:
 
-            # read txt file from auzre to utf-8
-            completed_task = Read_Txt(
-                project['project_name'], 'AnalysisDone.txt')
-            progress = (len(completed_task)/9) * 100
-            print(progress)
-            # read project_config.txt file to utf-8
-            file_config = Read_Txt(
-                project['project_name'], 'project_config.txt')
-            for idx, config in enumerate(file_config):
-                if 'start_date' in config:
-                    project_start_date  = file_config[idx].replace('start_date: ', "")
+            stringify_start_date = str(project['start_date'])[0:10]
 
             response_list.append({
                 "proj_name": project['project_name'],
-                "start_date": project_start_date,
-                "progress": progress,
+                "start_date": stringify_start_date,
+                "progress": project['progress'],
                 "status": True
             })
 

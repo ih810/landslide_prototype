@@ -34,7 +34,6 @@ LinearProgressWithLabel.propTypes = {
 };
 
 export default function LinearWithValueLabel(props) {
-  console.log(props)
   return (
     <Box sx={{ width: "100%" }}>
       <LinearProgressWithLabel value={props.progress} color={props.color} />

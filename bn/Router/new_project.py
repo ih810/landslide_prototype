@@ -33,12 +33,14 @@ class New_Project_Route(FlaskView):
                     "RowKey": str(eTag['len']),
                     "username": project_config['username'],
                     "project_name": project_id,
+                    "start_date":  datetime.today(),
+                    'progress': '0'
                 })
         except ResourceExistsError:
             return {'data': 'resource already exist'}
         except:
             return {'data': 'something went wrong'}
-            
+
         # update the length of the table
         self.table_client.update_entity(entity=eTag, mode=UpdateMode.REPLACE)
 

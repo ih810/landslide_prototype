@@ -25,16 +25,25 @@ require("dotenv").config();
 export default function DashboardTable(props) {
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [interactTarget, setInteractTarget]= useState()
 
-
-  const triggerRemoveAPI = () => {
+  console.log('fuck', props)
+  const triggerRemoveAPI = (projectName) => {
     //api
     console.log('remove')
+    console.log(projectName)
+    console.log('target', interactTarget)
+    // fetch(`${process.env.REACT_APP_BN}/homepage/delete-project?project_name=${projectName}`,{
+    //   method: 'DELETE',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({username:props.username})
+    // })
   }
   const triggerUndoAPI = () => {
     //api
     console.log('undo')
   }
+  console.log(interactTarget)
   return (
     <>
       <TableContainer sx={{ pr: 4, ml: 15 }}>
@@ -66,6 +75,7 @@ export default function DashboardTable(props) {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 hover
                 onClick={(e)=>{props.nav(e, project.proj_name)}}
+                onMouseEnter={()=>{setInteractTarget(project.proj_name)}}
               >
                 <TableCell
                   component="th"
@@ -89,12 +99,12 @@ export default function DashboardTable(props) {
                 )}
                 <TableCell component="th" className={project.proj_name} sx={{ fontSize: 20, minWidth: 400 }} >
                   <ProgressBar
-                    progress={project.progress}
+                    progress={parseInt(project.progress)}
                     className={project.proj_name}
                     color={
-                      project.progress === 100
+                      parseInt(project.progress) === 100
                         ? "success"
-                        : project.progress < 0
+                        :  parseInt(project.progress) < 0
                         ? "error"
                         : "primary"
                     }
@@ -102,7 +112,7 @@ export default function DashboardTable(props) {
                 </TableCell>
                 <TableCell component="th" className={project.proj_name} sx={{ fontSize: 20, minWidth: 400 }}>
                   <div className="d-flex justify-content-end">
-                    {project.progress < 0 ? (
+                    { parseInt(project.progress) < 0 ? (
                       <div
                         className="border rounded-pill "
                         style={{
@@ -115,7 +125,7 @@ export default function DashboardTable(props) {
                       >
                         Failed
                       </div>
-                    ) : project.progress === 100 ? (
+                    ) : parseInt(project.progress) === 100 ? (
                       <div
                         className="border rounded-pill pl-5 pr-5"
                         style={{
@@ -150,13 +160,13 @@ export default function DashboardTable(props) {
                     </div>
                   </div>
                 </TableCell>
+                <ComponentModal control={undoModal} name={interactTarget} toggle={(e)=>{setUndoModal(!undoModal)}} remove={()=>triggerUndoAPI(project.proj_name)} type={'Undo'}/>
+                <ComponentModal control={deleteModal} name={interactTarget} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={()=>triggerRemoveAPI(project.proj_name)} type={'Remove'}/>
               </TableRow>
             )):null}
           </TableBody>
         </Table>
       </TableContainer>
-      <ComponentModal control={undoModal} toggle={(e)=>{setUndoModal(!undoModal)}} remove={triggerUndoAPI} type={'Undo'}/>
-      <ComponentModal control={deleteModal} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={triggerRemoveAPI} type={'Remove'}/>
     </>
   );
 }

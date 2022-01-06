@@ -6,10 +6,10 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 export default function ComponentModal (props) {
     
     return (
-        <div>
+        <>
         <Modal centered isOpen={props.control}>
             <ModalHeader>
-                {props.type}
+                {props.type +' '+ props.name}
             </ModalHeader>
             <ModalBody>
             <p>This action cannot be undone, are you sure?</p>                
@@ -20,6 +20,6 @@ export default function ComponentModal (props) {
             </ModalFooter>
         </Modal>
 
-    </div>
+    </>
     )
 }

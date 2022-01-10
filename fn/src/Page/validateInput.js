@@ -15,7 +15,6 @@ import OlMap from "../Component/map";
 
 import axios from 'axios';
 
-require("dotenv").config();
 const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
   folder: "home",

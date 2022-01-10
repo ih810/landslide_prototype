@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+
 def List(path):
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)

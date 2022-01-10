@@ -1,35 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //MUI assets
 import { Box, Paper, Button, Divider, Typography, Grid } from "@mui/material";
 
-export default function NewProjectModal() {
-    const fontSize = 18;
-    const greyColor = "#C9C9C9"
-    const history = useHistory();
+export default function NewProjectModal(props) {
+  const fontSize = 18;
+  const greyColor = "#C9C9C9";
+  const history = useHistory();
+  const [projectType, setProjectType] = useState();
 
-    const navTrainNewModel = () => {
-      history.push('/train-new-model');
-    }
-
-    const navPreTrainModel = () => {
-      history.push('/pre-train-model');
-    }
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
-    console.log(e.target.projName.value);
-    console.log(e.target.startD.value);
-    console.log(e.target.endD.value);
-    console.log(e.target.resolution.value);
+    let url = `${process.env.REACT_APP_BN}/new-project`;
+    let submitData = {
+      project_name: e.target.projName.value,
+      start_date: e.target.startD.value,
+      end_date: e.target.endD.value,
+      resolution: e.target.resolution.value,
+      username: props.userId.username
+    };
+    fetch(url,{
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json'},
+        body: JSON.stringify(submitData)
+    })
+    .then((res)=>{
+      return res.json();
+    })
+    .then((result)=>{
+      console.log(result)
+    });
+    if (projectType === "prediction") history.push("/pre-train-model");
+    else history.push("/train-new-model");
   };
 
   return (
     <>
       <Box
         sx={{
-          mt:5, 
+          mt: 5,
           display: "flex",
           justifyContent: "center",
           alignSelf: "center",
@@ -48,7 +58,9 @@ export default function NewProjectModal() {
             boxShadow: 2,
           }}
         >
-        <Typography variant="h4" sx={{ ml: 7, mt: 7, fontWeight:1000}}>BASIC INFORMATION</Typography>
+          <Typography variant="h4" sx={{ ml: 7, mt: 7, fontWeight: 1000 }}>
+            BASIC INFORMATION
+          </Typography>
 
           <form onSubmit={handleSubmit}>
             <Box sx={{ ml: 7, mt: 7, color: greyColor }}>
@@ -64,7 +76,7 @@ export default function NewProjectModal() {
               sx={{ ml: 7, mr: 7, mt: 5, bgcolor: "#FFFFFF" }}
             />
 
-            <Typography sx={{ ml: 7, mt: 5, fontWeight:1000 }} variant="h4">
+            <Typography sx={{ ml: 7, mt: 5, fontWeight: 1000 }} variant="h4">
               LiDAR Data SETTING
             </Typography>
 
@@ -72,7 +84,7 @@ export default function NewProjectModal() {
               <Grid item xs={6}>
                 <label htmlFor="startD">Start Date </label>
                 <br />
-                <input type="date" id="startD" className="p-2 w-75"/>
+                <input type="date" id="startD" className="p-2 w-75" />
               </Grid>
               <Grid item xs={6}>
                 <label htmlFor="endD">End Date </label>
@@ -98,7 +110,7 @@ export default function NewProjectModal() {
                   variant="contained"
                   sx={{ pl: 8, pr: 8, fontSize: fontSize }}
                   type="submit"
-                  onClick={navPreTrainModel}
+                  onClick={() => setProjectType("prediction")}
                 >
                   Prediction
                 </Button>
@@ -109,13 +121,12 @@ export default function NewProjectModal() {
                   variant="contained"
                   sx={{ pl: 11, pr: 11, fontSize: fontSize }}
                   type="submit"
-                  onClick={navTrainNewModel}
+                  onClick={() => setProjectType("train")}
                 >
                   Train
                 </Button>
               </Grid>
             </Grid>
-            <Box sx={{ ml: 7 }}></Box>
           </form>
         </Paper>
       </Box>

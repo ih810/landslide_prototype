@@ -27,7 +27,6 @@ const data = [
 export default function AdminHomePage(props) {
   const [projectInfo, setProjectInfo] = useState();
   const history = useHistory();
-  console.log(props.userId.username);
 
   useEffect(()=>{
     let url = `${process.env.REACT_APP_BN}/homepage/admin-dashboard`

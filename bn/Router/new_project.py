@@ -19,11 +19,14 @@ class New_Project_Route(FlaskView):
     def new_project(self):
         project_config = request.get_json()
         project_id = request.args.get('project_name')
-
-        # create directory in azure
+        print(project_config)
+        print(project_config['username'])
+        print(project_config['project_name'])
         try:
-            self.share_client.create_directory(project_id)
-            # get the lenght of the table 
+            # create directory in azure
+            self.share_client.create_directory(project_config['project_name'])
+            
+            # get the lenght of the table for RowKey insertion 
             eTag = self.table_client.get_entity('ID', 'ID')
             eTag['len'] += 1
 
@@ -32,13 +35,14 @@ class New_Project_Route(FlaskView):
                     "PartitionKey": 'ownership',
                     "RowKey": str(eTag['len']),
                     "username": project_config['username'],
-                    "project_name": project_id,
+                    "project_name": project_config['project_name'],
                     "start_date":  datetime.today(),
                     'progress': '0'
                 })
         except ResourceExistsError:
             return {'data': 'resource already exist'}
-        except:
+        except Exception as e:
+            print(e)
             return {'data': 'something went wrong'}
 
         # update the length of the table
@@ -46,7 +50,7 @@ class New_Project_Route(FlaskView):
 
         # construct response object
         response_json = {
-            'project_name': project_id
+            'project_name': project_config['project_name']
         }
 
         return response_json

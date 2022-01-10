@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 //logo
 import logo from "../assets/real_icon (2).png";
@@ -9,10 +9,7 @@ import arup from "../assets/Arup_Red_RGB.png";
 export default function NavBar(props) {
   const [title, setTitle] = useState();
   const history = useHistory()
-  const match = useRouteMatch()
-  console.log('curr match', match)
-  console.log('curr loca', props.location)
-  console.log('curr props', props)
+
   useEffect(()=>{
     let currPath = props.location.slice(0, props.location.lastIndexOf('/'))
     console.log(currPath)
@@ -26,11 +23,13 @@ export default function NavBar(props) {
     else if(currPath ==='/view-performance') setTitle('Review Performance')
     else if(currPath ==='/view-results') setTitle('Review Prediction Results')
   })
+
   const logout = () =>{
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
     history.push('/')
   }
+
   return (
       <div className='NavBar row bg-white shadow h-0 fixed-top' style={{zIndex:2000}}>
         <div className="col col-8 d-flex flex-row align-items-center">

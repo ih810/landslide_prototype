@@ -22,7 +22,6 @@ import profile from "../assets/dummy.png";
 
 const cellStyle = { color: "white", fontSize: 20 };
 
-require("dotenv").config();
 export default function DashboardTable(props) {
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);

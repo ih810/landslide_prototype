@@ -14,6 +14,7 @@ export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [showPic, setShowPic] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [identity, setIdentity] = useState();
   const toggleShowPw = () => setShowPw(!showPw);
   const history = useHistory();
 
@@ -37,7 +38,8 @@ export default function Login() {
 
   const login = async (e) => {
     e.preventDefault();
-    fetch(`${process.env.REACT_APP_BN}/login`,{
+    let url = `${process.env.REACT_APP_BN}/login/${identity}-login`
+    fetch(url,{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({username:e.target['username'].value, password: e.target['password'].value})
@@ -50,7 +52,11 @@ export default function Login() {
           if(result.data !== 'user does not exist' && result.data !== 'auth failed'){
             localStorage.setItem('token', result.data)
             localStorage.setItem('refreshToken', result.data)
-            history.push('/')
+            if(identity==='admin'){
+              history.push('/admin')
+            } else {
+              history.push('/')
+            }
           } else {
             setShowError(true)
           }
@@ -141,6 +147,7 @@ export default function Login() {
                     type="submit"
                     className="pl-4 pr-4 btn btn-outline-dark font-weight-bold shadow shadow-sm"
                     id="admin_login"
+                    onClick={()=>{setIdentity('admin')}}
                   >
                     Admin Login
                   </button>
@@ -150,6 +157,7 @@ export default function Login() {
                     type="submit"
                     className="pl-4 pr-4 btn btn-primary font-weight-bold shadow shadow-sm"
                     id="user_login"
+                    onClick={()=>{setIdentity('user')}}
                     >
                     User Login
                   </button>

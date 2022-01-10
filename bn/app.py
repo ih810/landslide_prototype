@@ -20,7 +20,7 @@ app = Flask(__name__)
 CORS(app)
 
 # default route_base="/" for api that consist only 1 endpoint
-Login_Route.register(app, route_base='/')
+Login_Route.register(app, route_base='/login')
 Homepage_Route.register(app, route_base='/homepage')
 New_Project_Route.register(app, route_base='/')
 New_Model_Config_Route.register(app, route_base='/')

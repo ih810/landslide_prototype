@@ -72,7 +72,7 @@ export default function ViewPerformance(props) {
   const [confusionMatrix, setConfusionMatrix] = useState();
   const [metricSelection, setMetricSelection] = useState(true);
   const [coord, setCoord] = useState()
-  const [image, setImage] = useState('https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?se=2022-01-10T16%3A57%3A41Z&sp=r&sv=2019-02-02&sr=f&sig=r6NM45WRkSXAuH6JM0mGVUcG8kj8vw8ynGatWmBxU9E%3D')
+  const [image, setImage] = useState('https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?se=2022-01-10T17%3A24%3A38Z&sp=rw&sv=2019-02-02&sr=f&sig=T579WNvBebRi69bWpeJrWQK5qaRReSX8KxoEipDQN3w%3D')
   const [susMap, setSusMap] = useState()
   useEffect(() => {
     handleModelStat();

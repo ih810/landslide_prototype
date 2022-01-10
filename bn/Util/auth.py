@@ -15,12 +15,19 @@ load_dotenv(dotenv_path)
 SECRET_SALT = os.environ.get("SECRET_SALT")
 
 # Query Table Storage
-def azure_login_query(username, password):
+def azure_login_query(username, password, admin):
+        
     # hash input for compare
     hashed_pw = hash_password(password)
     table = Get_Table_Client()
+    print(hashed_pw)
+    print(table)
     # fking azure filter string https://docs.microsoft.com/en-us/visualstudio/azure/vs-azure-tools-table-designer-construct-filter-strings?view=vs-2022
-    entities = table.query_entities("username gt '' and password gt ''")
+    if admin:
+        entities = table.query_entities("username gt '' and password gt '' and PartitionKey eq 'admininfo'")
+    else:
+        entities = table.query_entities("username gt '' and password gt '' and PartitionKey eq 'userinfo'")
+    print(entities)
     for entity in entities:
         if username == entity["username"]:
             if hashed_pw == entity["password"]:

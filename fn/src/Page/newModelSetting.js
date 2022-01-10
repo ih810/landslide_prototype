@@ -105,7 +105,7 @@ export default function NewModelSetting(props) {
   }  
   }
   const handleSubmit = () => {
-    let url = `${process.env.REACT_APP_BN}/new-project`;
+    let url = `${process.env.REACT_APP_BN}/new-model-config?project_name=${props.match.params.project_name}`;
     const submitData = {
       sampleHeight: samplingData[0].value,
       sampleWidth: samplingData[1].value,
@@ -126,6 +126,7 @@ export default function NewModelSetting(props) {
       body: JSON.stringify(submitData)
     })
     .then((res)=>{
+      console.log(res.body);
       return res.json();
     })
     .then((result)=>{
@@ -151,8 +152,6 @@ export default function NewModelSetting(props) {
                 {[
                   "Sample Height",
                   "Sample Width",
-                  // "Negative Samples Ratio",
-                  // "Low Contrast Samples Ratio",
                 ].map((txt, i) => {
                   return (
                     <div className={spacebw} key={i}>

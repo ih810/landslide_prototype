@@ -1,7 +1,13 @@
+from os import remove
 from flask import config, request
 from flask_classy import FlaskView, route
+from Util.azure_file_share import Get_File_Service
+import json
 
 class New_Model_Config_Route(FlaskView):
+    def __init__(self):
+        self.file_service = Get_File_Service()
+
     @route('/new-model-config', methods=['POST'])
     # return void
     def user_select_config(self):
@@ -9,11 +15,9 @@ class New_Model_Config_Route(FlaskView):
         project_name = request.args.get('project_name')
         body_json = request.get_json()
 
-        # construct response object
-        response_json = {
-            'project_name': project_name,
-            'project_width': body_json["width"],
-            'project_height': body_json["height"],
-        }
-
-        return ('', 200)
+        try:
+            self.file_service.create_file_from_text('data', project_name, 'project_config.txt', json.dumps(body_json), encoding='utf-8')
+        except Exception as e:
+            print(e)
+            return ('smth went wrong', 500)
+        return ({'data':'ok'}, 200)

@@ -7,7 +7,7 @@ export default function StepNavBtn(props){
 
   const navNext = () => {
     if(props.nextApi) props.nextApi()
-    history.push(props.next);
+    // history.push(props.next);
   };
 
   const navBack = () => {

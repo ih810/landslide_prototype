@@ -37,6 +37,7 @@ export default function Login() {
   }, [showPw])
 
   const login = async (e) => {
+
     e.preventDefault();
     let url = `${process.env.REACT_APP_BN}/login/${identity}-login`
     fetch(url,{
@@ -50,8 +51,11 @@ export default function Login() {
       .then(
         (result) => {
           if(result.data !== 'user does not exist' && result.data !== 'auth failed'){
+            // set JWT in local storage
             localStorage.setItem('token', result.data)
             localStorage.setItem('refreshToken', result.data)
+            
+            // identify user and redirect to different location
             if(identity==='admin'){
               history.push('/admin')
             } else {

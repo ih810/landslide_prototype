@@ -25,7 +25,7 @@ export default function NewProjectModal(props) {
     if(submitData.project_name){
       fetch(url,{
           method:'POST',
-          headers:{ 'Content-Type': 'application/json'},
+          headers:{ 'Content-Type': 'application/json' },
           body: JSON.stringify(submitData)
       })
       .then((res)=>{
@@ -83,17 +83,17 @@ export default function NewProjectModal(props) {
           </Typography>
 
           <form onSubmit={handleSubmit}>
-            <Box sx={{ ml: 7, mt: 7, color: greyColor }}>
+            <div style={{ marginLeft: '3.5rem', marginTop: '3.5rem', color: greyColor }}>
               <label htmlFor="projName">Project Name </label>
-            </Box>
+            </div>
 
-            <Box component="div" sx={{ ml: 7, mr: 7, width: "88%" }}>
+            <div component="div" style={{ marginLeft: '3.5rem', width: "88%" }}>
               {showError?
-                <input type="text" id="projName" className="p-2 w-100 border border-5 border-danger bg-danger" onChange={(e)=>{setShowError(false)}}/>
+                <input type="text" id="projName" className="p-2 w-100" style={{ border:"2px solid red" }} onChange={(e)=>{setShowError(false)}}/>
                 :
                 <input type="text" id="projName" className="p-2 w-100" />
               }
-            </Box>
+            </div>
 
             <Divider
               variant="middle"

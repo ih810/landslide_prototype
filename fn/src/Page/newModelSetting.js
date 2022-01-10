@@ -10,8 +10,8 @@ import CircleChart from "../Component/circleChrat";
 const gridSpacing = { mt: 2, maxWidth: "120vh" };
 const spacebw = "d-flex justify-content-between pb-4";
 
-export default function NewModelSetting() {
-  const [displayData, setDisplayData] = useState([
+export default function NewModelSetting(props) {
+  const [samplingData, setsamplingData] = useState([
     { value: 2000000, fill: "#76DCD6", name: "Sample Height" },
     { value: 2000000, fill: "#9daba9", name: "Sample Width" },
     { value: 50, fill: "#db74d4", name: "Negative Samples Ratio" },
@@ -21,21 +21,27 @@ export default function NewModelSetting() {
     {name: 'Negative Sample Ratio', value: 50, fill: "#db74d4"},
     {name: 'Negative Low Contrast', value: 0, fill: "#9daba9"},
     {name: 'Positive Sample Ratio', value: 50, fill: "#76DCD6"},
-  ])
+  ]);
   const [trainData, setTrainData] = useState([
     { value: 80, fill: "#76DCD6", name: "Training" },
     { value: 10, fill: "#9daba9", name: "Validation" },
     { value: 10, fill: "#db74d4", name: "Testing" },
   ]);
+  const [optionConfig, setOptionConfig] = useState([
+    {label:"Convolutional-Layers", value:""},
+    {label:"Dense Layers", value:""},
+    {label:"Convolutional Kernel Size", value:""},
+    {label:"Max Pooling Layer Size", value:""},
+    {label:"Drop Out Rate", value:""},
+  ]);
 
   const handlePieChange = (e) => {
-    console.log(e.target.value)
     if(e.target.value === ''){
       return
     } else {
       //format data
       let pieChart = [...pieChartData];
-      let display = [...displayData]
+      let display = [...samplingData]
       let inputValue = parseInt(e.target.value);
   
       //seperate value for display/submit purpose
@@ -58,11 +64,11 @@ export default function NewModelSetting() {
         lowContrastDisplay.value = inputValue;
       }
       setPieChartData(pieChart)
-      setDisplayData(display)
+      setsamplingData(display)
     }
   }
   const handleSampleChange = (e) => {
-    let newArr = [...displayData];
+    let newArr = [...samplingData];
     let value = parseInt(e.target.value);
     if (e.target.attributes["id"].value === "Sample Height") {
       newArr[0].value = value;
@@ -73,12 +79,10 @@ export default function NewModelSetting() {
     } else {
       newArr[3].value = value;
     }
-    setDisplayData(newArr);
+    setsamplingData(newArr);
   };
 
   const handleTrainChange = (e) => {
-    console.log("change");
-    console.log(e.target.attributes["id"]);
     let newArr = [...trainData];
     let value = parseInt(e.target.value);
     if (e.target.attributes["id"].value === "Training Samples Ratio") {
@@ -90,10 +94,47 @@ export default function NewModelSetting() {
     }
     setTrainData(newArr);
   };
-
+  
+  const handleOptionConfig = (e, config_label) => {
+    let temp = optionConfig
+    for(let item in temp){
+      if(temp[item].label === config_label){
+        temp[item].value = e.target.value
+        setOptionConfig([...temp])
+      }
+  }  
+  }
+  const handleSubmit = () => {
+    let url = `${process.env.REACT_APP_BN}/new-project`;
+    const submitData = {
+      sampleHeight: samplingData[0].value,
+      sampleWidth: samplingData[1].value,
+      negativeSampleRatio: samplingData[2].value,
+      lowContrastNegativeRatio: samplingData[3].value,
+      trainingSampleRatio: trainData[0].value,
+      validateSampleRatio: trainData[1].value,
+      testSampleRatio: trainData[2].value,
+      convolutionalLayers: optionConfig[0].value,
+      denseLayers: optionConfig[1].value,
+      convolutionalKernelSize: optionConfig[2].value,
+      maxPoolingLayerSize: optionConfig[3].value,
+      dropOutRate: optionConfig[4].value
+    }
+    fetch(url,{
+      method:'POST',
+      headers:{ 'Content-Type': 'application/json' },
+      body: JSON.stringify(submitData)
+    })
+    .then((res)=>{
+      return res.json();
+    })
+    .then((result)=>{
+      console.log(result)
+    })
+  }
   return (
     <>
-      <StepNavBtn title="Train New Model" next="/upload-files" />
+      <StepNavBtn title="Train New Model" next={`/upload-files/${props.match.params.project_name}`} nextApi={handleSubmit}/>
       <Grid container sx={{ ml: 15, mr: 9, mb:4 }}>
         <Grid item xs={8} sx={{ pb: 0, pr: 3 }}>
           <Grid container sx={gridSpacing} className="sampling-container">
@@ -121,7 +162,7 @@ export default function NewModelSetting() {
                           minWidth: "0px",
                         }}
                         type="number"
-                        value={displayData[i].value}
+                        value={samplingData[i].value}
                         id={txt}
                         onChange={handleSampleChange}
                       />
@@ -129,7 +170,7 @@ export default function NewModelSetting() {
                   );
                 })}
                 <div className={spacebw}>
-                  <label htmlFor={displayData[2].name}>{displayData[2].name}</label>
+                  <label htmlFor={samplingData[2].name}>{samplingData[2].name}</label>
                   <input
                     max='100'
                     min='0'
@@ -137,14 +178,14 @@ export default function NewModelSetting() {
                       minWidth: "0px",
                     }}
                     type="number"
-                    value={displayData[2].value}
-                    id={displayData[2].name}
+                    value={samplingData[2].value}
+                    id={samplingData[2].name}
                     
                     onChange={handlePieChange}
                   />
                 </div>
                 <div className={spacebw}>
-                  <label htmlFor={displayData[3].name}>{displayData[3].name}</label>
+                  <label htmlFor={samplingData[3].name}>{samplingData[3].name}</label>
                   <input
                     max='100'
                     min='0'
@@ -152,8 +193,8 @@ export default function NewModelSetting() {
                       minWidth: "0px",
                     }}
                     type="number"
-                    value={displayData[3].value}
-                    id={displayData[3].name}
+                    value={samplingData[3].value}
+                    id={samplingData[3].name}
                     
                     onChange={handlePieChange}
                   />
@@ -220,23 +261,17 @@ export default function NewModelSetting() {
         </Grid>
         <Grid item xs={4} sx={{ mt: 2 }}>
           <Paper sx={{ p: 3, height: "auto", pb:4 }}>
-            {[
-              "Convolutional-Layers",
-              "Dense Layers",
-              "Convolutional Kernel Size",
-              "Max Pooling Layer Size",
-              "Drop Out Rate",
-            ].map((txt, i) => {
+            {optionConfig.map((txt, i) => {
               return (
                 <div className='d-flex flex-column p-3' key={i}>
-                    <label htmlFor={txt}>{txt}</label>
+                    <label htmlFor={txt.label}>{txt.label}</label>
                     <input
                       style={{
                         minWidth: "0px",
                       }}
                       type="number"
-                      id={txt}
-                      onChange={handleSampleChange}
+                      id={txt.label}
+                      onChange={(e)=>handleOptionConfig(e, txt.label)}
                     />
                 </div>
               );

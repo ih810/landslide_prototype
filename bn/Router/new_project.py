@@ -45,7 +45,7 @@ class New_Project_Route(FlaskView):
 
         # construct response object
         response_json = {
-            'project_name': project_config['project_name']
+            'data': project_config['project_name']
         }
 
         return response_json

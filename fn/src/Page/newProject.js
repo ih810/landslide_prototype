@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 //MUI assets
-import { Box, Paper, Button, Divider, Typography, Grid } from "@mui/material";
+import { Box, Paper, Button, Divider, Typography, Grid, Alert, Snackbar } from "@mui/material";
 
 export default function NewProjectModal(props) {
   const fontSize = 18;
   const greyColor = "#C9C9C9";
   const history = useHistory();
   const [projectType, setProjectType] = useState();
+  const [showError, setShowError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,22 +22,36 @@ export default function NewProjectModal(props) {
       resolution: e.target.resolution.value,
       username: props.userId.username
     };
-    fetch(url,{
-        method:'POST',
-        headers:{ 'Content-Type': 'application/json'},
-        body: JSON.stringify(submitData)
-    })
-    .then((res)=>{
-      return res.json();
-    })
-    .then((result)=>{
-      if (projectType === "prediction") history.push(`/pre-train-model/${result.data}`);
-      else history.push(`/train-new-model/${result.data}`);
-    });
+    if(submitData.project_name){
+      fetch(url,{
+          method:'POST',
+          headers:{ 'Content-Type': 'application/json'},
+          body: JSON.stringify(submitData)
+      })
+      .then((res)=>{
+        return res.json();
+      })
+      .then((result)=>{
+        if(result.data !== 'resource already exist' && result.data !== ''){
+          if (projectType === "prediction") history.push(`/pre-train-model/${result.data}`);
+          else history.push(`/train-new-model/${result.data}`);
+        } else {
+          setErrorMsg('Project name already taken')
+          setShowError(true)
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+      });
+    } else {
+      setErrorMsg('Please fill in the required information')
+      setShowError(true)
+    }
   };
 
   return (
     <>
+    
       <Box
         sx={{
           mt: 5,
@@ -46,6 +62,11 @@ export default function NewProjectModal(props) {
           height: "100%",
         }}
       >
+      <Snackbar open={showError}>
+        <Alert sx={{ mb: 2 }} severity="error">
+          {errorMsg}
+        </Alert>
+      </Snackbar>
         <Paper
           elevation={24}
           sx={{
@@ -67,7 +88,11 @@ export default function NewProjectModal(props) {
             </Box>
 
             <Box component="div" sx={{ ml: 7, mr: 7, width: "88%" }}>
-              <input type="text" id="projName" className="p-2 w-100" />
+              {showError?
+                <input type="text" id="projName" className="p-2 w-100 border border-5 border-danger bg-danger" onChange={(e)=>{setShowError(false)}}/>
+                :
+                <input type="text" id="projName" className="p-2 w-100" />
+              }
             </Box>
 
             <Divider

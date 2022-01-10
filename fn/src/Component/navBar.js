@@ -12,7 +12,6 @@ export default function NavBar(props) {
 
   useEffect(()=>{
     let currPath = props.location.slice(0, props.location.lastIndexOf('/'))
-    console.log(currPath)
     if(currPath === '/') setTitle('Dashboard')
     else if(currPath ==='/admin') setTitle('Admin Page')
     else if(currPath ==='/new-project') setTitle('New Project Setting')

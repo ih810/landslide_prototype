@@ -18,10 +18,6 @@ class New_Project_Route(FlaskView):
     @route('/new-project', methods=['POST'])
     def new_project(self):
         project_config = request.get_json()
-        project_id = request.args.get('project_name')
-        print(project_config)
-        print(project_config['username'])
-        print(project_config['project_name'])
         try:
             # create directory in azure
             self.share_client.create_directory(project_config['project_name'])
@@ -42,7 +38,6 @@ class New_Project_Route(FlaskView):
         except ResourceExistsError:
             return {'data': 'resource already exist'}
         except Exception as e:
-            print(e)
             return {'data': 'something went wrong'}
 
         # update the length of the table

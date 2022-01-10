@@ -29,10 +29,9 @@ export default function NewProjectModal(props) {
       return res.json();
     })
     .then((result)=>{
-      console.log(result)
+      if (projectType === "prediction") history.push(`/pre-train-model/${result.data}`);
+      else history.push(`/train-new-model/${result.data}`);
     });
-    if (projectType === "prediction") history.push("/pre-train-model");
-    else history.push("/train-new-model");
   };
 
   return (

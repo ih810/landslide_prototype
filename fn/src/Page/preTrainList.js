@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //MUI assets
 import { Grid, Paper } from "@mui/material";
@@ -21,9 +21,15 @@ const dummyModal = [
 
 export default function PreTrainList() {
   const [selected, setSelected] = useState()
+  
+  useEffect(()=>{
+    
+  },[])
+
   const handleClick = (e, i) => {
     setSelected(i)
   }
+
   return (
     <>
       <StepNavBtn title="Pre-Train Model" next="/upload-files" />

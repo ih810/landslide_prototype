@@ -3,16 +3,15 @@ from flask import request
 from flask_classy import FlaskView, route
 import re
 import json
-from Util.azure_file_share import Get_Share_Client
-from Util.azure_table_query import Get_Table_Client
+import Util
 from azure.core.exceptions import ResourceExistsError
 from azure.data.tables import UpdateMode
 
 
 class New_Project_Route(FlaskView):
     def __init__(self):
-        self.table_client = Get_Table_Client()
-        self.share_client = Get_Share_Client()
+        self.table_client = Util.Get_Table_Client()
+        self.share_client = Util.Get_Share_Client()
 
     # return project info
     @route('/new-project', methods=['POST'])

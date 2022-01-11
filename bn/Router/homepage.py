@@ -80,6 +80,7 @@ class Homepage_Route(FlaskView):
         try:
             # custom recusive delete function
             Util.recursive_delete(directory_content, [project_id])
+            # remove column from azure table
             self.table_client.delete_entity(row_key=target_row_key, partition_key='ownership', entity=target_entity)
         except ResourceNotFoundError:
             return {'data': 'resource does not exist'}

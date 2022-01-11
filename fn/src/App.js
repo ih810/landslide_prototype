@@ -19,7 +19,6 @@ import UploadInput from "./Page/uploadInput";
 import ValidateInput from "./Page/validateInput";
 import ViewPerformance from "./Page/viewPerformance";
 import Viewresults from "./Page/viewResult";
-require('dotenv').config()
 
 export default function App(props) {
   const location = useLocation();

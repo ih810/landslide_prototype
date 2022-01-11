@@ -22,9 +22,6 @@ export default function StepNavBtn(props){
   <Grid container className="d-flex justify-content-between" sx={{ ml: 9, mr: 9 }}>
     <Grid item xs={12}>
       <Box sx={{ pl: 6, pt: 3, display: "flex" }}>
-        <div>
-          {/* <h1 style={{ fontWeight: 650 }}>{props.title}</h1> */}
-        </div>
         <div className="ml-auto" onClick={navBack}>
           <h4 className="p-2 font-weight-bold">
             <i className="fas fa-arrow-circle-left fa-md text-primary"></i>{" "}

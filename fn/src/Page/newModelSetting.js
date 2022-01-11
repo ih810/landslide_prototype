@@ -14,14 +14,14 @@ const spacebw = "d-flex justify-content-between pb-4";
 export default function NewModelSetting(props) {
   const history = useHistory();
   const [samplingData, setsamplingData] = useState([
-    { value: 2000000, fill: "#76DCD6", name: "Sample Height" },
-    { value: 2000000, fill: "#9daba9", name: "Sample Width" },
+    { value: 801000, fill: "#76DCD6", name: "Sample Height" },
+    { value: 801000, fill: "#9daba9", name: "Sample Width" },
     { value: 50, fill: "#db74d4", name: "Negative Samples Ratio" },
     { value: 0, fill: "#637cf7", name: "Low Contrast Samples Ratio" },
   ]);
   const [pieChartData, setPieChartData] = useState([
     {name: 'Negative Sample Ratio', value: 50, fill: "#db74d4"},
-    {name: 'Negative Low Contrast', value: 0, fill: "#9daba9"},
+    {name: 'Negative Low Contrast Raito', value: 0, fill: "#9daba9"},
     {name: 'Positive Sample Ratio', value: 50, fill: "#76DCD6"},
   ]);
   const [trainData, setTrainData] = useState([

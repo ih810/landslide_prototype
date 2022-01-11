@@ -13,7 +13,6 @@ import susceptibility_map from "../assets/susceptibility_map.tif";
 import { fromArrayBuffer } from "geotiff";
 import proj4 from "proj4";
 
-require("dotenv").config();
 
 export default function Map() {
   const map = useRef(null);

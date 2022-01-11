@@ -20,7 +20,6 @@ import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import { Grid, Paper, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-require("dotenv").config();
 const columns = [
   { field: "x", headerName: "X", width: 100 },
   { field: "y", headerName: "Y", width: 100 },

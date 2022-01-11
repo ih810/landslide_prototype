@@ -37,8 +37,8 @@ class New_Project_Route(FlaskView):
         except ResourceExistsError:
             return {'data': 'resource already exist'}
         except Exception as e:
-            return {'data': 'something went wrong'}
-
+            return {'data': 'backend team fucked up'}
+            
         # update the length of the table
         self.table_client.update_entity(entity=eTag, mode=UpdateMode.REPLACE)
 

@@ -28,7 +28,6 @@ import {
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
 
-require("dotenv").config();
 const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
   folder: "home",

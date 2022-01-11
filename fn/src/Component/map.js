@@ -10,7 +10,6 @@ import TileLayer from "ol/layer/WebGLTile";
 import proj4 from "proj4";
 
 //environment variable
-require("dotenv").config();
 
 //define projection
 proj4.defs(

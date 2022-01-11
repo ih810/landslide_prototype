@@ -8,8 +8,6 @@ import logo from "../assets/real_icon.png";
 
 import { Alert,Collapse } from '@mui/material';
 
-require("dotenv").config();
-
 export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [showPic, setShowPic] = useState(true);

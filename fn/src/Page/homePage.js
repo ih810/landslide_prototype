@@ -8,7 +8,6 @@ import Table from "../Component/table";
 import { Box } from '@mui/system';
 import { Grid, Button } from '@mui/material';
 import { InputLabel, MenuItem, FormControl, Select, Alert, Snackbar } from '@mui/material';
-
 export default function HomePage(props) {
   const [projectInfo, setProjectInfo] = useState();
   const [sortType, setSort] = useState('');
@@ -40,8 +39,6 @@ export default function HomePage(props) {
       if(projectInfo[i]['proj_name'] === project_name){
         if(projectInfo[i]['progress'] === '100'){
           history.push(`/view-performance/${project_name}`);
-        } else if (projectInfo[i]['status']){
-          setShowError(true)
         } else {
           setShowError(true)
         }

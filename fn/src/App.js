@@ -19,10 +19,10 @@ import UploadInput from "./Page/uploadInput";
 import ValidateInput from "./Page/validateInput";
 import ViewPerformance from "./Page/viewPerformance";
 import Viewresults from "./Page/viewResult";
+require('dotenv').config()
 
 export default function App(props) {
   const location = useLocation();
-  const history = useHistory();
   const routes = [
     { path: "/", component: HomePage, exact: true },
     { path: "/admin", component: AdminHomePage, exact: false },
@@ -34,8 +34,6 @@ export default function App(props) {
     { path: "/view-performance/:project_name", component: ViewPerformance, exact: false },
     { path: "/view-results/:project_name", component: Viewresults, exact: false },
   ];
-  console.log(location)
-  console.log(history)
   return (
     <>
       {
@@ -48,7 +46,7 @@ export default function App(props) {
             <Switch>
               <>
                 <div style={{ height: "76px" }}>
-                  <Navbar location={location.pathname} />
+                  <PrivateRoute component={Navbar}/>
                 </div>
                 <Drawer />
                 <div className="row">

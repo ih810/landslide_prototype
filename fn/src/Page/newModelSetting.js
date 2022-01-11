@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 //MUI assets
 import { Grid, Paper } from "@mui/material";
@@ -11,6 +12,7 @@ const gridSpacing = { mt: 2, maxWidth: "120vh" };
 const spacebw = "d-flex justify-content-between pb-4";
 
 export default function NewModelSetting(props) {
+  const history = useHistory();
   const [samplingData, setsamplingData] = useState([
     { value: 2000000, fill: "#76DCD6", name: "Sample Height" },
     { value: 2000000, fill: "#9daba9", name: "Sample Width" },
@@ -104,6 +106,7 @@ export default function NewModelSetting(props) {
       }
   }  
   }
+
   const handleSubmit = () => {
     let url = `${process.env.REACT_APP_BN}/new-model-config?project_name=${props.match.params.project_name}`;
     const submitData = {
@@ -131,8 +134,10 @@ export default function NewModelSetting(props) {
     })
     .then((result)=>{
       console.log(result)
+      return result
     })
   }
+  console.log(props)
   return (
     <>
       <StepNavBtn title="Train New Model" next={`/upload-files/${props.match.params.project_name}`} nextApi={handleSubmit}/>

@@ -21,7 +21,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import profile from "../assets/dummy.png";
 
 const cellStyle = { color: "white", fontSize: 20 };
-
 export default function DashboardTable(props) {
   const [undoModal, setUndoModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -36,7 +35,12 @@ export default function DashboardTable(props) {
       body: JSON.stringify({username:props.username})
     })
     .then((res)=>{
-      history.push('/')
+      console.log(res)
+      return res.json()
+    })
+    .then((result)=>{
+      console.log(result)
+      setDeleteModal(false)
     })
   }
   const triggerUndoAPI = () => {
@@ -171,8 +175,8 @@ export default function DashboardTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <ComponentModal control={undoModal} name={interactTarget} toggle={(e)=>{setUndoModal(!undoModal)}} remove={()=>triggerUndoAPI(interactTarget)} type={'Undo'}/>
-      <ComponentModal control={deleteModal} name={interactTarget} toggle={(e)=>{setDeleteModal(!deleteModal)}} remove={()=>triggerRemoveAPI(interactTarget)} type={'Remove'}/>
+      <ComponentModal control={undoModal} name={interactTarget} toggle={(e)=>{setUndoModal(!undoModal)}} confirm={()=>triggerUndoAPI(interactTarget)} type={'Undo'}/>
+      <ComponentModal control={deleteModal} name={interactTarget} toggle={(e)=>{setDeleteModal(!deleteModal)}} confirm={()=>triggerRemoveAPI(interactTarget)} type={'Remove'}/>
     </>
   );
 }

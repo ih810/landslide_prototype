@@ -5,13 +5,16 @@ from flask_classy import FlaskView, route
 from Util.azure_read_txt import Read_Txt
 from Util.azure_table_query import Get_Table_Client
 from Util.azure_file_share import Get_Share_Client
+from Util.azure_file_share import Get_File_Service
 from azure.core.exceptions import ResourceNotFoundError
-
+from Util.azure_recursive_delete import recursive_delete
 
 class Homepage_Route(FlaskView):
     def __init__(self):
         self.table_client = Get_Table_Client()
         self.share_client = Get_Share_Client()
+        self.file_client = Get_File_Service()
+
     @route('/admin-dashboard', methods=['GET'])
     # return all project available
     def get_all_project(self):
@@ -70,12 +73,19 @@ class Homepage_Route(FlaskView):
         # remove directory from azure
         print('project_name eq '+project_id)
         target_entity = self.table_client.query_entities("project_name eq '"+project_id+"'")
+        
         for item in target_entity:
             target_row_key = item["RowKey"]
+        
+        directory_content = self.file_client.list_directories_and_files('data', directory_name=project_id)
+        
         try:
-            self.share_client.delete_directory(project_id)
+            recursive_delete(directory_content, project_id, [project_id])
             self.table_client.delete_entity(row_key=target_row_key, partition_key='ownership', entity=target_entity)
         except ResourceNotFoundError:
             return {'data': 'resource does not exist'}
+        except Exception as e:
+            print(e)
+            return {"data": "backend team fucked up"}
 
-        return project_id
+        return {"data":"delete ok"}

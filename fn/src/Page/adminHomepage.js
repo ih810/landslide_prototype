@@ -23,7 +23,6 @@ const data = [
   { title: "Running Project", icon: runningpj, data: 20000 },
   { title: "Total Users", icon: totalu, data: 3000 },
 ];
-
 export default function AdminHomePage(props) {
   const [projectInfo, setProjectInfo] = useState();
   const history = useHistory();

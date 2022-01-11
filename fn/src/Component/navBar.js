@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 //logo
 import logo from "../assets/real_icon (2).png";
@@ -9,18 +9,18 @@ import arup from "../assets/Arup_Red_RGB.png";
 export default function NavBar(props) {
   const [title, setTitle] = useState();
   const history = useHistory()
-
+  const location = useLocation();
+  
   useEffect(()=>{
-    let currPath = props.location.slice(0, props.location.lastIndexOf('/'))
-    if(currPath === '/') setTitle('Dashboard')
-    else if(currPath ==='/admin') setTitle('Admin Page')
-    else if(currPath ==='/new-project') setTitle('New Project Setting')
-    else if(currPath ==='/train-new-model') setTitle('Model Config')
-    else if(currPath ==='/pre-train-model') setTitle('Model Selection')
-    else if(currPath ==='/upload-files') setTitle('Upload Trainning Materials')
-    else if(currPath ==='/validate-input') setTitle('Validate Input')
-    else if(currPath ==='/view-performance') setTitle('Review Performance')
-    else if(currPath ==='/view-results') setTitle('Review Prediction Results')
+    if(location.pathname === '/') setTitle('Dashboard')
+    else if(location.pathname ==='/admin') setTitle('Admin Page')
+    else if(location.pathname ==='/new-project') setTitle('New Project Setting')
+    else if(location.pathname ==='/train-new-model') setTitle('Model Config')
+    else if(location.pathname ==='/pre-train-model') setTitle('Model Selection')
+    else if(location.pathname ==='/upload-files') setTitle('Upload Trainning Materials')
+    else if(location.pathname ==='/validate-input') setTitle('Validate Input')
+    else if(location.pathname ==='/view-performance') setTitle('Review Performance')
+    else if(location.pathname ==='/view-results') setTitle('Review Prediction Results')
   })
 
   const logout = () =>{
@@ -28,18 +28,28 @@ export default function NavBar(props) {
     localStorage.removeItem('refreshToken')
     history.push('/')
   }
-
   return (
       <div className='NavBar row bg-white shadow h-0 fixed-top' style={{zIndex:2000}}>
         <div className="col col-8 d-flex flex-row align-items-center">
           <span className="pl-3 pt-2 pb-2">
-            <a href="/">
-            <img
-              src={logo}
-              style={{ width: "60px", height: "60px" }}
-              alt="logo"
-            />
-            </a>
+            {props.userId.username==="admin-test"?
+              <a href="/admin">
+                <img
+                  src={logo}
+                  style={{ width: "60px", height: "60px" }}
+                  alt="logo"
+                />
+              </a>
+                :
+              <a href="/">
+                <img
+                  src={logo}
+                  style={{ width: "60px", height: "60px" }}
+                  alt="logo"
+                />
+              </a>
+            }
+            
           </span>
           <span className="pl-4">
             <h2 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}>

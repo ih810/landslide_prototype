@@ -1,29 +1,24 @@
 from flask import request
 from flask_classy import FlaskView, route
+import Util
 
 class Pretrain_List_Route(FlaskView):
+    def __init__(self):
+        self.file_client = Util.Get_File_Service()
+    
     @route('/model-info', methods=['GET'])
     # return list of pretrain model
     def list_pretrained(self):
+        response_json = {"data": []}
         # list dir from azure
-        response_json = {'model_info':
-                        [{
-                            "model_name": "hong kong1",
-                            "location": "Hong Kong",
-                            "Percentage": "93%",
-                            "image": "url/base64"
-                        }, {
-                            "model_name": "hong kong2",
-                            "location": "Hong Kong",
-                            "Percentage": "94%",
-                            "image": "url/base64"
-                        }, {
-                            "model_name": "hong kong3",
-                            "location": "Hong Kong",
-                            "Percentage": "95%",
-                            "image": "url/base64"
-                        }, ]
-                        }
+        model_names = list(self.file_client.list_directories_and_files('data', directory_name='PretrainedModels/Models'))
+        for model_folder in model_names:
+            print(model_folder.name)
+            response_json["data"].append({
+                'model_name': model_folder.name,
+                'Percentage': '100'
+            })
+
         return response_json
 
 

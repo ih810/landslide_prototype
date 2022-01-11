@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 //MUI assets
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Divider } from "@mui/material";
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
-
+import PretrainModelCard from "../Component/pretrainCard";
 import dummymap from "../assets/dumbmymap.png";
 
 const dummyModal = [
@@ -20,61 +20,46 @@ const dummyModal = [
 ]
 
 export default function PreTrainList() {
-  const [selected, setSelected] = useState()
-  
+  const [modelList, setModelList] = useState();
+  const [selected, setSelected] = useState();
+  const [selectColor, setSelectColor] = useState();
+
   useEffect(()=>{
-    
+    let url = `${process.env.REACT_APP_BN}/pre-train-list/model-info`
+    fetch(url, {
+      method: 'GET',
+    })
+    .then((res)=>{
+      return res.json()
+    })
+    .then((result)=>{
+      console.log(result)
+      setModelList(result.data)
+    })
   },[])
 
   const handleClick = (e, i) => {
+    setSelectColor('#ECECEC')
     setSelected(i)
   }
-
   return (
     <>
       <StepNavBtn title="Pre-Train Model" next="/upload-files" />
       <Grid container sx={{ ml: 9, mr: 4, mt: 1 }} spacing={3}>
-        {dummyModal.map((model, i) => {
+        {modelList?
+        modelList.map((model, i) => {
           return (
-            <Grid item xs={3}>
+            <Grid key={i} item xs={3}>
               {selected === i?
-              <Paper sx={{ borderRadius: "10px", boxShadow: 1, height: "auto", bgcolor:"#ECECEC" }} onClick={(e)=>{handleClick(e,i)}}>
-                <img
-                  src={dummymap}
-                  alt="dafaq"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "100%",
-                    borderRadius: "10px",
-                    padding: '32px',
-                  }}
-                />
-                <div className="pb-2 pl-4 pr-4 d-flex justify-content-between">
-                  <p>Location Name: {model.name}</p>
-                  <p>Percentage: {model.default}</p>
-                </div>
-              </Paper>
+              <PretrainModelCard handleClick={handleClick} index={i} model_info={model} bg={selectColor}/>
             :
-            <Paper sx={{ borderRadius: "10px", boxShadow: 3, height: "auto" }}  onClick={(e)=>{handleClick(e,i)}}>
-              <img
-                src={dummymap}
-                alt="dafaq"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  borderRadius: "10px",
-                  padding: '32px',
-                }}
-              />
-              <div className="pb-2 pl-4 pr-4 d-flex justify-content-between">
-                <p>Location Name: {model.name}</p>
-                <p>Percentage: {model.default}</p>
-              </div>
-          </Paper>
+              <PretrainModelCard handleClick={handleClick} index={i} model_info={model} bg='#FFFFFF'/>
             }
             </Grid>
           );
-        })}
+        })
+        :null
+      }
       </Grid>
     </>
   );

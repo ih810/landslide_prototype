@@ -137,7 +137,6 @@ export default function NewModelSetting(props) {
       return result
     })
   }
-  console.log(props)
   return (
     <>
       <StepNavBtn title="Train New Model" next={`/upload-files/${props.match.params.project_name}`} nextApi={handleSubmit}/>

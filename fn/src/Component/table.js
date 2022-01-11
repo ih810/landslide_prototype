@@ -35,12 +35,11 @@ export default function DashboardTable(props) {
       body: JSON.stringify({username:props.username})
     })
     .then((res)=>{
-      console.log(res)
       return res.json()
     })
     .then((result)=>{
-      console.log(result)
       setDeleteModal(false)
+      window.location.reload()
     })
   }
   const triggerUndoAPI = () => {

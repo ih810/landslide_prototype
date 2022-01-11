@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 //MUI assets
-import { Grid, Paper, Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
 import PretrainModelCard from "../Component/pretrainCard";
-import dummymap from "../assets/dumbmymap.png";
-
-const dummyModal = [
-  {name: 'Hong_Kong_2021', default:12},
-  {name: 'Hong_Kong_2022', default:24},
-  {name: 'Hong_Kong_2023', default:32},
-  {name: 'Hong_Kong_2024', default:48},
-  {name: 'Hong_Kong_2025', default:60},
-  {name: 'Hong_Kong_2026', default:72},
-  {name: 'Hong_Kong_2027', default:84},
-  {name: 'Hong_Kong_2028', default:96},
-]
 
 export default function PreTrainList() {
   const [modelList, setModelList] = useState();
@@ -45,7 +33,7 @@ export default function PreTrainList() {
   return (
     <>
       <StepNavBtn title="Pre-Train Model" next="/upload-files" />
-      <Grid container sx={{ ml: 9, mr: 4, mt: 1 }} spacing={3}>
+      <Grid container sx={{ ml: 12, mr: 4, mt: 1 }} spacing={3}>
         {modelList?
         modelList.map((model, i) => {
           return (

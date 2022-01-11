@@ -42,7 +42,7 @@ export default function AdminHomePage(props) {
       console.log(error)
     })
   },[]);
-
+  
   const navViewPorject = (e, project_name) => {
     for(let i = 0; i < projectInfo.length; i++){
       if(projectInfo[i]['proj_name'] === project_name){

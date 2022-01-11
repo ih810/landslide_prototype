@@ -14,6 +14,7 @@ export default function StepNavBtn(props){
   };
 
   const navBack = () => {
+    console.log('click')
     history.goBack();
   };
 

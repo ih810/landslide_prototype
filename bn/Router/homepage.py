@@ -70,13 +70,16 @@ class Homepage_Route(FlaskView):
         print('project_name eq '+project_id)
         target_entity = self.table_client.query_entities("project_name eq '"+project_id+"'")
         
+        # get Primary key from entity
         for item in target_entity:
             target_row_key = item["RowKey"]
         
+        # list all folder/files in dir
         directory_content = self.file_client.list_directories_and_files('data', directory_name=project_id)
         
         try:
-            Util.recursive_delete(directory_content, project_id, [project_id])
+            # custom recusive delete function
+            Util.recursive_delete(directory_content, [project_id])
             self.table_client.delete_entity(row_key=target_row_key, partition_key='ownership', entity=target_entity)
         except ResourceNotFoundError:
             return {'data': 'resource does not exist'}

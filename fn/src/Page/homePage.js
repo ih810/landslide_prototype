@@ -75,11 +75,6 @@ export default function HomePage(props) {
             </Box>
           </Grid>
         </Grid>
-        <Snackbar open={showError}>
-            <Alert sx={{ mb: 2 }} severity="error">
-              Project in progress
-            </Alert>
-        </Snackbar>
       <Table username={props.userId.username} nav={navViewPorject} projectInfo={projectInfo}/>
     </>
   );

@@ -12,11 +12,14 @@ class Pretrain_List_Route(FlaskView):
         response_json = {"data": []}
         # list dir from azure
         model_names = list(self.file_client.list_directories_and_files('data', directory_name='PretrainedModels/Models'))
+
         for model_folder in model_names:
-            print(model_folder.name)
+            # for each folder, read the accuracy of the model
+            model_accuracy = Util.Read_Txt('PretrainedModels/Models/'+model_folder.name, 'Accuracy.txt')
+
             response_json["data"].append({
                 'model_name': model_folder.name,
-                'Percentage': '100'
+                'percentage': model_accuracy[0]
             })
 
         return response_json

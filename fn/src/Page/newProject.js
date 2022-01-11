@@ -122,6 +122,7 @@ export default function NewProjectModal(props) {
               <br />
               <input
                 type="number"
+                step='any'
                 id="resolution"
                 className="p-2"
                 style={{ width: "339px" }}

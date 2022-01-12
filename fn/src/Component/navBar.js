@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 
 //logo
 import logo from "../assets/real_icon (2).png";
@@ -10,7 +10,8 @@ export default function NavBar(props) {
   const [title, setTitle] = useState();
   const history = useHistory()
   const location = useLocation();
-  
+  const dashMatch = useRouteMatch('/pre-train-model')
+
   useEffect(()=>{
     if(location.pathname === '/') setTitle('Dashboard')
     else if(location.pathname ==='/admin') setTitle('Admin Page')
@@ -20,14 +21,15 @@ export default function NavBar(props) {
     else if(location.pathname ==='/upload-files') setTitle('Upload Trainning Materials')
     else if(location.pathname ==='/validate-input') setTitle('Validate Input')
     else if(location.pathname ==='/view-performance') setTitle('Review Performance')
-    else if(location.pathname ==='/view-results') setTitle('Review Prediction Results')
-  })
-
+    else if(location.pathname ==='/view-results') setTitle('Review Prediction Results')  
+  },[])
+  
   const logout = () =>{
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
     history.push('/')
   }
+  
   return (
       <div className='NavBar row bg-white shadow h-0 fixed-top' style={{zIndex:2000}}>
         <div className="col col-8 d-flex flex-row align-items-center">

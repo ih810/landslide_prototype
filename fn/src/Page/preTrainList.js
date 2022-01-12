@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 import StepNavBtn from "../Component/stepNavBtn";
 import PretrainModelCard from "../Component/pretrainCard";
 
-export default function PreTrainList() {
+export default function PreTrainList(props) {
   const [modelList, setModelList] = useState();
   const [selected, setSelected] = useState();
   const [selectColor, setSelectColor] = useState();
@@ -26,13 +26,26 @@ export default function PreTrainList() {
     })
   },[])
 
+  const selectModel = () => {
+    let url = `${process.env.REACT_APP_BN}/pre-train-list/select-model?project_id=${props.match.params.project_name}&model_id=${modelList[selected]['model_name']}`;
+    fetch(url, {
+      method: 'POST',
+    })
+    .then((res)=>{
+      return res.json()
+    })
+    .then((result)=>{
+      console.log(result)
+    })
+  }
+
   const handleClick = (e, i) => {
     setSelectColor('#ECECEC')
     setSelected(i)
   }
   return (
     <>
-      <StepNavBtn title="Pre-Train Model" next="/upload-files" />
+      <StepNavBtn title="Pre-Train Model" next={`/upload-files/${props.match.params.project_name}`} nextApi={selectModel}/>
       <Grid container sx={{ ml: 12, mr: 4, mt: 1 }} spacing={3}>
         {modelList?
         modelList.map((model, i) => {
@@ -52,12 +65,3 @@ export default function PreTrainList() {
     </>
   );
 }
-
-// <Grid item xs={6}>
-//                     <Paper sx={{ m:1, width:'100%', boxShadow: 3, bgcolor:'#393939', color:'#FFF' }}>
-//                         <div className="pt-4 pl-5 pb-4">
-//                             <h3>TRAINED MODEL INFORMATION</h3>
-//                         </div>
-//                         <VirtualizedList data={modelInfo} height="60vh" onClick={handleClick}/>
-//                     </Paper>
-//                 </Grid>

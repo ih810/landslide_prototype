@@ -32,6 +32,8 @@ class Pretrain_List_Route(FlaskView):
         project_id = request.args.get('project_id')
         model_id = request.args.get('model_id')
 
+        # select model for project
+
         response_json = {
             "project_id": project_id,
             "model_id": model_id,

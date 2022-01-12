@@ -30,7 +30,7 @@ export default function PretrainModelCard(props){
                     sx={{ ml: 2, mr: 2, bgcolor: "#E2E2E2" }}
                 />
             <div className="pb-2 pl-4 pr-4 d-flex justify-content-between"  >
-                <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>Percentage: {props.model_info.percentage}</p>
+                <p style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>Accuracy Percentage: {parseFloat(props.model_info.percentage) * 100}%</p>
             </div>
         </Paper>
     )

@@ -72,18 +72,13 @@ export default function ViewPerformance(props) {
   const [metricSelection, setMetricSelection] = useState(true);
   const [coord, setCoord] = useState()
   const [image, setImage] = useState('https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?se=2022-01-10T17%3A24%3A38Z&sp=rw&sv=2019-02-02&sr=f&sig=T579WNvBebRi69bWpeJrWQK5qaRReSX8KxoEipDQN3w%3D')
-  const [susMap, setSusMap] = useState()
+  // const [susMap, setSusMap] = useState()
   useEffect(() => {
     handleModelStat();
     axios.get(`${process.env.REACT_APP_BN}/get-image?project_name=${props.match.params.project_name}`)
     .then((res)=>{
       setImage(res.data)
     })
-    // axios.get('http://localhost:8080/1')
-    // .then((res)=>{
-    //   console.log('fuck', res)
-    //   setSusMap(res.data)
-    // })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

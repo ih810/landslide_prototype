@@ -28,45 +28,16 @@ const azure = {
   file: "colorSus_map",
   sas:process.env.REACT_APP_STORAGE_SAS_TOKEN
 };
-const viewLayer = new GeoTIFF({
-  sources: [
-    {
-      url: `https://${azure.accName}.file.core.windows.net/${
-        azure.folder
-      }/${azure.file}_reporj.tif${azure.sas}&xyz=${Date.now()}`,
-      overview: `https://${azure.accName}.file.core.windows.net/${
-        azure.folder
-      }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-      nodata: 0,
-    },
-  ],
-});
-const layersGroup = [
-  new TileLayer({
-    className: "old",
-    visible: true,
-    opacity: 0.5,
-    source: new GeoTIFF({
-      sources: [
-        {
-          url: `https://aiat3landslidestg.file.core.windows.net/home/colorSus_map.tif?sv=2020-08-04&se=2022-12-22T08%3A35%3A48Z&sr=f&sp=r&sig=noUk5Rd8kMy3FbYkNaxJBdDmJFNlDBZdFW5Kxn%2BZ3Sk%3D&xyz=${Date.now()}`,
-          overview: `https://${azure.accName}.file.core.windows.net/${
-            azure.folder
-          }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-          nodata: 0,
-        },
-      ],
-    }),
-  }),
-];
+
 export default function ViewPerformance(props) {
   const [modelAccuracy, setModelAccuracy] = useState();
   const [modelPerformance, setModelPerformance] = useState();
   const [confusionMatrix, setConfusionMatrix] = useState();
   const [metricSelection, setMetricSelection] = useState(true);
   const [coord, setCoord] = useState()
-  const [image, setImage] = useState('https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?se=2022-01-10T17%3A24%3A38Z&sp=rw&sv=2019-02-02&sr=f&sig=T579WNvBebRi69bWpeJrWQK5qaRReSX8KxoEipDQN3w%3D')
-  
+  const [image, setImage] = useState()
+  const [viewLayer, setViewLayer] = useState();
+  const [layersGroup, setLayersGroup] = useState();
   useEffect(() => {
     handleModelStat();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,20 +46,54 @@ export default function ViewPerformance(props) {
   const handleModelStat = async () => {
     axios.get(`${process.env.REACT_APP_BN}/view-performance/info?project_id=${props.match.params.project_name}`)
     .then((response)=>{
-      let tempModelStatistic=response.data.model_performance[0]
+      let tempModelStatistic=response.data.model_performance
       // accuracy
       setModelAccuracy((parseFloat(tempModelStatistic.accuracy)*100).toFixed(2))
       // confusion matrix
       setConfusionMatrix(tempModelStatistic.confusion_matrix)
       // metrics
       setModelPerformance(tempModelStatistic.metrics)
+      // train progress (png)
+      setImage(tempModelStatistic.train_progress)
+    })
+    axios.get(`${process.env.REACT_APP_BN}/view-performance/layers?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      console.log(response.data.layers.layers_url)
+      console.log(response.data.layers.ovr_url)
+      setViewLayer(
+        new GeoTIFF({
+          sources: [
+            {
+              url: response.data.layers.layers_url,
+              overview: response.data.layers.ovr_url,
+              nodata: 0,
+            },
+          ],
+        })
+      ) ;
+      setLayersGroup([
+        new TileLayer({
+          className: "old",
+          visible: true,
+          opacity: 0.5,
+          source: new GeoTIFF({
+            sources: [
+              {
+                url: response.data.layers.layers_url,
+                overview: response.data.layers.ovr_url,
+                nodata: 0,
+              },
+            ],
+          }),
+        }),
+      ]);
     })
   };
 
   const handleSwitch = (e) => {
     setMetricSelection(!metricSelection);
   };
-
+  console.log()
   return (
     <>
       <StepNavBtn title="Review Performance" next={`/view-results/${props.match.params.project_name}`} />

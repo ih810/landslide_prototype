@@ -19,38 +19,18 @@ class View_Performance_Route(FlaskView):
 
         confusion_matrix = Util.Read_csv(
             project_id+'/Output/Visualizations', 'ConfusionMatrix.csv')
+        filtered_confusion_matrix = filter(lambda column: column[""]!='', confusion_matrix)
 
         metrics = Util.Read_csv(
             project_id+'/Output/Visualizations', 'PrecisionRecallFscore.csv')
+        filtered_metrics = filter(lambda column: column[""]!='', metrics)
 
         # query azure for specific model performance
         model_performance = {'model_performance': [
             {
                 'accuracy': accuracy_txt[0],
-                'metrics': {
-                    'recall': {
-                        'landslide': metrics[1]['Landslide'],
-                        'no_landslide': metrics[1]['NotLandslide'],
-                    },
-                    'precision': {
-                        'landslide': metrics[0]['Landslide'],
-                        'no_landslide': metrics[0]['NotLandslide'],
-                    },
-                    'f1_score': {
-                        'landslide': metrics[2]['Landslide'],
-                        'no_landslide': metrics[2]['NotLandslide'],
-                    },
-                    'support': {
-                        'landslide': metrics[3]['Landslide'],
-                        'no_landslide': metrics[3]['NotLandslide'],
-                    },
-                },
-                'confusion_matrix':{
-                    'true_neg': confusion_matrix[0]['NotLandslide_pred'],
-                    'true_pos': confusion_matrix[1]['Landslide_pred'],
-                    'false_neg': confusion_matrix[1]['NotLandslide_pred'],
-                    'false_pos': confusion_matrix[0]['Landslide_pred'],
-                }
+                'metrics': list(filtered_metrics),
+                'confusion_matrix': list(filtered_confusion_matrix)
             }
         ]}
         return model_performance

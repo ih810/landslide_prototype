@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
 
-import modelAccuracytxt from "../assets/Visualizations/Accuracy.txt";
-import precisionRecallF1 from "../assets/Visualizations/PrecisionRecallFscore.csv";
-import confusionMatrixCsv from "../assets/Visualizations/ConfusionMatrix.csv";
 import dummyRect from '../assets/high-resolution-black-background-08.jpg'
-
-import readTxt from "../util/readTxt";
-import readCSV from "../util/readCSV";
 
 import axios from 'axios'
 
@@ -72,61 +66,28 @@ export default function ViewPerformance(props) {
   const [metricSelection, setMetricSelection] = useState(true);
   const [coord, setCoord] = useState()
   const [image, setImage] = useState('https://aiat3landslidestg.file.core.windows.net/data/HongKongLiDAR2011_DEMO/Output/Visualizations/TrainProgress.png?se=2022-01-10T17%3A24%3A38Z&sp=rw&sv=2019-02-02&sr=f&sig=T579WNvBebRi69bWpeJrWQK5qaRReSX8KxoEipDQN3w%3D')
-  // const [susMap, setSusMap] = useState()
+  
   useEffect(() => {
     handleModelStat();
-    axios.get(`${process.env.REACT_APP_BN}/get-image?project_name=${props.match.params.project_name}`)
-    .then((res)=>{
-      setImage(res.data)
-    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   const handleModelStat = async () => {
-    setModelAccuracy(
-      (parseFloat(await readTxt(modelAccuracytxt)) * 100).toFixed(2)
-    );
-    processPerformanceGroup(await readCSV(precisionRecallF1));
-    processConfusionGroup(await readCSV(confusionMatrixCsv));
-  };
-
-  const processPerformanceGroup = async (performanceCsvArr) => {
-    const modelPerformanceGroup = performanceCsvArr
-      .filter((row) => row["Landslide"] !== undefined)
-      .map((row) => {
-        if (row[""] !== "Support") {
-          row["Landslide"] = (parseFloat(row["Landslide"]) * 100).toFixed(2);
-          row["NotLandslide"] = (parseFloat(row["NotLandslide"]) * 100).toFixed(
-            2
-          );
-        }
-        return row;
-      });
-    setModelPerformance(modelPerformanceGroup);
-  };
-
-  const processConfusionGroup = (confusionCsvArr) => {
-    const confusionGroup = confusionCsvArr
-      .filter((row) => row[""] !== "")
-      .map((row) => {
-        row[""] = row[""]
-          .split("_")
-          .join(" ")
-          .split(/(?=[A-Z])/)
-          .join(" ");
-        console.log(row);
-        return row;
-      });
-
-    setConfusionMatrix(confusionGroup);
+    axios.get(`${process.env.REACT_APP_BN}/view-performance/info?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      let tempModelStatistic=response.data.model_performance[0]
+      // accuracy
+      setModelAccuracy((parseFloat(tempModelStatistic.accuracy)*100).toFixed(2))
+      // confusion matrix
+      setConfusionMatrix(tempModelStatistic.confusion_matrix)
+      // metrics
+      setModelPerformance(tempModelStatistic.metrics)
+    })
   };
 
   const handleSwitch = (e) => {
     setMetricSelection(!metricSelection);
   };
-
-  console.log('props', props)
 
   return (
     <>
@@ -197,7 +158,7 @@ export default function ViewPerformance(props) {
                       </TableHead>
                       <TableBody>
                         {modelPerformance
-                          ? modelPerformance.map((row, i) => (
+                          ? modelPerformance.map((metricsRow, i) => (
                               <TableRow
                                 key={i}
                                 sx={{
@@ -207,24 +168,24 @@ export default function ViewPerformance(props) {
                                 }}
                               >
                                 <TableCell component="th" scope="row">
-                                  {row[""]}
+                                  {metricsRow[""]}
                                 </TableCell>
-                                {row[""] === "Support" ? (
+                                {metricsRow[""] === "Support" ? (
                                   <>
                                     <TableCell align="right">
-                                      {row["Landslide"]}
+                                      {metricsRow["Landslide"]}
                                     </TableCell>
                                     <TableCell align="right">
-                                      {row["NotLandslide"]}
+                                      {metricsRow["NotLandslide"]}
                                     </TableCell>
                                   </>
                                 ) : (
                                   <>
                                     <TableCell align="right">
-                                      {row["Landslide"]}%
+                                      {(parseFloat(metricsRow["Landslide"])*100).toFixed(2)}%
                                     </TableCell>
                                     <TableCell align="right">
-                                      {row["NotLandslide"]}%
+                                      {(parseFloat(metricsRow["NotLandslide"])*100).toFixed(2)}%
                                     </TableCell>
                                   </>
                                 )}
@@ -248,7 +209,7 @@ export default function ViewPerformance(props) {
                       </TableHead>
                       <TableBody>
                         {confusionMatrix
-                          ? confusionMatrix.map((row, i) => (
+                          ? confusionMatrix.map((matrixRow, i) => (
                               <TableRow
                                 key={i}
                                 sx={{
@@ -258,13 +219,13 @@ export default function ViewPerformance(props) {
                                 }}
                               >
                                 <TableCell component="th" scope="row">
-                                  {row[""]}
+                                  {matrixRow[""]}
                                 </TableCell>
                                 <TableCell align="right">
-                                  {row["Landslide_pred"]}
+                                  {matrixRow['Landslide_pred']}
                                 </TableCell>
                                 <TableCell align="right">
-                                  {row["NotLandslide_pred"]}
+                                  {matrixRow['NotLandslide_pred']}
                                 </TableCell>
                               </TableRow>
                             ))

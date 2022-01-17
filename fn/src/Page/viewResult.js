@@ -20,6 +20,8 @@ import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import { Grid, Paper, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
+import axios from "axios";
+
 const columns = [
   { field: "x", headerName: "X", width: 100 },
   { field: "y", headerName: "Y", width: 100 },
@@ -65,11 +67,51 @@ const layersGroup = [
   }),
 ];
 
-export default function ViewResult() {
+export default function ViewResult(props) {
   const [coord, setCoord] = useState();
   const [susCsv, setSusCsv] = useState();
   const [susFrequencyMap, setSusFrequencyMap] = useState([]);
   const [targetCoordSus, setTargetCoordSus] = useState([]);
+  const [viewLayer, setViewLayer] = useState();
+  const [layersGroup, setLayersGroup] = useState();
+  const [susMapURL, setSusMapURL] = useState();
+
+  useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_BN}/view-result/layers?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      setViewLayer(
+        new GeoTIFF({
+          sources: [
+            {
+              url: response.data.layers.layers_url,
+              overview: response.data.layers.ovr_url,
+              nodata: 0,
+              projection: 'EPSG:3857'
+            },
+          ],
+        })
+      ) ;
+      setLayersGroup([
+        new TileLayer({
+          className: "old",
+          visible: true,
+          opacity: 0.5,
+          source: new GeoTIFF({
+            sources: [
+              {
+                url: response.data.layers.layers_url,
+                overview: response.data.layers.ovr_url,
+                nodata: 0,
+                projection: 'EPSG:3857'
+              },
+            ],
+          }),
+        }),
+      ]);
+      setSusMapURL(response.data.layers.layers_url)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   //update sus data when coordinate change
   useEffect(() => {
@@ -82,7 +124,7 @@ export default function ViewResult() {
   }, [coord]);
 
   const getSusCount = async () => {
-      let susCount = await queryTiff(coord);
+      let susCount = await queryTiff(coord, susMapURL);
       let barChartSusCount = [];
       //format data for rechart
       for (let item in susCount["countMap"]) {
@@ -94,7 +136,8 @@ export default function ViewResult() {
         }
       }
       setSusFrequencyMap(barChartSusCount);
-
+      console.log(barChartSusCount)
+      console.log(susCount)
       //clicked coord sus
       setTargetCoordSus((susCount["pxSus"][0] * 100).toFixed(4));
   };

@@ -50,7 +50,7 @@ const dummyData = [{
 ]}
 ]
 
-export default function UploadInput() {
+export default function UploadInput(props) {
   const hiddenModelInput = useRef();
   const hiddenOptModelInput = useRef();
   const hiddenTrainInput = useRef();
@@ -81,7 +81,7 @@ export default function UploadInput() {
 
   return (
     <>
-        <StepNavBtn title="Pre-Train Model" next="/validate-input" />
+        <StepNavBtn title="Pre-Train Model" next={`/validate-input/${props.match.params.project_name}`} />
         <Grid
           container
           sx={{ mt: 3, minHeight: "60vh" }}

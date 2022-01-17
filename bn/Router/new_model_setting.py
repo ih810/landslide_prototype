@@ -16,7 +16,7 @@ class New_Model_Config_Route(FlaskView):
         body_json = request.get_json()
 
         try:
-            self.file_service.create_file_from_text('data','/ProjectsData/' + project_name, 'project_config.txt', json.dumps(body_json), encoding='utf-8')
+            self.file_service.create_file_from_text('data','ProjectsData/' + project_name, 'project_config.txt', json.dumps(body_json), encoding='utf-8')
         except Exception as e:
             print(e)
             return ({'data': 'backend team fucked up'})

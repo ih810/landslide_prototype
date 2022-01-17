@@ -1,7 +1,8 @@
 import susceptibility_map from "../assets/susceptibility_map.tif";
-import { fromArrayBuffer } from "geotiff";
+import { fromArrayBuffer, fromUrl, fromBlob } from "geotiff";
+import axios from "axios";
 
-export default async function queryTiff(coord) {
+export default async function queryTiff(coord, url) {
   return new Promise((resolve) => {
     //start hash map
     const countMap = {
@@ -16,7 +17,14 @@ export default async function queryTiff(coord) {
       0.9: 0,
       len: 0,
     };
-
+    const requestTif = async () => {
+      let tifFile;
+      if(url){
+        tifFile = await fromUrl(url)
+        return await readTif(tifFile)
+      }
+    };
+    
     const readTif = async (tifFile) => {
       let clickcorX = coord.click[0];
       let clickcorY = coord.click[1];
@@ -25,6 +33,7 @@ export default async function queryTiff(coord) {
       const rasterSus = await tifFile.readRasters({
         bbox: coord.extent,
       });
+      console.log('bbox', rasterSus)
       console.log('extent', coord.extent)
       //read clicked px
       const pxSus = await tifFile.readRasters({
@@ -66,26 +75,33 @@ export default async function queryTiff(coord) {
       resolve({ countMap: countMap, pxSus: pxSus });
     };
 
-    const requestTif = async () => {
-      let tifFile;
 
-      //send an req to get the file
-      var request = new XMLHttpRequest();
-
-      request.open("GET", susceptibility_map, true);
-      request.responseType = "blob";
-
-      request.onload = function () {
-        //read file
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(request.response);
-        reader.onloadend = async (e) => {
-          tifFile = await fromArrayBuffer(e.target.result);
-          await readTif(tifFile);
-        };
-      };
-      request.send();
-    };
     requestTif();
   });
 }
+
+
+      // //send an req to get the file
+      // var request = new XMLHttpRequest();
+
+      // request.open("GET", susceptibility_map, true);
+      // request.responseType = "blob";
+
+      // request.onload = function () {
+      //   //read file
+      //   var reader = new FileReader();
+      //   reader.readAsArrayBuffer(request.response);
+      //   reader.onloadend = async (e) => {
+      //     tifFile = await fromArrayBuffer(e.target.result);
+      //     console.log(typeof(tifFile))
+      //     console.log(tifFile)
+      //     await readTif(tifFile);
+      //   };
+      // };
+      // request.send();
+      // axios.get(url)
+      // .then(async (response)=>{
+      //   console.log(response)
+      //   tifFile = await fromBlob(response.data)
+      //   console.log(tifFile)
+      // })

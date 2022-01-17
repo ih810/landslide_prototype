@@ -21,6 +21,26 @@ import {
 //Open Layers
 import { GeoTIFF } from "ol/source";
 import TileLayer from "ol/layer/WebGLTile";
+import {register} from 'ol/proj/proj4';
+import {get as getProjection, transformExtent} from 'ol/proj';
+//proj4
+import proj4 from "proj4";
+
+//define projection
+proj4.defs(
+  "EPSG:2326",
+  "+proj=tmerc +lat_0=22.31213333333334 +lon_0=114.1785555555556 +k=1 +x_0=836694.05 +y_0=819069.8 +ellps=intl +towgs84=-162.619,-276.959,-161.764,0.067753,-2.24365,-1.15883,-1.09425 +units=m +no_defs"
+);
+proj4.defs(
+  "EPSG:3857",
+  "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
+);
+register(proj4)
+
+const proj2326 = getProjection('EPSG:2326');
+// proj2326.setExtent([795233.5770899998, 794267.8361200001, 872991.5360700004, 853188.3580900002])
+const proj3857 = getProjection('EPSG:3857');
+// proj3857.setExtent([-20026376.39, -20048966.10, 20026376.39, 20048966.10])
 
 const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
@@ -67,6 +87,7 @@ export default function ViewPerformance(props) {
               url: response.data.layers.layers_url,
               overview: response.data.layers.ovr_url,
               nodata: 0,
+              projection: 'EPSG:3857'
             },
           ],
         })
@@ -82,6 +103,7 @@ export default function ViewPerformance(props) {
                 url: response.data.layers.layers_url,
                 overview: response.data.layers.ovr_url,
                 nodata: 0,
+                projection: 'EPSG:3857'
               },
             ],
           }),

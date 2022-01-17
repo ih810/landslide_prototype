@@ -57,14 +57,14 @@ class View_Performance_Route(FlaskView):
         layers_signautre = self.file_client.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/PredictionResults', 
-            file_name='susceptibility_map.tif', 
+            file_name='susceptibility_map_color.tif', 
             permission=permission,
             expiry=datetime.now() + timedelta(minutes=1),
         )
         ovr_signautre = self.file_client.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/PredictionResults', 
-            file_name='susceptibility_map.tif.ovr', 
+            file_name='susceptibility_map_color.tif.ovr', 
             permission=permission,
             expiry=datetime.now() + timedelta(minutes=1),
         )
@@ -73,9 +73,9 @@ class View_Performance_Route(FlaskView):
         layers = {'layers': 
             {
                 'layers_name': 'susceptibility_map.tif',
-                'layers_url': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/PredictionResults/susceptibility_map.tif?'+layers_signautre,
+                'layers_url': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/PredictionResults/susceptibility_map_color.tif?'+layers_signautre,
                 'ovr_name': 'susceptibility_map.ovr.tif',
-                'ovr_url': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/PredictionResults/susceptibility_map.tif?'+ovr_signautre,
+                'ovr_url': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/PredictionResults/susceptibility_map_color.tif?'+ovr_signautre,
             }
         }
         return layers

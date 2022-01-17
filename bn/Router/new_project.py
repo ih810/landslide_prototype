@@ -12,15 +12,16 @@ class New_Project_Route(FlaskView):
     def __init__(self):
         self.table_client = Util.Get_Table_Client()
         self.share_client = Util.Get_Share_Client()
-
+        self.file_service = Util.Get_File_Service()
+    
     # return project info
     @route('/new-project', methods=['POST'])
     def new_project(self):
         project_config = request.get_json()
         try:
             # create directory in azure
-            self.share_client.create_directory(project_config['project_name'])
-            
+            self.file_service.create_directory('data', 'ProjectsData/'+project_config['project_name'])
+
             # get the lenght of the table for RowKey insertion 
             eTag = self.table_client.get_entity('ID', 'ID')
             eTag['len'] += 1

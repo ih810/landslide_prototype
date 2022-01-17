@@ -8,5 +8,6 @@ def Read_Txt(folder_name, file_name):
         txt_list = re.split('\n|\r', txt_content)
         filtered_list = list(filter(None, txt_list))
         return filtered_list
-    except:
-        return []
+    except Exception as e:
+        print(e)
+        return {"data": str(e)}

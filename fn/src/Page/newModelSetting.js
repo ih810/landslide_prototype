@@ -129,7 +129,6 @@ export default function NewModelSetting(props) {
       body: JSON.stringify(submitData)
     })
     .then((res)=>{
-      console.log(res.body);
       return res.json();
     })
     .then((result)=>{

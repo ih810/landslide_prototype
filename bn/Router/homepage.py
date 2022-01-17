@@ -75,7 +75,7 @@ class Homepage_Route(FlaskView):
             target_row_key = item["RowKey"]
         
         # list all folder/files in dir
-        directory_content = self.file_client.list_directories_and_files('data', directory_name=project_id)
+        directory_content = self.file_client.list_directories_and_files('data', directory_name='/ProjectsData/'+project_id)
         
         try:
             # custom recusive delete function

@@ -126,10 +126,11 @@ export default function ViewPerformance(props) {
     setMetricSelection(!metricSelection);
   };
 
-  
+  console.log('props', props)
+
   return (
     <>
-      <StepNavBtn title="Review Performance" next="/view-results" />
+      <StepNavBtn title="Review Performance" next={`/view-results/${props.match.params.project_name}`} />
       <Grid container sx={{ m:3, ml: 14 }}>
         <Grid item md={4} xs={12} >
           <Paper
@@ -294,9 +295,9 @@ export default function ViewPerformance(props) {
                 "image_1",
                 "image_2",
                 "image_3",
-              ].map(() => {
+              ].map((content, i) => {
                 return (
-                  <div className="row pl-3 pr-3">
+                  <div className="row pl-3 pr-3" key={i} >
                     <div className="col col-lg-6 col-md-12 p-3">
                       <img
                         src={dummyRect}

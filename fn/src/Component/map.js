@@ -25,7 +25,6 @@ export default function OlMapView(props) {
       const viewSource = await props.viewLayer.getView();
       viewSource.resolutions = layerRes;
 
-      console.log(viewSource)
       //initiate map only once
       if (!initMap) {
         initMap = new Map({

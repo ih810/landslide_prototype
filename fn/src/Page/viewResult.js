@@ -27,45 +27,6 @@ const columns = [
   { field: "y", headerName: "Y", width: 100 },
   { field: "sus", headerName: "sus", width: 170 },
 ];
-const azure = {
-  accName: process.env.REACT_APP_STORAGE_ACC_NAME,
-  folder: "home",
-  file: "colorSus_map",
-  sas: process.env.REACT_APP_STORAGE_SAS_TOKEN,
-};
-const viewLayer = new GeoTIFF({
-  sources: [
-    {
-      url: `https://${azure.accName}.file.core.windows.net/${azure.folder}/${
-        azure.file
-      }.tif${azure.sas}&xyz=${Date.now()}`,
-      overview: `https://${azure.accName}.file.core.windows.net/${
-        azure.folder
-      }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-      nodata: 0,
-    },
-  ],
-});
-const layersGroup = [
-  new TileLayer({
-    className: "old",
-    visible: true,
-    opacity: 0.5,
-    source: new GeoTIFF({
-      sources: [
-        {
-          url: `https://${azure.accName}.file.core.windows.net/${
-            azure.folder
-          }/${azure.file}.tif${azure.sas}&xyz=${Date.now()}`,
-          overview: `https://${azure.accName}.file.core.windows.net/${
-            azure.folder
-          }/${azure.file}_reporj.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-          nodata: 0,
-        },
-      ],
-    }),
-  }),
-];
 
 export default function ViewResult(props) {
   const [coord, setCoord] = useState();

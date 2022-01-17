@@ -1,6 +1,4 @@
-import susceptibility_map from "../assets/susceptibility_map.tif";
-import { fromArrayBuffer, fromUrl, fromBlob } from "geotiff";
-import axios from "axios";
+import { fromUrl } from "geotiff";
 
 export default async function queryTiff(coord, url) {
   return new Promise((resolve) => {

@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 class View_Results_Route(FlaskView):
     
     def __init__(self):
-        self.file_client = Util.Get_File_Service()
+        self.file_service = Util.Get_File_Service()
         
     @route('/layers', methods=['GET'])
     # return a list of layer file URI
@@ -15,14 +15,14 @@ class View_Results_Route(FlaskView):
         project_id = request.args.get('project_id')
         # set permission for SAS read 
         permission = models.FilePermissions(read=True)
-        layers_signautre = self.file_client.generate_file_shared_access_signature(
+        layers_signautre = self.file_service.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/PredictionResults', 
             file_name='susceptibility_map_color.tif', 
             permission=permission,
             expiry=datetime.now() + timedelta(minutes=1),
         )
-        ovr_signautre = self.file_client.generate_file_shared_access_signature(
+        ovr_signautre = self.file_service.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/PredictionResults', 
             file_name='susceptibility_map_color.tif.ovr', 
@@ -81,7 +81,7 @@ class View_Results_Route(FlaskView):
 
         # set permission for SAS read 
         permission = models.FilePermissions(read=True)
-        layers_signautre = self.file_client.generate_file_shared_access_signature(
+        layers_signautre = self.file_service.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/PredictionResults', 
             file_name='susceptibility_map.tif', 

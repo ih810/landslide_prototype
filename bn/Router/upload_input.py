@@ -1,24 +1,39 @@
+from email.mime import image
 from flask import request
 from flask_classy import FlaskView, route
+import Util
+import json
 
 class Upload_Input_Route(FlaskView):
+    def __init__(self):
+        self.file_service = Util.Get_File_Service()
+
     @route('/list', methods=['GET'])
     # return a list of uploaded file
     def list_uploaded_file(self):
         project_id = request.args.get('project_id')
 
         # list files from azure
-        uploaded_files = [
-            {'name': 'file1', 'azure': 'is dumb', 'ihate': 'microsoft'}, 
-            {'name': 'file2', 'azure': 'is dumb', 'ihate': 'microsoft'},
-            {'name': 'file3', 'azure': 'is dumb', 'ihate': 'microsoft'}
-            ]
-
+        elevation_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/Elevation')
+        training_data_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/Landslide')
+        optional_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/UrbanAreaSHP')
+        print(list(elevation_uploaded_files))
+        print(list(training_data_uploaded_files))
+        print(list(optional_uploaded_files))
         # construct response json
-        response_json = {"input_file": []}
-        for file in uploaded_files:
-            response_json["input_file"].append(file['name'])
-
+        response_json = {
+            "elevation": [],
+            "shp": [],
+            "traning": []
+        }
+        # for file in elevation_uploaded_files:
+        #     response_json["input_file"].append(file['name'])
+        for file in elevation_uploaded_files:
+            response_json['elevation'].append(file.name)
+        for file in training_data_uploaded_files:
+            response_json['traning'].append(file.name)
+        for file in optional_uploaded_files:
+            response_json['shp'].append(file.name)
         return response_json
 
     @route('/download', methods=['GET'])
@@ -41,9 +56,17 @@ class Upload_Input_Route(FlaskView):
     @route('/upload', methods=['POST'])
     # return a list of uploaded file
     def upload_file(self):
-        project_id = request.args.get('project_id')
-        input_type = request.args.get('input_type')
-
+        print('fuckyou')
+        try:
+            project_id = request.args.get('project_id')
+            input_type = request.args.get('input_type')
+            image_file_blob = request.form.to_dict()
+            print(image_file_blob)
+            print(type(image_file_blob['tif']))
+            # print(image_file_blob)
+            # self.file_service.create_file_from_bytes('data', 'ProjectsData/testing1233/Elevation', image_file['fileName'], byte_image)
+        except Exception as e:
+            print(e)
         # after upload return what?
 
         return ('', 200)

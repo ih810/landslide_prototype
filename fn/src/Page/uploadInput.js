@@ -1,66 +1,52 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 //MUI assets
 import { Grid, Paper, Icon, Button } from "@mui/material";
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
+import axios from "axios";
 
-const dummyData = [{
-  title:"MODEL INPUT", 
-  description: 'DEM file (.tiff) here | Max. 1GB',
-  dummyFileName:[
-    "HKI_landsileProject_MAY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-  ]
-},
-{
-  title:"OPTIONAL MODEL INPUT", 
-  description: 'Gridding must be the same as DEM | Max. 1GB',
-  dummyFileName:[
-  "HKI_landsileProject_MAY_idkwtimtyping_123.tiff",
-  "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-  "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-  "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-  "HKI_landsileProject_MaY_idkwtimtyping_123.tiff",
-]
-}, 
-{
-  title:"TRAINING INPUT", 
-  description: 'Landslide label here (.shp) | Max. 1GB',
-  dummyFileName:[
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-    "HKI_landsileProject_MaY_idkwtimtyping_123.shp",
-]}
-]
 
 export default function UploadInput(props) {
   const hiddenModelInput = useRef();
   const hiddenOptModelInput = useRef();
   const hiddenTrainInput = useRef();
+  const [listData, setListData] = useState([{
+    title:"MODEL INPUT", 
+    description: 'DEM file (.tiff) here | Max. 1GB',
+    fileList:[]
+  },
+  {
+    title:"OPTIONAL MODEL INPUT", 
+    description: 'Gridding must be the same as DEM | Max. 1GB',
+    fileList:[]
+  }, 
+  {
+    title:"TRAINING INPUT", 
+    description: 'Landslide label here (.shp) | Max. 1GB',
+    fileList:[]
+  }]);
+  const [flip, setFlip] = useState(true)
 
   useEffect(()=>{
+    // set temp for state modification
+    let tempList = listData
+
     //api to get list of files from azure
-    //model input
-    //optional model input
-    //training input
-    console.log('ficl', dummyData)
+    axios.get(`${process.env.REACT_APP_BN}/upload-input/list?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      tempList[0]['fileList'] = response.data['elevation']
+      tempList[1]['fileList'] = response.data['shp']
+      tempList[2]['fileList'] = response.data['traning']
+
+      setListData(tempList)
+    })
+    .then(()=>{
+      //rerender issue
+      setFlip(!flip)
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const handleClick = (e) => {
@@ -75,10 +61,17 @@ export default function UploadInput(props) {
   };
 
   const handleUpload = (e) => {
-    console.log(e.target.files[0])
-    //post request to upload to azure
+    e.preventDefault()
+    console.log(e)
+    console.log(hiddenModelInput)
+    hiddenModelInput.current.form.submit()
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e)
+  }
+console.log(hiddenModelInput)
   return (
     <>
         <StepNavBtn title="Pre-Train Model" next={`/validate-input/${props.match.params.project_name}`} />
@@ -87,7 +80,7 @@ export default function UploadInput(props) {
           sx={{ mt: 3, minHeight: "60vh" }}
           justifyContent="center"
         >
-          {dummyData.map(
+          {listData.map(
             (txt,i) => {
               return (
                 <Grid key={i} item xs={3}>
@@ -119,7 +112,7 @@ export default function UploadInput(props) {
                       </div>
                       <div className="pt-3 pl-4 w-100">
                         <ul className="pl-1 w-100">
-                            {txt.dummyFileName.map((file, j) => {
+                            {txt['fileList'].map((file, j) => {
                                 return (
                                   <li key={j} className="list-unstyled text-truncate">
                                     <p className="d-inline">
@@ -130,7 +123,8 @@ export default function UploadInput(props) {
                                       </small>
                                     </p>
                                   </li>
-                                )})}
+                                )})
+                              }
                         </ul>
                       </div>
                     </div>
@@ -144,22 +138,28 @@ export default function UploadInput(props) {
               );
             }
           )}
+          <form onSubmit={(e)=>{handleSubmit(e)}} action={`${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=fuck`} method="POST">
+            <input
+              type="file"
+              id='model'
+              name='tif'
+              style={{ display: "none" }}
+              ref={hiddenModelInput}
+              onChange={(e)=>{handleUpload(e)}}
+              accept=".tif"
+            />
+          </form>
           <input
             type="file"
-            style={{ display: "none" }}
-            ref={hiddenModelInput}
-            onChange={handleUpload}
-            accept=".tif"
-          />
-          <input
-            type="file"
+            id='optional'
             style={{ display: "none" }}
             ref={hiddenOptModelInput}
-            onChange={handleUpload}
+            onChange={()=>{}}
             accept=".tif"
           />
           <input
             type="file"
+            id='training'
             style={{ display: "none" }}
             ref={hiddenTrainInput}
             onChange={handleUpload}

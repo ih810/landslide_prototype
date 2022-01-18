@@ -9,7 +9,7 @@ class Homepage_Route(FlaskView):
     def __init__(self):
         self.table_client = Util.Get_Table_Client()
         self.share_client = Util.Get_Share_Client()
-        self.file_client = Util.Get_File_Service()
+        self.file_service = Util.Get_File_Service()
 
     @route('/admin-dashboard', methods=['GET'])
     # return all project available
@@ -75,7 +75,7 @@ class Homepage_Route(FlaskView):
             target_row_key = item["RowKey"]
         
         # list all folder/files in dir
-        directory_content = self.file_client.list_directories_and_files('data', directory_name='/ProjectsData/'+project_id)
+        directory_content = self.file_service.list_directories_and_files('data', directory_name='/ProjectsData/'+project_id)
         
         try:
             # custom recusive delete function

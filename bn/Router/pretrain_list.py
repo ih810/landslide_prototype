@@ -4,14 +4,14 @@ import Util
 
 class Pretrain_List_Route(FlaskView):
     def __init__(self):
-        self.file_client = Util.Get_File_Service()
+        self.file_service = Util.Get_File_Service()
     
     @route('/model-info', methods=['GET'])
     # return list of pretrain model
     def list_pretrained(self):
         response_json = {"data": []}
         # list dir from azure
-        model_names = list(self.file_client.list_directories_and_files('data', directory_name='PretrainedModels/Models'))
+        model_names = list(self.file_service.list_directories_and_files('data', directory_name='PretrainedModels/Models'))
 
         for model_folder in model_names:
             # for each folder, read the accuracy of the model

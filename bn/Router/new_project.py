@@ -21,7 +21,9 @@ class New_Project_Route(FlaskView):
         try:
             # create directory in azure
             self.file_service.create_directory('data', 'ProjectsData/'+project_config['project_name'])
-
+            self.file_service.create_directory('data', 'ProjectsData/'+project_config['project_name']+'/Elevation')
+            self.file_service.create_directory('data', 'ProjectsData/'+project_config['project_name']+'/UrbanAreaSHP')
+            self.file_service.create_directory('data', 'ProjectsData/'+project_config['project_name']+'/Landslide')
             # get the lenght of the table for RowKey insertion 
             eTag = self.table_client.get_entity('ID', 'ID')
             eTag['len'] += 1

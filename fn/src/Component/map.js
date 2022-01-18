@@ -12,7 +12,7 @@ export default function OlMapView(props) {
   let coordGroup;
 
   //define resolution
-  let layerRes = [ 32, 16, 8, 4, 2, 1, 0.5, 0.3, 0.1];
+  let layerRes = [ 12,9,6,3,2,1 ];
 
   useEffect(() => {
     initiateMap();
@@ -24,7 +24,7 @@ export default function OlMapView(props) {
       //align view standard
       const viewSource = await props.viewLayer.getView();
       viewSource.resolutions = layerRes;
-
+      console.log(viewSource)
       //initiate map only once
       if (!initMap) {
         initMap = new Map({
@@ -38,9 +38,9 @@ export default function OlMapView(props) {
           ],
           view: new View({
             ...viewSource,
-            zoom: 1,
+            zoom: 0,
             maxZoom: 18,
-            minZoom: 1,
+            minZoom: 0,
             constrainOnlyCenter: true,
           }),
         });

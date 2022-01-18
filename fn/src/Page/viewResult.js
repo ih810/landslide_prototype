@@ -38,8 +38,10 @@ export default function ViewResult(props) {
   const [susMapURL, setSusMapURL] = useState();
 
   useEffect(()=>{
+      console.log('useeffec')
     axios.get(`${process.env.REACT_APP_BN}/view-result/layers?project_id=${props.match.params.project_name}`)
     .then((response)=>{
+      console.log('get response')
       setViewLayer(
         new GeoTIFF({
           sources: [
@@ -69,6 +71,11 @@ export default function ViewResult(props) {
           }),
         }),
       ]);
+    })
+    console.log('sec api')
+    axios.get(`${process.env.REACT_APP_BN}/view-result/origin-layer?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      console.log('sec api')
       setSusMapURL(response.data.layers.layers_url)
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps

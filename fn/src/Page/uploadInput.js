@@ -63,15 +63,22 @@ export default function UploadInput(props) {
   const handleUpload = (e) => {
     e.preventDefault()
     console.log(e)
-    console.log(hiddenModelInput)
-    hiddenModelInput.current.form.submit()
+    console.log(e.target.id)
+    fetch(`${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=model&file_name=${e.target.files[0].name}`,
+    {
+      method:'POST',
+      body: e.target.files[0]
+    })
+    .then((response)=>{
+      console.log(response)
+      return response.json()
+    })
+    .then((result)=>{
+      setFlip(!flip)
+      console.log(result)
+    })
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(e)
-  }
-console.log(hiddenModelInput)
   return (
     <>
         <StepNavBtn title="Pre-Train Model" next={`/validate-input/${props.match.params.project_name}`} />
@@ -138,7 +145,6 @@ console.log(hiddenModelInput)
               );
             }
           )}
-          <form onSubmit={(e)=>{handleSubmit(e)}} action={`${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=fuck`} method="POST">
             <input
               type="file"
               id='model'
@@ -148,13 +154,12 @@ console.log(hiddenModelInput)
               onChange={(e)=>{handleUpload(e)}}
               accept=".tif"
             />
-          </form>
           <input
             type="file"
             id='optional'
             style={{ display: "none" }}
             ref={hiddenOptModelInput}
-            onChange={()=>{}}
+            onChange={(e)=>{handleUpload(e)}}
             accept=".tif"
           />
           <input
@@ -162,7 +167,7 @@ console.log(hiddenModelInput)
             id='training'
             style={{ display: "none" }}
             ref={hiddenTrainInput}
-            onChange={handleUpload}
+            onChange={(e)=>{handleUpload(e)}}
             accept=".tif"
           />
         </Grid>

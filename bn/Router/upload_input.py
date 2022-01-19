@@ -57,16 +57,13 @@ class Upload_Input_Route(FlaskView):
     # return a list of uploaded file
     def upload_file(self):
         print('fuckyou')
+        project_id = request.args.get('project_id')
+        input_type = request.args.get('input_type')
+        file_name = request.args.get('file_name')
         try:
-            project_id = request.args.get('project_id')
-            input_type = request.args.get('input_type')
-            image_file_blob = request.form.to_dict()
-            print(image_file_blob)
-            print(type(image_file_blob['tif']))
-            # print(image_file_blob)
-            # self.file_service.create_file_from_bytes('data', 'ProjectsData/testing1233/Elevation', image_file['fileName'], byte_image)
+            self.file_service.create_file_from_bytes('data', 'ProjectsData/'+project_id+'/Elevation', file_name, request.data)
         except Exception as e:
             print(e)
-        # after upload return what?
+        # # after upload return what?
 
-        return ('', 200)
+        return json.dumps({'data': project_id+ input_type+ file_name})

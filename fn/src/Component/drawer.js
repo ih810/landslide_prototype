@@ -17,7 +17,7 @@ import ThemeListItem from './drawer.ThemeList';
 
 import { useLocation } from "react-router-dom";
 
-export default function TemporaryDrawer() {
+export default function TemporaryDrawer(props) {
   const [drawer, setDrawer] = useState(false);
   const location = useLocation();
   
@@ -54,7 +54,7 @@ export default function TemporaryDrawer() {
           sx={{ margin: "30px", paddingTop: 8 }}
           component="div"
         >
-          Welcome <br /> So Gon Deasnus
+          Welcome <br /> {props.userId.username}
         </Typography>
         <Typography sx={{ pl: 4, pb: 2 }}>User</Typography>
         <Divider sx={{ bgcolor: "#FFFFFF" }} />

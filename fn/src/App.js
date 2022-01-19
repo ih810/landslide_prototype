@@ -47,7 +47,7 @@ export default function App(props) {
                 <div style={{ height: "76px" }}>
                   <PrivateRoute component={Navbar}/>
                 </div>
-                <Drawer />
+                <PrivateRoute component={Drawer}/>
                 <div className="row">
                   {routes.map((route, i) => {
                     return (

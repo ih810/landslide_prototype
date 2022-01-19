@@ -17,17 +17,14 @@ class Upload_Input_Route(FlaskView):
         elevation_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/Elevation')
         training_data_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/Landslide')
         optional_uploaded_files = self.file_service.list_directories_and_files('data', directory_name='ProjectsData/'+project_id+'/UrbanAreaSHP')
-        print(list(elevation_uploaded_files))
-        print(list(training_data_uploaded_files))
-        print(list(optional_uploaded_files))
+
         # construct response json
         response_json = {
             "elevation": [],
             "shp": [],
             "traning": []
         }
-        # for file in elevation_uploaded_files:
-        #     response_json["input_file"].append(file['name'])
+
         for file in elevation_uploaded_files:
             response_json['elevation'].append(file.name)
         for file in training_data_uploaded_files:
@@ -56,14 +53,30 @@ class Upload_Input_Route(FlaskView):
     @route('/upload', methods=['POST'])
     # return a list of uploaded file
     def upload_file(self):
-        print('fuckyou')
         project_id = request.args.get('project_id')
         input_type = request.args.get('input_type')
         file_name = request.args.get('file_name')
+        
+        # set input type base on input id
+        if input_type == 'model':
+            target_folder = '/Elevation'
+        elif input_type == 'optional':
+            target_folder = '/UrbanAreaSHP'
+        elif input_type == 'training':
+            target_folder = '/Landslide'
+        else:
+            return {'error': 'cannot recognize file type'}
+
         try:
-            self.file_service.create_file_from_bytes('data', 'ProjectsData/'+project_id+'/Elevation', file_name, request.data)
+            self.file_service.create_file_from_bytes('data', 'ProjectsData/'+project_id+target_folder, file_name, request.data)
         except Exception as e:
             print(e)
         # # after upload return what?
 
-        return json.dumps({'data': project_id+ input_type+ file_name})
+        return json.dumps({'data': project_id+input_type+file_name})
+
+    @route('/file', methods=['POST'])
+    def upload_files(self):
+        file = request.files['file']
+        print(file)
+        return "fuck"

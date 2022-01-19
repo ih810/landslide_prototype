@@ -53,10 +53,16 @@ export default function NavBar(props) {
             }
             
           </span>
-          <span className="pl-4">
-            <h2 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}>
-              {title}
-            </h2>
+          <span className="pl-3">
+            {/* <h2 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}> */}
+            <div className="p-2 d-flex align-items-end">
+              <h4 className="font-weight-bold mb-0">
+                LandSlide
+                <br />
+                Prediction
+              </h4>
+            </div>
+            {/* </h2> */}
           </span>
         </div>
         <div className="col col-4 d-flex flex-row-reverse align-items-center">

@@ -114,8 +114,7 @@ class Homepage_Route(FlaskView):
             res_entity['progress'] = project_progress
 
             self.table_client.update_entity(entity=res_entity, mode=UpdateMode.REPLACE)
+            return {'data':'update success'}
         except Exception as e:
             print(e)
             return {"data": "i fucked up"}
-            
-        return {'data':'fuck'}

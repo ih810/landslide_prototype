@@ -13,21 +13,30 @@ let beginingOfChunk = 0;
 let endOfChunk = chunkSize;
 let progress = 0;
 
-const uploadLargeFile = (e) => {
-  resetChunkProperties();
-  const file = e.target.files[0];
-  fileSize = file.size;
-
-  let totalCount =
-    file.Size % chunkSize === 0
-      ? file.size / chunkSize
-      : Math.floor(file.size / chunkSize) + 1;
-
-  chunkCount = totalCount;
-
-  fileId = uuidv4() + "." + file.name.split(".").pop();
-  fileGuid = fileId;
-  fileUpload()
+function uploadLargeFile (e) {
+  console.log('e', e)
+  if(e){
+    console.log('enter')
+    resetChunkProperties();
+    const file = e.target.files[0];
+    fileSize = file.size;
+    console.log('file', file)
+    
+    let totalCount =
+      file.Size % chunkSize === 0
+        ? file.size / chunkSize
+        : Math.floor(file.size / chunkSize) + 1;
+      console.log('total chunk', totalCount)
+  
+    chunkCount = totalCount;
+    uploadQueue = file
+    fileId = uuidv4() + "." + file.name.split(".").pop();
+    fileGuid = fileId;
+    console.log('file id', fileId)
+    fileUpload(e.target.files[0].name)
+  } else {
+    console.log('why the fuck did this ran?')
+  }
 };
 
 const resetChunkProperties = () => {
@@ -37,59 +46,69 @@ const resetChunkProperties = () => {
   endOfChunk = chunkSize;
 };
 
-const fileUpload = () => {
-  counter += 1;
+const fileUpload = (fileName) => {
+  console.log('current count', counter)
+  console.log('current queue', uploadQueue)
   if (counter <= chunkCount) {
     let chunk = uploadQueue.slice(beginingOfChunk, endOfChunk);
-    uploadChunk(chunk);
+    console.log('current chunk',counter, ':', chunk)
+    uploadChunk(chunk, fileName);
   }
 };
 
-const uploadChunk = async (chunk) => {
+const uploadChunk = async (chunk, fileName) => {
+  console.log('uploading chunk', chunk)
   try {
-    debugger;
-    const response = await axios.post("api", chunk, {
+    // debugger;
+    const response = await axios.post(`${process.env.REACT_APP_BN}/upload-input/upload`, chunk, {
       params: {
         id: counter,
-        fileName: fileGuid,
+        fileName: fileName,
+        input_type: 'model',
+        project_id: 'upload_test_1'
       },
       headers: { "Content-Type": "application/json" },
     });
-    debugger;
+    // debugger;
     const data = response.data;
+    console.log(data)
     if (data.isSuccess) {
       beginingOfChunk = endOfChunk;
       endOfChunk = endOfChunk + chunkSize;
       if (counter === chunkCount) {
         console.log("Process is complete, counter", counter);
-        uploadCompleted()
+        // uploadCompleted()
       } else {
         let percentage = (counter / chunkCount) * 100;
         progress = percentage;
+        counter += 1;
+        // fileUpload();
       }
     } else {
       console.log("Error Occurred:", data.errorMessage);
     }
   } catch (error) {
-    debugger;
-    console.log("error", error);
+    // debugger;
+    // console.log("error", error);
   }
 };
-const uploadCompleted = async () => {
-    var formData = new FormData();
-    formData.append("fileName", fileGuid);
-     const response = await axios.post(
-      "https://localhost:44356/weatherforecast/UploadComplete",
-      {},
-      {
-        params: {
-          fileName: fileGuid,
-        },
-        data: formData,
-      }
-    );
-    const data = response.data;
-    if (data.isSuccess) {
-        progress = 100;
-    }
-  };
+// const uploadCompleted = async () => {
+//     var formData = new FormData();
+//     formData.append("fileName", fileGuid);
+//      const response = await axios.post(
+//       "https://localhost:44356/weatherforecast/UploadComplete",
+//       {},
+//       {
+//         params: {
+//           fileName: fileGuid,
+//         },
+//         data: formData,
+//       }
+//     );
+//     const data = response.data;
+//     if (data.isSuccess) {
+//         progress = 100;
+//     }
+//   };
+
+export default uploadLargeFile;

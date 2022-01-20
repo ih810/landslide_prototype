@@ -1,16 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
 
 //MUI assets
 import { Grid, Paper, Icon, Button, Backdrop, CircularProgress } from "@mui/material";
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
-import axios from "axios";
+import uploadLargeFile from "../util/makeChunk"
 
 export default function UploadInput(props) {
   const hiddenModelInput = useRef();
+  const hiddenModelForm = useRef();
   const hiddenOptModelInput = useRef();
+  const hiddenOptForm = useRef();
   const hiddenTrainInput = useRef();
+  const hiddenTrainForm = useRef();
   const [listData, setListData] = useState([
     {
       title: "MODEL INPUT",
@@ -66,14 +70,20 @@ export default function UploadInput(props) {
     }
   };
 
-  const handleUpload = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     setBackDrop(true)
     fetch(
-      `${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=${e.target.id}&file_name=${e.target.files[0].name}`,
+      `${process.env.REACT_APP_BN}/upload-input/upload?`+ new URLSearchParams({
+        project_id: props.match.params.project_name,
+        input_type: e.target.id,
+        file_name: e.target[0].files[0].name
+      }),
       {
+        // headers:{ 'Content-Type':'multipart/form-data' },
         method: "POST",
-        body: e.target.files[0],
+        body: e.target[0].files[0],
       }
     )
       .then((response) => {
@@ -88,6 +98,33 @@ export default function UploadInput(props) {
         setBackDrop(false);
         console.log(err);
       })
+  }
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    console.log('submit', e)
+    
+    // e.preventDefault();
+    // setBackDrop(true)
+    // fetch(
+    //   `${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=${e.target.id}&file_name=${e.target.files[0].name}`,
+    //   {
+    //     method: "POST",
+    //     body: e.target.files[0],
+    //   }
+    // )
+    //   .then((response) => {
+    //     console.log(response);
+    //     return response.json();
+    //   })
+    //   .then((result) => {
+    //     setBackDrop(false);
+    //     console.log(result);
+    //   })
+    //   .catch((err)=>{
+    //     setBackDrop(false);
+    //     console.log(err);
+    //   })
   };
 
   return (
@@ -157,37 +194,41 @@ export default function UploadInput(props) {
             </Grid>
           );
         })}
+        <form onSubmit={(e)=>handleSubmit(e)} id="model">
+          <input
+            type="file"
+            name="data"
+            style={{ display: "none" }}
+            ref={hiddenModelInput}
+            onChange={() => {
+              hiddenModelForm.current.click()
+            }}
+            accept=".tif"
+          />
+          <button type="submit" ref={hiddenModelForm} style={{display: "none"}}/>
+        </form>
+        <form onSubmit={(e)=>handleSubmit(e)} id="optional">
         <input
           type="file"
-          id="model"
-          name="tif"
-          style={{ display: "none" }}
-          ref={hiddenModelInput}
-          onChange={(e) => {
-            handleUpload(e);
-          }}
-          accept=".tif"
-        />
-        <input
-          type="file"
-          id="optional"
           style={{ display: "none" }}
           ref={hiddenOptModelInput}
-          onChange={(e) => {
-            handleUpload(e);
+          onChange={() => {
+            hiddenOptForm.current.click()
           }}
           accept=".tif"
-        />
+        /><button type="submit" ref={hiddenOptForm} style={{display: "none"}}/>
+        </form>
+        <form onSubmit={(e)=>handleSubmit(e)} id="training">
         <input
           type="file"
-          id="training"
           style={{ display: "none" }}
           ref={hiddenTrainInput}
-          onChange={(e) => {
-            handleUpload(e);
+          onChange={() => {
+            hiddenTrainForm.current.click()
           }}
           accept=".tif"
-        />
+        /><button type="submit" ref={hiddenTrainForm} style={{display: "none"}}/>
+        </form>
       </Grid>
     </>
   );

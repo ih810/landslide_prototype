@@ -127,8 +127,8 @@ export default function DashboardTable(props) {
                         style={{
                           width: 200,
                           height: 30,
-                          backgroundColor: "#FF8BCA",
-                          color: "#FF0044",
+                          backgroundColor: "#DF0000",
+                          color: "#F3EBEB",
                           textAlign: "center",
                         }}
                       >

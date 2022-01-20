@@ -3,7 +3,9 @@ import json
 from flask import request
 from flask_classy import FlaskView, route
 import Util
+from datetime import datetime
 from azure.core.exceptions import ResourceNotFoundError
+from azure.data.tables import UpdateMode
 
 class Homepage_Route(FlaskView):
     def __init__(self):
@@ -76,7 +78,6 @@ class Homepage_Route(FlaskView):
         project_id = request.args.get('project_name')
 
         # remove directory from azure
-        print('project_name eq '+project_id)
         target_entity = self.table_client.query_entities("project_name eq '"+project_id+"'")
         
         # get Primary key from entity
@@ -98,3 +99,23 @@ class Homepage_Route(FlaskView):
             return {"data": "backend team fucked up"}
 
         return {"data":"delete ok"}
+
+    @route('/api/update_project_progress', methods=["POST"])
+    # for ML to interact with azure
+    # http://<domainname>/homepage/api/update_project_progress?project_name=<project name>&project_progress=<progress here>
+    def update_project_progress(self):
+        project_id = request.args.get('project_name')
+        project_progress = request.args.get('project_progress')
+        # get entity(row)
+        try:
+            target_entity = list(self.table_client.query_entities("project_name eq '"+project_id+"'"))
+
+            res_entity= self.table_client.get_entity(partition_key='ownership', row_key=target_entity[0]['RowKey'])
+            res_entity['progress'] = project_progress
+
+            self.table_client.update_entity(entity=res_entity, mode=UpdateMode.REPLACE)
+        except Exception as e:
+            print(e)
+            return {"data": "i fucked up"}
+            
+        return {'data':'fuck'}

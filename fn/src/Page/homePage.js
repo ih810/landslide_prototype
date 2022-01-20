@@ -53,10 +53,9 @@ export default function HomePage(props) {
   return (
     <>
         <Grid container sx={{ m:4, ml:15 }}>
-          <Button variant="contained" sx={{pl:5, pr:5, fontSize:18}} onClick={navNewProject}>New Project</Button>
-        </Grid>
-        <Grid container sx={{ pl:3, pr:8, mb:4 }}>
-          <Grid item xs={10}/>
+          <Grid item xs={10}>
+            <Button variant="contained" sx={{pl:5, pr:5, fontSize:18}} onClick={navNewProject}>New Project</Button>
+          </Grid>
           <Grid item xs={2}>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>

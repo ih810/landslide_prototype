@@ -15,13 +15,22 @@ class Homepage_Route(FlaskView):
     # return all project available
     def get_all_project(self):
         # Query table
-        project_ownership = self.table_client.query_entities(
-            "username gt '' and project_name gt ''")
+        project_ownership = self.table_client.query_entities("username gt '' and project_name gt ''")
+        total_projects = self.table_client.query_entities("PartitionKey eq 'ownership'")
+        running_projects = self.table_client.query_entities("PartitionKey eq 'ownership' and progress ne '100'")
+        total_users = self.table_client.query_entities("PartitionKey eq 'userinfo'")
 
         # use arr to store content of items
-        response_list = []
+        response_list = {
+            'project_info':[],
+            'website_statistics':{
+                'total_projects':len(list(total_projects)),
+                'running_projects':len(list(running_projects)),
+                'total_users':len(list(total_users)),
+            }
+        }
         for project in project_ownership:
-            response_list.append({
+            response_list['project_info'].append({
                 "proj_name": project['project_name'],
                 "owner": project["username"],
                 "progress": project["progress"],

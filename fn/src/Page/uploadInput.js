@@ -6,7 +6,6 @@ import { Grid, Paper, Icon, Button, Backdrop, CircularProgress } from "@mui/mate
 
 //Component
 import StepNavBtn from "../Component/stepNavBtn";
-import uploadLargeFile from "../util/makeChunk"
 
 export default function UploadInput(props) {
   const hiddenModelInput = useRef();
@@ -81,7 +80,6 @@ export default function UploadInput(props) {
         file_name: e.target[0].files[0].name
       }),
       {
-        // headers:{ 'Content-Type':'multipart/form-data' },
         method: "POST",
         body: e.target[0].files[0],
       }
@@ -99,33 +97,6 @@ export default function UploadInput(props) {
         console.log(err);
       })
   }
-
-  const handleUpload = (e) => {
-    e.preventDefault();
-    console.log('submit', e)
-    
-    // e.preventDefault();
-    // setBackDrop(true)
-    // fetch(
-    //   `${process.env.REACT_APP_BN}/upload-input/upload?project_id=${props.match.params.project_name}&input_type=${e.target.id}&file_name=${e.target.files[0].name}`,
-    //   {
-    //     method: "POST",
-    //     body: e.target.files[0],
-    //   }
-    // )
-    //   .then((response) => {
-    //     console.log(response);
-    //     return response.json();
-    //   })
-    //   .then((result) => {
-    //     setBackDrop(false);
-    //     console.log(result);
-    //   })
-    //   .catch((err)=>{
-    //     setBackDrop(false);
-    //     console.log(err);
-    //   })
-  };
 
   return (
     <>

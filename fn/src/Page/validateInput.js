@@ -22,7 +22,7 @@ const azure = {
   sas: process.env.REACT_APP_STORAGE_SAS_TOKEN,
 };
 
-export default function ValidateInput() {
+export default function ValidateInput(props) {
   const [landSlideLocation, setLandSlideLocation] = useState(false);
   const [elevationModel, setElevationModel] = useState(false);
   const [streetMap, setStreetMap] = useState(false);
@@ -168,7 +168,7 @@ export default function ValidateInput() {
     //api here
 
     //
-    history.push("/view-performance")
+    history.push(`/view-performance/${props.match.params.project_name}`)
   }
   return (
     <>

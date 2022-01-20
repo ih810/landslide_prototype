@@ -1,11 +1,8 @@
-from email.mime import image
 from flask import request
 from flask_classy import FlaskView, route
 import Util
 import json
-from werkzeug.datastructures import ImmutableMultiDict
-from os.path import join, dirname
-import pathlib
+
 class Upload_Input_Route(FlaskView):
     def __init__(self):
         self.file_service = Util.Get_File_Service()
@@ -59,7 +56,6 @@ class Upload_Input_Route(FlaskView):
         input_type = request.args.get('input_type')
         file_name = request.args.get('file_name')
         file_bytes = request.data
-
         # set input type base on input id
         if input_type == 'model':
             target_folder = '/Elevation'

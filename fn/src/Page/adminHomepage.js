@@ -11,20 +11,17 @@ import totalu from "../assets/totalu.png";
 
 //mui
 import { Box } from "@mui/system";
-import { Grid, Card, CardContent, Typography, Button } from "@mui/material";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 const flexTheme = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 };
-const data = [
-  { title: "Total Project", icon: totalpj, data: 8520 },
-  { title: "Running Project", icon: runningpj, data: 20000 },
-  { title: "Total Users", icon: totalu, data: 3000 },
-];
+
 export default function AdminHomePage(props) {
   const [projectInfo, setProjectInfo] = useState();
+  const [websiteData, setWebsiteData] = useState();
   const history = useHistory();
 
   useEffect(()=>{
@@ -37,7 +34,13 @@ export default function AdminHomePage(props) {
       return res.json()
     })
     .then((result)=>{
-      setProjectInfo(result)
+      console.log(result)
+      setProjectInfo(result.project_info)
+      setWebsiteData([
+        { title: "Total Project", icon: totalpj, data: result.website_statistics["total_projects"] },
+        { title: "Running Project", icon: runningpj, data: result.website_statistics["running_projects"] },
+        { title: "Total Users", icon: totalu, data: result.website_statistics["total_users"] },
+      ])
     },(error)=>{
       console.log(error)
     })
@@ -60,7 +63,7 @@ export default function AdminHomePage(props) {
   return (
     <>
       <Grid container spacing={1} sx={{ ml: 15, mt: 1, mb: 4, mr: 5 }}>
-        {data.map((d, i) => {
+        {websiteData?websiteData.map((d, i) => {
           return (
             <Grid key={i} item xs={12} md={12} lg={4}>
               <Card sx={{ maxWidth: "100%", maxHeight: 100, boxShadow: 3 }}>
@@ -90,7 +93,7 @@ export default function AdminHomePage(props) {
               </Card>
             </Grid>
           );
-        })}
+        }):null}
       </Grid>
       <Table admin={true} username={props.userId.username} nav={navViewPorject} projectInfo={projectInfo}/>
     </>

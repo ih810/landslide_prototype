@@ -55,6 +55,7 @@ export default function ViewPerformance(props) {
   }, []);
 
   const handleModelStat = async () => {
+    // get stat
     axios
       .get(
         `${process.env.REACT_APP_BN}/view-performance/info?project_id=${props.match.params.project_name}`
@@ -72,6 +73,7 @@ export default function ViewPerformance(props) {
         // train progress (png)
         setImage(tempModelStatistic.train_progress);
       });
+    // get map layer
     axios
       .get(
         `${process.env.REACT_APP_BN}/view-performance/layers?project_id=${props.match.params.project_name}`

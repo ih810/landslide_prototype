@@ -14,6 +14,10 @@ import StepNavBtn from "../Component/stepNavBtn";
 import OlMap from "../Component/map";
 
 import axios from 'axios';
+//proj4
+import proj4 from "proj4";
+import { register } from "ol/proj/proj4";
+import { get as getProjection } from "ol/proj";
 
 const azure = {
   accName: process.env.REACT_APP_STORAGE_ACC_NAME,
@@ -22,12 +26,27 @@ const azure = {
   sas: process.env.REACT_APP_STORAGE_SAS_TOKEN,
 };
 
+//define projection
+proj4.defs(
+  "EPSG:2326",
+  "+proj=tmerc +lat_0=22.31213333333334 +lon_0=114.1785555555556 +k=1 +x_0=836694.05 +y_0=819069.8 +ellps=intl +towgs84=-162.619,-276.959,-161.764,0.067753,-2.24365,-1.15883,-1.09425 +units=m +no_defs"
+);
+proj4.defs(
+  "EPSG:3857",
+  "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
+);
+register(proj4);
+
+getProjection("EPSG:2326");
+getProjection("EPSG:3857");
+
 export default function ValidateInput(props) {
   const [landSlideLocation, setLandSlideLocation] = useState(false);
   const [elevationModel, setElevationModel] = useState(false);
   const [streetMap, setStreetMap] = useState(false);
   const [terrain, setTerrain] = useState(false);
   const [satelite, setSatelite] = useState(false);
+  const [layersGroup, setLayersGroup] = useState()
   const history = useHistory();
   //declare layer source
   const viewLayer = new GeoTIFF({
@@ -43,100 +62,7 @@ export default function ValidateInput(props) {
       },
     ],
   });
-  const layersGroup = [
-    new TileLayer({
-      className: "Landslide Location",
-      visible: landSlideLocation,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${azure.folder}/${
-              azure.file
-            }.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/redColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
-    new TileLayer({
-      className: "Elevation Model",
-      visible: elevationModel,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/elevation_merged_color_reporj.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/elevation_merged_color_elevation_merged_color_reporj.tif.ovr${
-              azure.sas
-            }&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
-    new TileLayer({
-      className: "Street Map",
-      visible: streetMap,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/yellowColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/yellowColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
-    new TileLayer({
-      className: "Terrain",
-      visible: terrain,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/grenbluColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/grenbluColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
-    new TileLayer({
-      className: "Satelite",
-      visible: satelite,
-      opacity: 0.5,
-      source: new GeoTIFF({
-        sources: [
-          {
-            url: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/prupleColorSus_map.tif${azure.sas}&xyz=${Date.now()}`,
-            overview: `https://${azure.accName}.file.core.windows.net/${
-              azure.folder
-            }/prupleColorSus_map.tif.ovr${azure.sas}&xyz=${Date.now()}`,
-            nodata: 0,
-          },
-        ],
-      }),
-    }),
-  ];
+ 
   const formGroupItems = [
     "Landslide Location",
     "Elevation Model",
@@ -144,11 +70,33 @@ export default function ValidateInput(props) {
     "Terrain",
     "Satelite",
   ];
+  const elevationLayers = []
   useEffect(()=>{
-    axios.get('http://localhost:8080/')
-    .then((resp)=>{
-      console.log('lmaoooo', resp)
+    axios.get(`${process.env.REACT_APP_BN}/validate-input/layers?project_id=${props.match.params.project_name}`)
+    .then((response)=>{
+      console.log(response)
+      for(let i = 0; i < response.data.layers[0].length; i++){
+        elevationLayers.push({
+          url: response.data.layers[0][i].layer_url,
+          overview: response.data.layers[0][i].ovr_url,
+          nodata: 0,
+          projection: "EPSG:3857",
+        })
+      }
     })
+  .then(()=>{
+    console.log('lg', elevationLayers)
+    setLayersGroup([
+      new TileLayer({
+        className: "new",
+        visible: true,
+        opacity: 0.5,
+        source: new GeoTIFF({
+          sources: elevationLayers
+        }),
+      }),
+    ])
+  })
   },[])
   const handleClick = (e, item) => {
     if (item === "Landslide Location") {

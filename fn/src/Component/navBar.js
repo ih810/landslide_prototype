@@ -57,7 +57,7 @@ export default function NavBar(props) {
             {/* <h2 style={{color: '#3F3F3F', fontWeight:700, marginBottom:0}}> */}
             <div className="p-2 d-flex align-items-end">
               <h4 className="font-weight-bold mb-0">
-                LandSlide
+                Landslide
                 <br />
                 Prediction
               </h4>

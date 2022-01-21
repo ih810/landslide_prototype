@@ -20,11 +20,13 @@ export default function OlMapView(props) {
   },[props.layersGroup]);
   
   const initiateMap = async () => {
-    if (props.viewLayer) {
+    if (props.viewLayer && props.layersGroup) {
+      console.log('props.layersGroup', props.layersGroup)
       //align view standard
       const viewSource = await props.viewLayer.getView();
       viewSource.resolutions = layerRes;
-      console.log(viewSource)
+
+      console.log('viewsource', viewSource)
       //initiate map only once
       if (!initMap) {
         initMap = new Map({
@@ -38,14 +40,12 @@ export default function OlMapView(props) {
           ],
           view: new View({
             ...viewSource,
-            zoom: 0,
             maxZoom: 18,
             minZoom: 0,
-            constrainOnlyCenter: true,
           }),
         });
       }
-
+      console.log(initMap)
       //remove static surplus from rerender
       if (olmap.current.childNodes.length > 1) {
         olmap.current.removeChild(olmap.current.childNodes[0]);

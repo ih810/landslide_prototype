@@ -29,7 +29,7 @@ class View_Performance_Route(FlaskView):
         
         # set permission for SAS read 
         permission = models.FilePermissions(read=True)
-        train_progress = self.file_service.generate_file_shared_access_signature(
+        train_progress_signature = self.file_service.generate_file_shared_access_signature(
             'data', 
             directory_name=project_id+'/Output/Visualizations', 
             file_name='TrainProgress.png', 
@@ -43,7 +43,7 @@ class View_Performance_Route(FlaskView):
                 'accuracy': accuracy_txt[0],
                 'metrics': list(filtered_metrics),
                 'confusion_matrix': list(filtered_confusion_matrix),
-                'train_progress': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/Visualizations/TrainProgress.png?'+train_progress
+                'train_progress': 'https://aiat3landslidestg.file.core.windows.net/data/'+project_id+'/Output/Visualizations/TrainProgress.png?'+train_progress_signature
             }
         }
         return model_performance

@@ -22,7 +22,7 @@ def azure_login_query(username, password, admin):
     table = Get_Table_Client()
     print(hashed_pw)
     print(table)
-    # fking azure filter string https://docs.microsoft.com/en-us/visualstudio/azure/vs-azure-tools-table-designer-construct-filter-strings?view=vs-2022
+    # Azure filter string https://docs.microsoft.com/en-us/visualstudio/azure/vs-azure-tools-table-designer-construct-filter-strings?view=vs-2022
     if admin:
         entities = table.query_entities("username gt '' and password gt '' and PartitionKey eq 'admininfo'")
     else:
